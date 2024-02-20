@@ -8,6 +8,17 @@ import {
 const sizeValidator = z.union([z.literal(25), z.literal(100)]);
 //comeback and fix this
 export const poolRouter = createTRPCRouter({
+  getPools: publicProcedure.query(({ ctx }) => {
+    return ctx.db.pool.findMany();
+  }),
+  getPoolById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.pool.findFirst({
+        where: { id: input.id },
+        include: { squares: true },
+      });
+    }),
   create: protectedProcedure
     .input(z.object({ size: sizeValidator }))
     .mutation(async ({ ctx, input }) => {

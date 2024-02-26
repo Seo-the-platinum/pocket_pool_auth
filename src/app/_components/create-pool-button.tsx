@@ -8,7 +8,6 @@ const CreatePoolButton = () => {
   const [size, setSize] = useState<25 | 100>(25)
   const createPool = api.pool.create.useMutation({
     onSuccess: () => {
-      console.log('pool created successfully!')
       // router.refresh();
       // setName("");
     },

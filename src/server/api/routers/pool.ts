@@ -16,7 +16,13 @@ export const poolRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.db.pool.findFirst({
         where: { id: input.id },
-        include: { squares: true },
+        include: {
+          squares: {
+            orderBy: {
+              number: "asc",
+            },
+          },
+        },
       });
     }),
   create: protectedProcedure

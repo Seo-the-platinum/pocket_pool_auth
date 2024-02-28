@@ -1,30 +1,31 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 import type { RouterOutputs } from '~/trpc/shared'
 
-type Square = RouterOutputs['square']['updateSquare'] & {
-  setSquare: React.Dispatch<React.SetStateAction<RouterOutputs['square']['updateSquare'][]>>
+type ModifiedSquare = RouterOutputs['square']['updateSquares'] & {
+  isSelected: boolean
+}
+type Square = RouterOutputs['square']['updateSquares'] & {
+  isSelected: boolean
+  setSquare: React.Dispatch<React.SetStateAction<ModifiedSquare[]>>
 }
 
 const Square = (props: Square) => {
   const { number, id, setSquare, } = props
-  const [status, setStatus] = useState(props.status)
+  const { status } = props
   const toggle = () => {
     setSquare((prev) => {
-      const square = prev.find(square => square.id === id);
-      if (square) {
-        const updatedSquare = {
+      const square = prev.find(square => square.id === id); //check if square exists and store in square variable
+      if (square && !square.name && !square.userId) {
+        const updatedSquare = { //use spread operator to update square status
           ...square,
           status: square.status === 'open' ? 'pending' : 'open',
+          isSelected: !square.isSelected
         };
 
-        return prev.map(prevSquare => (prevSquare.id === id ? updatedSquare : prevSquare));
+        return prev.map(prevSquare => (prevSquare.id === id ? updatedSquare : prevSquare)); //go through lists, replace square with matching id with updated square
       }
       return prev;
-    })
-    setStatus((prev) => {
-      if (prev === 'open') return 'pending'
-      else return 'open'
     })
   }
   return (
@@ -36,4 +37,9 @@ const Square = (props: Square) => {
   )
 }
 
-export default Square
+//MemoSquare wraps Square component to prevent unnecessary re-renders by comparing the previous and next status.
+//useMemo and React.memo although are similar, they are different. React.memo is used to prevent unnecessary re-renders of a component, 
+//while useMemo is used to prevent unnecessary re-computations of a value.
+const MemoSquare = React.memo(Square, (prev, next) => prev.status === next.status)
+
+export default MemoSquare

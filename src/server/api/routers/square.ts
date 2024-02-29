@@ -37,9 +37,9 @@ export const squareRouter = createTRPCRouter({
             data: {
               status: square.status,
               name: square.name,
-              userId: square.userId
+              user: square.userId
                 ? { connect: { id: square.userId } }
-                : userId,
+                : undefined,
             },
           });
         }),

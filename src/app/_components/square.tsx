@@ -2,17 +2,17 @@
 import React from 'react'
 import type { RouterOutputs } from '~/trpc/shared'
 
-type ModifiedSquare = RouterOutputs['square']['updateSquares'] & {
+type ModifiedSquare = RouterOutputs['square']['updateSquare'] & {
   isSelected: boolean
 }
-type Square = RouterOutputs['square']['updateSquares'] & {
+type Square = RouterOutputs['square']['updateSquare'] & {
   isSelected: boolean
   setSquare: React.Dispatch<React.SetStateAction<ModifiedSquare[]>>
 }
 
 const Square = (props: Square) => {
   const { number, id, setSquare, } = props
-  const { status } = props
+  const { status, userId } = props
   const toggle = () => {
     setSquare((prev) => {
       const square = prev.find(square => square.id === id); //check if square exists and store in square variable

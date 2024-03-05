@@ -22,6 +22,7 @@ export const poolRouter = createTRPCRouter({
               number: "asc",
             },
           },
+          user: true,
         },
       });
     }),

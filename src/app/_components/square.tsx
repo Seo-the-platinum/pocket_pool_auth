@@ -11,8 +11,8 @@ type Square = RouterOutputs['square']['updateSquare'] & {
 }
 
 const Square = (props: Square) => {
-  const { number, id, setSquare, } = props
-  const { status, userId } = props
+  const { number, id, setSquare, name } = props
+  const { status } = props
   const toggle = () => {
     setSquare((prev) => {
       const square = prev.find(square => square.id === id); //check if square exists and store in square variable
@@ -30,9 +30,13 @@ const Square = (props: Square) => {
   }
   return (
     <div
-      className={`${status === 'open' ? 'bg-emerald-400' : status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'} border-[1px] size-10 border-black`}
+      className={`
+      ${status === 'open' ? 'bg-emerald-400' : status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'} 
+      border-[1px] size-10 border-black flex flex-col overflow-hidden sm:size-14 lg:size-20
+      `}
       onClick={toggle}>
-      <p className='text-xs'>{number}</p>
+      <p className='text-xs self-start'>{number}</p>
+      <p className='text-xs text-ellipsis overflow-hidden flex-1 text-center'>{name}</p>
     </div >
   )
 }

@@ -21,9 +21,11 @@ const PoolContainer = (props: Pool) => {
     }
   })
   const [availableSquares, setSquare] = useState<Square[]>(squares)
-  const { id, userId } = props!
+  const [signiture, setSigniture] = useState<string>('')
+  const { userId } = props!
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+
     const selectedSquares = availableSquares.filter((square) => {
       if (square.isSelected) {
         return square
@@ -32,15 +34,14 @@ const PoolContainer = (props: Pool) => {
       return {
         ...square,
         userId: userId,
-        name: 'seo'
+        name: signiture,
       }
     })
-    console.log(selectedSquares)
     requestSquares.mutate(selectedSquares)
   }
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="border-2 rounded border-black grid grid-cols-10 grid-rows-10">
+      <div className="border-2 rounded-md border-black grid grid-cols-10 grid-rows-10">
         {
           availableSquares?.map((square) => {
             return (
@@ -49,7 +50,13 @@ const PoolContainer = (props: Pool) => {
           })
         }
       </div>
-      <form onSubmit={handleSubmit}>
+      <form className='w-full flex justify-evenly' onSubmit={handleSubmit}>
+        <input
+          className='pl-2 ring-2 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400'
+          type="text"
+          placeholder="Name"
+          value={signiture}
+          onChange={(e) => setSigniture(e.target.value)} />
         <button type="submit" className="bg-blue-500 text-white rounded-md p-2">
           Submit
         </button>

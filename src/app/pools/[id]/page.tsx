@@ -23,8 +23,7 @@ const Pool = async ({ params }: Params) => {
 
   return (
     <div className='flex flex-col items-center'>
-      <p>{pool?.size}</p>
-      <p>{pool?.userId}</p>
+      <p>{pool?.user.name}</p>
       {
         pool && <PoolContainer {...pool} />
       }

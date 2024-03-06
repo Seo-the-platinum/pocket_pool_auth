@@ -20,6 +20,7 @@ const PoolContainer = (props: Pool) => {
       isSelected: false
     }
   })
+
   const [availableSquares, setSquare] = useState<Square[]>(squares)
   const [signiture, setSigniture] = useState<string>('')
   const { userId } = props!

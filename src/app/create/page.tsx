@@ -8,7 +8,7 @@ const CreatePool = () => {
   const [league, setLeague] = useState<'nfl' | 'nba'>('nba')
   const { data } = useQuery(['events', league], async ({ queryKey, page = 1 }) => {
     const sport = league === 'nfl' ? 'football' : 'basketball'
-    const response = await fetch(`https://sports.core.api.espn.com/v2/sports/${sport}/leagues/${league}/events?dates=20240306-20240419&page=${page}`)
+    const response = await fetch(`https://sports.core.api.espn.com/v2/sports/${sport}/leagues/${league}/events?dates=20240307-20240419&page=${page}`)
     return response.json()
   }, {
     enabled: !!league,
@@ -20,15 +20,16 @@ const CreatePool = () => {
     },
   }
   )
+  console.log('heres the data', data)
   return (
     <div>
       <label>Choose League:</label>
       <select id='league' name='league' onChange={(event) => setLeague(event?.target.value as 'nfl' | 'nba')}>
-        <option value={'nfl'}>NFL</option>
         <option value='nba'>NBA</option>
+        <option value='nfl'>NFL</option>
       </select>
       {
-        data && <GamesList games={data.items} />
+        data && <GamesList games={data?.items} />
       }
       {/* <CreatePoolButton /> */}
     </div>

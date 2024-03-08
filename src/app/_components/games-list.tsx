@@ -2,9 +2,8 @@ import React from 'react'
 import GameTile from './game-tile'
 
 const GamesList = (props) => {
-  console.log(props)
   return (
-    <div>
+    <div className='flex flex-col items-center gap-4'>
       {
         props.games.map((game, index) => {
           return <GameTile key={index} game={game} />

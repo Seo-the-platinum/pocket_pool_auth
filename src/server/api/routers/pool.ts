@@ -27,11 +27,12 @@ export const poolRouter = createTRPCRouter({
       });
     }),
   create: protectedProcedure
-    .input(z.object({ size: sizeValidator }))
+    .input(z.object({ size: sizeValidator, event: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const pool = await ctx.db.pool.create({
         data: {
           size: input.size,
+          event: input.event,
           user: { connect: { id: ctx.session.user.id } },
           squares: {
             createMany: {

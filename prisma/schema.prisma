@@ -82,6 +82,7 @@ model Pool {
     squares Square[]
     x       Int[]
     y       Int[]
+    event   String
 }
 
 model Square {

@@ -41,8 +41,40 @@ const PoolContainer = (props: Pool) => {
     requestSquares.mutate(selectedSquares)
   }
   return (
-    <div className="flex flex-col items-center gap-4">
-      <div className="border-2 rounded-md border-black grid grid-cols-10 grid-rows-10">
+    <div className="flex flex-col items-center gap-8">
+      <div className="border-2 rounded-md border-black grid grid-cols-10 grid-rows-10 relative">
+        <div className="flex flex-col w-full absolute bottom-[102%]">
+          <div className='w-full text-center'>
+            <p>Home</p>
+          </div>
+          <div className="grid grid-cols-10">
+            {
+              props?.x.map((x, i) => {
+                return (
+                  <p key={i}>{i}</p>
+                )
+              }
+              )
+            }
+          </div>
+        </div>
+        <div className="absolute right-[102%] h-full flex">
+          <div className="h-full flex items-center">
+            <p style={{ writingMode: 'vertical-lr', textOrientation: 'upright' }}>
+              Away
+            </p>
+          </div>
+          <div className="grid grid-rows-10">
+            {
+              props?.y.map((_, i) => {
+                return (
+                  <p key={i}>{i}</p>
+                )
+              }
+              )
+            }
+          </div>
+        </div>
         {
           availableSquares?.map((square) => {
             return (

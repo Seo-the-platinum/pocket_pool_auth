@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
+
 const GameTile = ({ game }) => {
   const { data, isLoading } = useQuery(['game', game.$ref], async ({ queryKey }) => {
     const response = await fetch(game.$ref)

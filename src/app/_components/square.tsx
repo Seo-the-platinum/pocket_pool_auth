@@ -32,7 +32,7 @@ const Square = (props: Square) => {
     <div
       className={`
       ${status === 'open' ? 'bg-emerald-400' : status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'} 
-      border-[1px] size-10 border-black flex flex-col overflow-hidden sm:size-14 lg:size-20
+      border-[1px] size-[28px] border-black flex flex-col overflow-hidden sm:size-14 lg:size-20
       `}
       onClick={toggle}>
       <p className='text-xs self-start'>{number}</p>

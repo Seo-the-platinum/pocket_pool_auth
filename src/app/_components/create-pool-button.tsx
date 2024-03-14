@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import type { FormEvent } from 'react'
 import { api } from '~/trpc/react'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 const CreatePoolButton = ({ event }: { event: string }) => {
   const [size, setSize] = useState<25 | 100>(25)

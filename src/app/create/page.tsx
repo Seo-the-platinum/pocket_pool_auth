@@ -1,6 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react'
-import CreatePoolButton from '../_components/create-pool-button'
+import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import GamesList from '../_components/games-list'
 
@@ -35,7 +34,6 @@ const CreatePool = () => {
       {
         data && <GamesList games={data?.items} />
       }
-      {/* <CreatePoolButton /> */}
     </div>
   )
 }

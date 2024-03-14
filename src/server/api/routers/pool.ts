@@ -26,6 +26,11 @@ export const poolRouter = createTRPCRouter({
         },
       });
     }),
+  getUsersPools: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.pool.findMany({
+      where: { userId: ctx.session.user.id },
+    });
+  }),
   create: protectedProcedure
     .input(z.object({ size: sizeValidator, event: z.string() }))
     .mutation(async ({ ctx, input }) => {

@@ -1,17 +1,20 @@
 import React from 'react'
 import { getServerAuthSession } from "~/server/auth";
 import LoginButton from '../login-button'
+import Link from 'next/link'
 
 const Nav = async () => {
   const session = await getServerAuthSession()
   return (
     <div className='flex justify-end gap-4'>
-      <a href='/'>Home</a>
+      <Link href='/'>Home</Link>
       {session &&
-        <a href='/create'>Create</a>
+        <><Link href='/create'>Create</Link>
+          <Link href='/pools'>Pools</Link>
+        </>
       }
       <LoginButton session={session ? true : false} />
-    </div>
+    </div >
   )
 }
 

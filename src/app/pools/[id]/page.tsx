@@ -24,9 +24,9 @@ const Pool = async ({ params }: Params) => {
   const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${pool.event}`)
   const gameData = await data.json()
   const away = gameData.boxscore.teams[0].team
-  const { awayScore } = gameData.plays[gameData.plays.length - 1]
-  const { homeScore } = gameData.plays[gameData.plays.length - 1]
   const home = gameData.boxscore.teams[1].team
+  const awayScore = gameData.plays && gameData.plays[gameData.plays?.length - 1].awayScore
+  const homeScore = gameData.plays && gameData.plays[gameData.plays?.length - 1].homeScore
 
   return (
     <div className='flex flex-col items-center gap-10'>

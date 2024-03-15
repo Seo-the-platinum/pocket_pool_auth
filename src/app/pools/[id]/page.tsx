@@ -4,6 +4,7 @@ import { api } from '~/trpc/server'
 import { db } from '~/server/db'
 import Image from 'next/image'
 import PoolContainer from '~/app/_components/pool-container'
+import { getServerAuthSession } from '~/server/auth'
 
 export const generateStaticParams = async () => {
   const pools = await db.pool.findMany()
@@ -20,6 +21,7 @@ type Params = {
 
 const Pool = async ({ params }: Params) => {
   const { id } = params
+  const session = await getServerAuthSession()
   const pool = await api.pool.getPoolById.query({ id })
   const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${pool.event}`)
   const gameData = await data.json()
@@ -43,7 +45,7 @@ const Pool = async ({ params }: Params) => {
         </div>
       </div>
       {
-        pool && <PoolContainer {...pool} />
+        pool && <PoolContainer {...pool} session={session?.user.id} />
       }
     </div >
   )

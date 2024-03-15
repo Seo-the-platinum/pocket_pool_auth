@@ -4,7 +4,7 @@ import MemoSquare from './square'
 import type { RouterOutputs } from '~/trpc/shared'
 import { api } from '~/trpc/react'
 
-type Pool = RouterOutputs['pool']['getPoolById']
+type Pool = RouterOutputs['pool']['getPoolById'] & { session: string | undefined }
 type Square = RouterOutputs['square']['updateSquare'] & {
   isSelected: boolean
 }
@@ -14,7 +14,7 @@ const PoolContainer = (props: Pool) => {
       console.log('success')
     }
   })
-  const squares = props!.squares.map((square) => {
+  const squares = props.squares.map((square) => {
     return {
       ...square,
       isSelected: false
@@ -23,7 +23,7 @@ const PoolContainer = (props: Pool) => {
 
   const [availableSquares, setSquare] = useState<Square[]>(squares)
   const [signiture, setSigniture] = useState<string>('')
-  const { userId } = props!
+  const { userId, x, y, top, left, session } = props
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -40,16 +40,19 @@ const PoolContainer = (props: Pool) => {
     })
     requestSquares.mutate(selectedSquares)
   }
+  const shuffle = () => {
+    console.log('shuffle')
+  }
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="border-2 rounded-md border-black grid grid-cols-10 grid-rows-10 relative">
         <div className="flex flex-col w-full absolute bottom-[102%]">
           <div className='w-full text-center'>
-            <p>Home</p>
+            {top && top}
           </div>
           <div className="grid grid-cols-10">
             {
-              props?.x.map((x, i) => {
+              x.map((x, i) => {
                 return (
                   <p key={i}>{i}</p>
                 )
@@ -61,12 +64,12 @@ const PoolContainer = (props: Pool) => {
         <div className="absolute right-[102%] h-full flex">
           <div className="h-full flex items-center">
             <p style={{ writingMode: 'vertical-lr', textOrientation: 'upright' }}>
-              Away
+              {left && left}
             </p>
           </div>
           <div className="grid grid-rows-10">
             {
-              props?.y.map((_, i) => {
+              y.map((_, i) => {
                 return (
                   <p key={i}>{i}</p>
                 )
@@ -94,6 +97,9 @@ const PoolContainer = (props: Pool) => {
           Submit
         </button>
       </form>
+      {
+        session === userId && <button onClick={shuffle}>Shuffle</button>
+      }
     </div>
   )
 }

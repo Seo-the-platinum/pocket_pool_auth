@@ -2,9 +2,28 @@ import React from 'react'
 import Image from 'next/image'
 import CreatePoolButton from '~/app/_components/create-pool-button'
 
+type GameType = {
+  boxscore: {
+    teams: [
+      {
+        team: {
+          name: string
+          logo: string
+        }
+      },
+      {
+        team: {
+          name: string
+          logo: string
+        }
+      }
+    ]
+
+  }
+}
 const Create = async ({ params }: { params: { id: string } }) => {
   const game = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${params.id}`)
-  const gameData = await game.json()
+  const gameData = await game.json() as GameType
   const away = gameData.boxscore.teams[0].team
   const home = gameData.boxscore.teams[1].team
 

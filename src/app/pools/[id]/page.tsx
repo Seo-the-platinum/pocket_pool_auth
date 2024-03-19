@@ -19,16 +19,42 @@ type Params = {
   }
 }
 
+type GameType = {
+  boxscore: {
+    teams: [
+      {
+        team: {
+          name: string
+          logo: string
+        }
+      },
+      {
+        team: {
+          name: string
+          logo: string
+        }
+      }
+    ]
+  },
+  plays: [
+    {
+      awayScore: number
+      homeScore: number
+    }
+
+  ]
+}
+
 const Pool = async ({ params }: Params) => {
   const { id } = params
   const session = await getServerAuthSession()
   const pool = await api.pool.getPoolById.query({ id })
-  const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${pool.event}`)
-  const gameData = await data.json()
+  const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${pool?.event}`)
+  const gameData = await data.json() as GameType
   const away = gameData.boxscore.teams[0].team
   const home = gameData.boxscore.teams[1].team
-  const awayScore = gameData.plays && gameData.plays[gameData.plays?.length - 1].awayScore
-  const homeScore = gameData.plays && gameData.plays[gameData.plays?.length - 1].homeScore
+  const awayScore = gameData.plays ? gameData.plays[gameData.plays?.length - 1]?.awayScore : null
+  const homeScore = gameData.plays ? gameData.plays[gameData.plays?.length - 1]?.homeScore : null
 
   return (
     <div className='flex flex-col items-center gap-10'>

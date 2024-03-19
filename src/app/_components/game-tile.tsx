@@ -51,9 +51,11 @@ const GameTile = ({ game }: { game: { $ref: string } }) => {
     const statusData = await eventStatus.json() as StatusType
 
     if (statusData.type.description === 'Scheduled') {
-      const away = await fetch(eventData.competitions[0].competitors[0].team.$ref)
+      const awayUrl = `https${eventData.competitions[0].competitors[0].team.$ref.slice(4)}`
+      const homeUrl = `https${eventData.competitions[0].competitors[1].team.$ref.slice(4)}`
+      const away = await fetch(awayUrl)
       const awayData = await away.json() as TeamData
-      const home = await fetch(eventData.competitions[0].competitors[1].team.$ref)
+      const home = await fetch(homeUrl)
       const homeData = await home.json() as TeamData
       return [eventData, awayData, homeData, statusData]
     }
@@ -61,6 +63,7 @@ const GameTile = ({ game }: { game: { $ref: string } }) => {
   })
   if (isLoading) return <p>Loading...</p>;
   if (!data) return null;
+
   return (
     <Link className='flex justify-around border-2 border-slate-900 rounded-md w-[90%] bg-slate-200' href={`/create/${data[0]?.id}`}>
       <Image src={data[2].logos[0].href} width={100} height={100} alt={`${data[2].name} team logo`} />

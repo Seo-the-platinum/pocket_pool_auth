@@ -43,7 +43,9 @@ type TeamData = {
 
 const GameTile = ({ game }: { game: { $ref: string } }) => {
   const { data, isLoading } = useQuery(['game', game.$ref], async (): Promise<[EventData, TeamData, TeamData, StatusType] | null> => {
-    const response = await fetch(game.$ref)
+    const gameRef = `https${game.$ref.slice(4)}`
+
+    const response = await fetch(gameRef)
     const eventData = await response.json() as EventData
     const eventStatus = await fetch(eventData.competitions[0].status.$ref)
     const statusData = await eventStatus.json() as StatusType

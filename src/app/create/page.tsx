@@ -29,7 +29,6 @@ const CreatePool = () => {
   }
   )
 
-  console.log(data?.items)
   return (
     <div className='flex flex-col gap-2'>
       <label>Choose League:</label>

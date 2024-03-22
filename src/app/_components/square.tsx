@@ -11,10 +11,11 @@ type Square = RouterOutputs['square']['updateSquare'] & {
 }
 
 const Square = (props: Square) => {
-  const { number, id, setSquare, name } = props
+  const { number, id, setSquare, name, x, y } = props
   const { status } = props
   const toggle = () => {
     setSquare((prev) => {
+      console.log('heres the x and y', x, y)
       const square = prev.find(square => square.id === id); //check if square exists and store in square variable
       if (square && !square.name && !square.userId) {
         const updatedSquare = { //use spread operator to update square status
@@ -37,7 +38,7 @@ const Square = (props: Square) => {
       onClick={toggle}>
       <p className='text-xs self-start'>{number}</p>
       <p className='text-xs text-ellipsis overflow-hidden flex-1 text-center'>{name}</p>
-    </div >
+    </div>
   )
 }
 

@@ -14,6 +14,11 @@ const PoolContainer = (props: Pool) => {
       console.log('success')
     }
   })
+  const { mutate, variables } = api.pool.addValues.useMutation({
+    onSuccess: () => {
+      console.log('success')
+    }
+  })
   const squares = props.squares.map((square) => {
     return {
       ...square,
@@ -23,7 +28,7 @@ const PoolContainer = (props: Pool) => {
 
   const [availableSquares, setSquare] = useState<Square[]>(squares)
   const [signiture, setSigniture] = useState<string>('')
-  const { userId, x, y, top, left, session } = props
+  const { id, userId, x, y, top, left, session } = props
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -41,9 +46,16 @@ const PoolContainer = (props: Pool) => {
     requestSquares.mutate(selectedSquares)
   }
   const shuffle = () => {
-    const values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    console.log(values.sort(() => Math.random() - 0.5))
+    const vals = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    const xArr = [...vals].sort(() => Math.random() - 0.5)
+    const yArr = [...vals].sort(() => Math.random() - 0.5)
+    mutate({
+      id: id,
+      x: xArr,
+      y: yArr
+    })
   }
+
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="border-2 rounded-md border-black grid grid-cols-10 grid-rows-10 relative">
@@ -53,29 +65,43 @@ const PoolContainer = (props: Pool) => {
           </div>
           <div className="grid grid-cols-10">
             {
-              x.map((x, i) => {
+              y.length > 0 ? y.map((y, i) => {
                 return (
-                  <p key={i}>{i}</p>
+                  <p key={i}>{y}</p>
                 )
               }
-              )
+              ) :
+                variables && variables.y.length > 0 ? variables.y.map((y, i) => {
+                  return (
+                    <p key={i}>{y}</p>
+                  )
+                }
+                ) :
+                  null
             }
           </div>
         </div>
         <div className="absolute right-[102%] h-full flex">
-          <div className="h-full flex items-center">
+          <div className="h-full flex-col items-center">
             <p style={{ writingMode: 'vertical-lr', textOrientation: 'upright' }}>
               {left && left}
             </p>
           </div>
           <div className="grid grid-rows-10">
             {
-              y.map((_, i) => {
+              x.length > 0 ? x.map((x, i) => {
                 return (
-                  <p key={i}>{i}</p>
+                  <p key={i}>{x}</p>
                 )
               }
-              )
+              ) :
+                variables && variables.x.length > 0 ? variables.x.map((x, i) => {
+                  return (
+                    <p key={i}>{x}</p>
+                  )
+                }
+                ) :
+                  null
             }
           </div>
         </div>
@@ -99,9 +125,9 @@ const PoolContainer = (props: Pool) => {
         </button>
       </form>
       {
-        session === userId && <button onClick={shuffle}>Shuffle</button>
+        session === userId && x.length < 1 && y.length < 1 && <button onClick={shuffle}>Shuffle</button>
       }
-    </div>
+    </div >
   )
 }
 

@@ -51,4 +51,42 @@ export const poolRouter = createTRPCRouter({
       });
       return pool;
     }),
+  addValues: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        x: z.number().array(),
+        y: z.number().array(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const squares = await ctx.db.square.findMany({
+        where: {
+          poolId: input.id,
+        },
+      });
+      //comeback and fix this, takes too long due to looping
+      //use custom sql query to update all squares at once
+      for (const square of squares) {
+        await ctx.db.square.update({
+          where: { id: square.id },
+          data: {
+            x: input.x[Math.min(Math.floor(square.number / 10), 9)] as
+              | number
+              | null,
+            y: input.y[(square.number - 1) % 10] as number | null,
+          },
+        });
+      }
+
+      await ctx.db.pool.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          x: input.x,
+          y: input.y,
+        },
+      });
+    }),
 });

@@ -6,6 +6,7 @@ import Image from 'next/image'
 import PoolContainer from '~/app/_components/pool-container'
 import { getServerAuthSession } from '~/server/auth'
 
+//TODO: Implement static generation, not working on production
 // export const generateStaticParams = async () => {
 //   const pools = await db.pool.findMany()
 //   return pools.map((pool) => ({

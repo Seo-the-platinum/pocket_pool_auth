@@ -65,19 +65,16 @@ export const poolRouter = createTRPCRouter({
           poolId: input.id,
         },
       });
-      //comeback and fix this, takes too long due to looping
-      //use custom sql query to update all squares at once
-      for (const square of squares) {
-        await ctx.db.square.update({
+
+      const updateSquares = squares.map((square) => {
+        return ctx.db.square.update({
           where: { id: square.id },
           data: {
-            x: input.x[Math.min(Math.floor(square.number / 10), 9)] as
-              | number
-              | null,
-            y: input.y[(square.number - 1) % 10] as number | null,
+            x: input.x[Math.min(Math.floor(square.number / 10), 9)],
+            y: input.y[(square.number - 1) % 10],
           },
         });
-      }
+      });
 
       await ctx.db.pool.update({
         where: {
@@ -88,5 +85,7 @@ export const poolRouter = createTRPCRouter({
           y: input.y,
         },
       });
+
+      await ctx.db.$transaction(updateSquares);
     }),
 });

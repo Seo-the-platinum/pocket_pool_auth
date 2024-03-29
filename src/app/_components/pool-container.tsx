@@ -14,11 +14,27 @@ const PoolContainer = (props: Pool) => {
       console.log('success')
     }
   })
-  const { mutate, variables } = api.pool.addValues.useMutation({
+  const squareValues = api.square.addSquareValues.useMutation({
     onSuccess: () => {
       console.log('success')
     }
   })
+
+  const { mutate, variables } = api.pool.addValues.useMutation({
+    onSuccess: () => {
+      if (variables) {
+        squareValues.mutate({
+          poolId: props.id,
+          x: variables.x,
+          y: variables.y
+        })
+      }
+      console.log('success')
+    }
+  })
+
+
+
   const squares = props.squares.map((square) => {
     return {
       ...square,

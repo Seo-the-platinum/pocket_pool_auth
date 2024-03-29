@@ -60,22 +60,6 @@ export const poolRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const squares = await ctx.db.square.findMany({
-        where: {
-          poolId: input.id,
-        },
-      });
-
-      const updateSquares = squares.map((square) => {
-        return ctx.db.square.update({
-          where: { id: square.id },
-          data: {
-            x: input.x[Math.min(Math.floor(square.number / 10), 9)],
-            y: input.y[(square.number - 1) % 10],
-          },
-        });
-      });
-
       await ctx.db.pool.update({
         where: {
           id: input.id,
@@ -85,7 +69,5 @@ export const poolRouter = createTRPCRouter({
           y: input.y,
         },
       });
-
-      await ctx.db.$transaction(updateSquares);
     }),
 });

@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  protectedProcedure,
+} from "~/server/api/trpc";
 
 export const squareRouter = createTRPCRouter({
   updateSquare: publicProcedure
@@ -45,5 +49,26 @@ export const squareRouter = createTRPCRouter({
         }),
       );
       return squares;
+    }),
+  addSquareValues: protectedProcedure
+    .input(
+      z.object({
+        poolId: z.string(),
+        x: z.number().array(),
+        y: z.number().array(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.$executeRaw`
+        UPDATE "Square"
+        SET x = (SELECT "x" FROM "Pool" WHERE "id" = ${input.poolId})[CEIL(CAST("number" AS decimal)/10)],
+         y = (SELECT "y" FROM "Pool" WHERE "id" = ${input.poolId})[
+          CASE
+            WHEN MOD("number", 10) = 0 THEN 10
+            ELSE MOD("number", 10)
+          END
+         ]
+        WHERE "poolId" = ${input.poolId}
+      `;
     }),
 });

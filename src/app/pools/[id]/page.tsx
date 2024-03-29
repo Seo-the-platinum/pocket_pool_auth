@@ -1,7 +1,6 @@
 
 import React from 'react'
 import { api } from '~/trpc/server'
-import { db } from '~/server/db'
 import Image from 'next/image'
 import PoolContainer from '~/app/_components/pool-container'
 import { getServerAuthSession } from '~/server/auth'

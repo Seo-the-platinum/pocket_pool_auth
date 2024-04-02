@@ -3,12 +3,45 @@ import React, { useState } from 'react'
 import MemoSquare from './square'
 import type { RouterOutputs } from '~/trpc/shared'
 import { api } from '~/trpc/react'
+import Team from './team-label'
 
-type Pool = RouterOutputs['pool']['getPoolById'] & { session: string | undefined }
-type Square = RouterOutputs['square']['updateSquare'] & {
-  isSelected: boolean
+type Pool = RouterOutputs['pool']['getPoolById'] & {
+  session: string | undefined, away: {
+    id: string,
+    name: string,
+    logo: string
+  },
+  home: {
+    id: string,
+    name: string,
+    logo: string
+  },
 }
+
+//Might need the square type later
+// type Square = RouterOutputs['square']['updateSquare'] & {
+//   isSelected: boolean
+// }
+
+
 const PoolContainer = (props: Pool) => {
+  const { id, userId, session, away, home } = props
+  const squares = props.squares.map((square) => {
+    return {
+      ...square,
+      isSelected: false
+    }
+  })
+  const [availableSquares, setSquare] = useState(squares)
+  const [signiture, setSigniture] = useState('')
+  const [x, setX] = useState(props.x)
+  const [y, setY] = useState(props.y)
+  const [top, setTop] = useState(props.top)
+  const [left, setLeft] = useState(props.left)
+  const utils = api.useUtils()
+
+  //TRPC MUTATION DECLARATIONS
+  //TODO: FIGURE OUT HOW TO UPDATE UI AFTER MUTATIONS
   const requestSquares = api.square.updateSquares.useMutation({
     onSuccess: () => {
       console.log('success')
@@ -33,21 +66,19 @@ const PoolContainer = (props: Pool) => {
     }
   })
 
-
-
-  const squares = props.squares.map((square) => {
-    return {
-      ...square,
-      isSelected: false
+  const addTeams = api.pool.addTeams.useMutation({
+    onSuccess: async () => {
+      return await utils.pool.getPoolById.invalidate({ id: id })
+      console.log('success')
     }
   })
 
-  const [availableSquares, setSquare] = useState<Square[]>(squares)
-  const [signiture, setSigniture] = useState<string>('')
-  const { id, userId, x, y, top, left, session } = props
+
+
+
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
     const selectedSquares = availableSquares.filter((square) => {
       if (square.isSelected) {
         return square
@@ -61,7 +92,8 @@ const PoolContainer = (props: Pool) => {
     })
     requestSquares.mutate(selectedSquares)
   }
-  const shuffle = () => {
+
+  const drawNumbers = () => {
     const vals = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     const xArr = [...vals].sort(() => Math.random() - 0.5)
     const yArr = [...vals].sort(() => Math.random() - 0.5)
@@ -72,13 +104,20 @@ const PoolContainer = (props: Pool) => {
     })
   }
 
+  const drawTeams = () => {
+    const vals = ['away', 'home'].sort(() => Math.random() - 0.5)
+    addTeams.mutate({
+      id: id,
+      top: vals[0]!,
+      left: vals[1]!,
+    })
+  }
+
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="border-2 rounded-md border-black grid grid-cols-10 grid-rows-10 relative">
-        <div className="flex flex-col w-full absolute bottom-[102%]">
-          <div className='w-full text-center'>
-            {top && top}
-          </div>
+        <div className="flex flex-col w-full absolute bottom-[102%] gap-2">
+          {top && <Team team={top === 'home' ? home : away} position={'top'} />}
           <div className="grid grid-cols-10">
             {
               y.length > 0 ? y.map((y, i) => {
@@ -99,9 +138,7 @@ const PoolContainer = (props: Pool) => {
         </div>
         <div className="absolute right-[102%] h-full flex">
           <div className="h-full flex-col items-center">
-            <p style={{ writingMode: 'vertical-lr', textOrientation: 'upright' }}>
-              {left && left}
-            </p>
+            {left && <Team team={left === 'home' ? home : away} position={'left'} />}
           </div>
           <div className="grid grid-rows-10">
             {
@@ -141,8 +178,10 @@ const PoolContainer = (props: Pool) => {
         </button>
       </form>
       {
-        session === userId && x.length < 1 && y.length < 1 && <button onClick={shuffle}>Shuffle</button>
+        session === userId && x.length < 1 && y.length < 1 &&
+        <button onClick={drawNumbers}>Draw Numbers</button>
       }
+      <button onClick={drawTeams}>Draw Teams</button>
     </div >
   )
 }

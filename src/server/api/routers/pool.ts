@@ -32,12 +32,21 @@ export const poolRouter = createTRPCRouter({
     });
   }),
   create: protectedProcedure
-    .input(z.object({ size: sizeValidator, event: z.string() }))
+    .input(
+      z.object({
+        size: sizeValidator,
+        event: z.string(),
+        league: z.string(),
+        sport: z.string(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       const pool = await ctx.db.pool.create({
         data: {
           size: input.size,
           event: input.event,
+          league: input.league,
+          sport: input.sport,
           user: { connect: { id: ctx.session.user.id } },
           squares: {
             createMany: {
@@ -67,6 +76,25 @@ export const poolRouter = createTRPCRouter({
         data: {
           x: input.x,
           y: input.y,
+        },
+      });
+    }),
+  addTeams: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        top: z.string(),
+        left: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.pool.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          top: input.top,
+          left: input.left,
         },
       });
     }),

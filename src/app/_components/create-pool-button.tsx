@@ -4,19 +4,18 @@ import type { FormEvent } from 'react'
 import { api } from '~/trpc/react'
 import { useRouter } from 'next/navigation'
 
-const CreatePoolButton = ({ event }: { event: string }) => {
+const CreatePoolButton = ({ event, league }: { event: string, league: string, }) => {
   const [size, setSize] = useState<25 | 100>(25)
   const router = useRouter()
   const createPool = api.pool.create.useMutation({
     onSuccess: () => {
-      // router.refresh('/');
-      // setName("");
       router.push('/')
     },
   })
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createPool.mutate({ size, event });
+    const sport = league === 'nba' ? 'basketball' : 'football'
+    createPool.mutate({ size, event, league, sport });
   }
   return (
     <form className="flex flex-col gap-4" onSubmit={(e) => handleSubmit(e)}>

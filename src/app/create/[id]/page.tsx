@@ -18,14 +18,20 @@ type GameType = {
         }
       }
     ]
-
+  },
+  header: {
+    league: {
+      slug: string
+    }
   }
 }
+
 const Create = async ({ params }: { params: { id: string } }) => {
   const game = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${params.id}`)
   const gameData = await game.json() as GameType
   const away = gameData.boxscore.teams[0].team
   const home = gameData.boxscore.teams[1].team
+  const league = gameData.header.league.slug
 
   return (
     <div className='flex flex-col items-center px-4 gap-4'>
@@ -34,7 +40,7 @@ const Create = async ({ params }: { params: { id: string } }) => {
         <p className='self-center text-5xl'>@</p>
         <Image src={home.logo} width={100} height={100} alt={home.name} />
       </div>
-      <CreatePoolButton event={params.id} />
+      <CreatePoolButton event={params.id} league={league} />
     </div>
   )
 }

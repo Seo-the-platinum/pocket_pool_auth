@@ -59,6 +59,7 @@ export const squareRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      // This is a raw SQL query that updates the x and y values of the squares in the pool
       await ctx.db.$executeRaw`
         UPDATE "Square"
         SET x = (SELECT "x" FROM "Pool" WHERE "id" = ${input.poolId})[CEIL(CAST("number" AS decimal)/10)],

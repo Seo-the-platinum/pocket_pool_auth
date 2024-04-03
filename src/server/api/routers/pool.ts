@@ -68,8 +68,8 @@ export const poolRouter = createTRPCRouter({
         y: z.number().array(),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
-      await ctx.db.pool.update({
+    .mutation(({ ctx, input }) => {
+      return ctx.db.pool.update({
         where: {
           id: input.id,
         },
@@ -87,8 +87,8 @@ export const poolRouter = createTRPCRouter({
         left: z.string(),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
-      await ctx.db.pool.update({
+    .mutation(({ ctx, input }) => {
+      return ctx.db.pool.update({
         where: {
           id: input.id,
         },

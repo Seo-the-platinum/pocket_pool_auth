@@ -32,13 +32,12 @@ const PoolContainer = (props: Pool) => {
       isSelected: false
     }
   })
-  const [availableSquares, setSquare] = useState(squares)
-  const [signiture, setSigniture] = useState('')
   const [x, setX] = useState(props.x)
   const [y, setY] = useState(props.y)
   const [top, setTop] = useState(props.top)
   const [left, setLeft] = useState(props.left)
-  const utils = api.useUtils()
+  const [availableSquares, setSquare] = useState(squares)
+  const [signiture, setSigniture] = useState('')
 
   //TRPC MUTATION DECLARATIONS
   //TODO: FIGURE OUT HOW TO UPDATE UI AFTER MUTATIONS
@@ -67,15 +66,13 @@ const PoolContainer = (props: Pool) => {
   })
 
   const addTeams = api.pool.addTeams.useMutation({
-    onSuccess: async () => {
-      return await utils.pool.getPoolById.invalidate({ id: id })
-      console.log('success')
+    onSettled: (data) => {
+      if (data) {
+        setTop(data.top)
+        setLeft(data.left)
+      }
     }
   })
-
-
-
-
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -178,10 +175,12 @@ const PoolContainer = (props: Pool) => {
         </button>
       </form>
       {
-        session === userId && x.length < 1 && y.length < 1 &&
+        session === userId && x.length < 1 && y.length < 1 && (variables && variables.x.length < 1 && variables.y.length < 1) &&
         <button onClick={drawNumbers}>Draw Numbers</button>
       }
-      <button onClick={drawTeams}>Draw Teams</button>
+      {
+        !top || !left && <button onClick={drawTeams}>Draw Teams</button>
+      }
     </div >
   )
 }

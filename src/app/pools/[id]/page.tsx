@@ -60,11 +60,8 @@ const Pool = async ({ params }: Params) => {
   const homeLogo = `https${home?.logo.slice(5)}`
   const awayLogo = `https${away?.logo.slice(5)}`
   return (
-    <div className='flex flex-col items-center gap-10 justify-center pt-40'>
+    <div className='flex flex-col items-center gap-20 justify-center pt-10'>
       {/* <p>{pool?.user.name}</p> */}
-      {
-        pool && <PoolContainer {...pool} session={session?.user.id} away={{ id: away.id, name: away.name, logo: away.logo }} home={{ id: home.id, name: home.name, logo: home.logo }} />
-      }
       <div className="flex items-center gap-4 justify-evenly">
         <div className="flex flex-col items-center">
           <Image src={awayLogo} width={100} height={100} alt={`${away.name}'s logo`} />
@@ -76,7 +73,9 @@ const Pool = async ({ params }: Params) => {
           <p className='text-3xl'>{homeScore}</p>
         </div>
       </div>
-
+      {
+        pool && <PoolContainer {...pool} session={session?.user.id} away={{ id: away.id, name: away.name, logo: away.logo }} home={{ id: home.id, name: home.name, logo: home.logo }} />
+      }
     </div >
   )
 }

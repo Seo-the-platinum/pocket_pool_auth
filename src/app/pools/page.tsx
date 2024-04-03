@@ -4,6 +4,7 @@ import PoolTile from '~/app/_components/pool-tile'
 
 const Pools = async () => {
   const pools = await api.pool.getUsersPools.query()
+  console.log(pools)
   return (
     <div className='flex flex-col gap-4'>
       {

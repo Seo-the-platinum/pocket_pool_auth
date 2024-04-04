@@ -29,7 +29,7 @@ type GameType = {
   ]
 }
 
-const PoolTile = async ({ id, size, event, league, sport }: { id: string, size: number, event: string, league: string, sport: string }) => {
+const PoolTile = async ({ id, event, league, sport }: { id: string, size: number, event: string, league: string, sport: string }) => {
   const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/summary?event=${event}`)
   const gameData = await data.json() as GameType
   const away = gameData?.boxscore.teams[0].team

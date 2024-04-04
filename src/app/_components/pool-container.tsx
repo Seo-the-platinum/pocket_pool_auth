@@ -175,11 +175,11 @@ const PoolContainer = (props: Pool) => {
         </button>
       </form>
       {
-        session === userId && x.length < 1 && y.length < 1 && (variables && variables.x.length < 1 && variables.y.length < 1) &&
+        session === userId && x.length < 1 && y.length < 1 && (!variables) &&
         <button onClick={drawNumbers}>Draw Numbers</button>
       }
       {
-        !top || !left && <button onClick={drawTeams}>Draw Teams</button>
+        session === userId && !top && !left && <button onClick={drawTeams}>Draw Teams</button>
       }
     </div >
   )

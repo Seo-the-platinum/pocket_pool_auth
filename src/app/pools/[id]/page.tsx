@@ -65,7 +65,10 @@ const Pool = async ({ params }: Params) => {
   const homeScore = gameData?.plays ? gameData.plays[gameData.plays?.length - 1]?.homeScore : null
   const homeLogo = `https${home?.logo.slice(5)}`
   const awayLogo = `https${away?.logo.slice(5)}`
-  const quarters = gameData.plays.filter((play) => {
+
+  // TODO: ADD LOGIC TO ONLY ITERATE THROUGH PLAYS IF THE GAME HAS STARTED OR
+  // IF THE GAME HAS ENDED
+  const quarters = gameData.plays ? gameData.plays.filter((play) => {
     return play.type.text === "End Period"
   }).map((play) => {
     return {
@@ -77,7 +80,7 @@ const Pool = async ({ params }: Params) => {
       awayName: away.name,
       homeName: home.name
     }
-  })
+  }) : null
 
   return (
     <div className='flex flex-col items-center gap-32 justify-center pt-4'>
@@ -94,7 +97,8 @@ const Pool = async ({ params }: Params) => {
             <p className='text-3xl'>{homeScore}</p>
           </div>
         </div>
-        <Quarters quarters={quarters} />
+
+        {quarters && <Quarters quarters={quarters} />}
       </div>
 
       {

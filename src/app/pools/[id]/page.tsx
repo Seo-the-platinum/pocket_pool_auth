@@ -98,7 +98,7 @@ const Pool = async ({ params }: Params) => {
           </div>
         </div>
 
-        {quarters && <Quarters quarters={quarters} />}
+        {quarters?.length && <Quarters quarters={quarters} />}
       </div>
 
       {

@@ -34,6 +34,7 @@ export const squareRouter = createTRPCRouter({
       ),
     )
     .mutation(async ({ ctx, input }) => {
+      // TODO: COME BACK AND MAKE THIS A TRANSACTION OR RAW QUERY SO ITS MORE EFFICIENT
       const squares = await Promise.all(
         input.map((square) => {
           return ctx.db.square.update({

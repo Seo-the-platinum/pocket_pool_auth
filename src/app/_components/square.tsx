@@ -14,7 +14,7 @@ const Square = (props: Square) => {
   const { number, id, setSquare, name, x, y } = props
   const { status } = props
   const toggle = () => {
-    console.log('heres the values', x, y)
+
     setSquare((prev) => {
       const square = prev.find(square => square.id === id); //check if square exists and store in square variable
       if (square && !square.name && !square.userId) {
@@ -45,6 +45,6 @@ const Square = (props: Square) => {
 //MemoSquare wraps Square component to prevent unnecessary re-renders by comparing the previous and next status.
 //useMemo and React.memo although are similar, they are different. React.memo is used to prevent unnecessary re-renders of a component, 
 //while useMemo is used to prevent unnecessary re-computations of a value.
-const MemoSquare = React.memo(Square, (prev, next) => prev.status === next.status)
+const MemoSquare = React.memo(Square, (prev, next) => prev.status === next.status && prev.name === next.name)
 
 export default MemoSquare

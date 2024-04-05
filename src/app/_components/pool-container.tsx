@@ -41,8 +41,21 @@ const PoolContainer = (props: Pool) => {
 
   //TRPC MUTATION DECLARATIONS
   //TODO: FIGURE OUT HOW TO UPDATE UI AFTER MUTATIONS
-  const requestSquares = api.square.updateSquares.useMutation({
-    onSuccess: () => {
+  const updateSquares = api.square.updateSquares.useMutation({
+    onSuccess: (squares) => {
+      setSigniture('')
+      setSquare(prev => {
+        return prev.map((square) => {
+          const updatedSquare = squares.find((s) => s.id === square.id)
+          if (updatedSquare) {
+            return {
+              ...square,
+              name: updatedSquare.name,
+            }
+          }
+          return square
+        })
+      })
       console.log('success')
     }
   })
@@ -76,6 +89,10 @@ const PoolContainer = (props: Pool) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!signiture || signiture.length < 1) {
+      return
+    }
     const selectedSquares = availableSquares.filter((square) => {
       if (square.isSelected) {
         return square
@@ -87,7 +104,7 @@ const PoolContainer = (props: Pool) => {
         name: signiture,
       }
     })
-    requestSquares.mutate(selectedSquares)
+    updateSquares.mutate(selectedSquares)
   }
 
   const drawNumbers = () => {

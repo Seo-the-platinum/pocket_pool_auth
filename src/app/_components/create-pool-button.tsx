@@ -5,7 +5,7 @@ import { api } from '~/trpc/react'
 import { useRouter } from 'next/navigation'
 
 const CreatePoolButton = ({ event, league }: { event: string, league: string, }) => {
-  const [size, setSize] = useState<25 | 100>(25)
+  const [size, setSize] = useState<25 | 100>(100)
   const router = useRouter()
   const createPool = api.pool.create.useMutation({
     onSuccess: () => {

@@ -2,10 +2,12 @@ import React from 'react'
 import Image from 'next/image'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
+import { formatDate } from '../utils/FormatDate'
 
 type EventData = {
   competitions: [
     {
+      date: Date
       competitors: [
         {
           team: {
@@ -63,11 +65,14 @@ const GameTile = ({ game }: { game: { $ref: string } }) => {
   })
   if (isLoading) return <p>Loading...</p>;
   if (!data) return null;
-
+  const date = formatDate(data[0].competitions[0].date)
   return (
-    <Link className='flex justify-around border-2 border-slate-900 rounded-md w-[90%] bg-slate-200' href={`/create/${data[0]?.id}`}>
-      <Image src={data[2].logos[0].href} width={100} height={100} alt={`${data[2].name} team logo`} />
-      <Image src={data[1].logos[0].href} width={100} height={100} alt={`${data[1].name} team logo`} />
+    <Link className='flex flex-col border-2 text-center text-xl font-bold border-slate-900 rounded-md w-[90%] bg-slate-200' href={`/create/${data[0]?.id}`}>
+      <div className='flex justify-around'>
+        <Image src={data[2].logos[0].href} width={100} height={100} alt={`${data[2].name} team logo`} />
+        <Image src={data[1].logos[0].href} width={100} height={100} alt={`${data[1].name} team logo`} />
+      </div>
+      <p>{date}</p>
     </Link>
   )
 }

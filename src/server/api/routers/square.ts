@@ -24,32 +24,22 @@ export const squareRouter = createTRPCRouter({
     }),
   updateSquares: publicProcedure
     .input(
-      z.array(
-        z.object({
-          id: z.string(),
-          status: z.string(),
-          name: z.string(),
-          userId: z.optional(z.string()),
-        }),
-      ),
+      z.object({
+        ids: z.array(z.string()),
+        status: z.string(),
+        userId: z.optional(z.string()),
+        name: z.string(),
+      }),
     )
     .mutation(async ({ ctx, input }) => {
-      // TODO: COME BACK AND MAKE THIS A TRANSACTION OR RAW QUERY SO ITS MORE EFFICIENT
-      const squares = await Promise.all(
-        input.map((square) => {
-          return ctx.db.square.update({
-            where: { id: square.id },
-            data: {
-              status: square.status,
-              name: square.name,
-              user: square.userId
-                ? { connect: { id: square.userId } }
-                : undefined,
-            },
-          });
-        }),
-      );
-      return squares;
+      //USE ANY TO UPDATE MULTIPLE ROWS THAT MATCH IDS IN THE INPUT.IDS ARRAY
+      await ctx.db.$executeRaw`
+        UPDATE "Square"
+        SET "status" = ${input.status},
+          "name" = ${input.name},
+          "userId" = ${input.userId}
+        WHERE "id" = any (${input.ids})
+      `;
     }),
   addSquareValues: protectedProcedure
     .input(

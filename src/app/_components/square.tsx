@@ -7,11 +7,12 @@ type ModifiedSquare = RouterOutputs['square']['updateSquare'] & {
 }
 type Square = RouterOutputs['square']['updateSquare'] & {
   isSelected: boolean
+  admin: boolean
   setSquare: React.Dispatch<React.SetStateAction<ModifiedSquare[]>>
 }
 
 const Square = (props: Square) => {
-  const { number, id, setSquare, name, } = props
+  const { admin, number, id, setSquare, name, } = props
   const { status } = props
   const toggle = () => {
     setSquare((prev) => {
@@ -21,8 +22,15 @@ const Square = (props: Square) => {
           ...square,
           status: square.status === 'open' ? 'pending' : 'open',
           isSelected: !square.isSelected
-        };
-
+        }
+        return prev.map(prevSquare => (prevSquare.id === id ? updatedSquare : prevSquare)); //go through lists, replace square with matching id with updated square
+      }
+      if (square && admin) {
+        const updatedSquare = { //use spread operator to update square status
+          ...square,
+          status: square.status === 'open' ? 'pending' : square.status === 'pending' ? 'sold' : 'open',
+          isSelected: !square.isSelected
+        }
         return prev.map(prevSquare => (prevSquare.id === id ? updatedSquare : prevSquare)); //go through lists, replace square with matching id with updated square
       }
       return prev;

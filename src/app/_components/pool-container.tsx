@@ -18,11 +18,6 @@ type Pool = RouterOutputs['pool']['getPoolById'] & {
   },
 }
 
-//Might need the square type later
-// type Square = RouterOutputs['square']['updateSquare'] & {
-//   isSelected: boolean
-// }
-
 
 const PoolContainer = (props: Pool) => {
   const { id, userId, session, away, home } = props
@@ -39,6 +34,7 @@ const PoolContainer = (props: Pool) => {
   const [availableSquares, setSquare] = useState(squares)
   const [signiture, setSigniture] = useState('')
 
+  const adminUpdateSquares = api.square.adminUpdateSquares.useMutation()
   const updateSquares = api.square.updateSquares.useMutation({
     onSuccess: () => {
       setSquare(prev => {
@@ -120,6 +116,26 @@ const PoolContainer = (props: Pool) => {
     })
   }
 
+  const adminUpdate = () => {
+    const selectedSquares = availableSquares.filter((square) => {
+      if (square.isSelected) {
+        console.log(square.number)
+        return square
+      }
+    }
+    ).map((square) => {
+      return {
+        id: square.id,
+        status: square.status,
+        name: signiture,
+        userId: userId ? userId : undefined
+      }
+    }
+    )
+    console.log('admin update firing...', selectedSquares)
+    adminUpdateSquares.mutate(selectedSquares)
+  }
+
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="border-2 rounded-md border-black grid grid-cols-10 grid-rows-10 relative">
@@ -168,7 +184,7 @@ const PoolContainer = (props: Pool) => {
         {
           availableSquares?.map((square) => {
             return (
-              <MemoSquare key={square.id} {...square} setSquare={setSquare} />
+              <MemoSquare key={square.id} {...square} setSquare={setSquare} admin={session === userId} />
             )
           })
         }
@@ -190,6 +206,9 @@ const PoolContainer = (props: Pool) => {
       }
       {
         session === userId && !top && !left && <button onClick={drawTeams}>Draw Teams</button>
+      }
+      {
+        session === userId && <button className="bg-blue-500 text-white rounded-md p-2" onClick={adminUpdate}>Update Squares</button>
       }
     </div >
   )

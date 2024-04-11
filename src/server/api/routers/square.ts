@@ -6,6 +6,27 @@ import {
 } from "~/server/api/trpc";
 
 export const squareRouter = createTRPCRouter({
+  adminUpdateSquares: protectedProcedure
+    .input(
+      z.array(
+        z.object({
+          id: z.string(),
+          status: z.string(),
+          name: z.string(),
+          userId: z.optional(z.string()),
+        }),
+      ),
+    )
+    .mutation(async ({ ctx, input }) => {
+      console.log("heres something", Object.entries(input));
+      // await ctx.db.$executeRaw`
+      //   UPDATE "Square"
+      //   SET "status" = ${input.status},
+      //     "name" = ${input.name},
+      //     "userId" = ${input.userId}
+      //   WHERE "id" = any (${input.map((square) => square.id)})
+      // `;
+    }),
   updateSquare: publicProcedure
     .input(
       z.object({

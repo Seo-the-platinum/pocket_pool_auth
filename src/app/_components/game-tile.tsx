@@ -31,6 +31,7 @@ type EventData = {
 type StatusType = {
   type: {
     description: string
+    shortDetail: string
   }
 }
 
@@ -52,7 +53,7 @@ const GameTile = ({ game }: { game: { $ref: string } }) => {
     const eventStatus = await fetch(statusRef)
     const statusData = await eventStatus.json() as StatusType
 
-    if (statusData.type.description === 'Scheduled') {
+    if (statusData.type.description === 'Scheduled' && statusData.type.shortDetail !== 'TBD') {
       const awayUrl = `https${eventData.competitions[0].competitors[0].team.$ref.slice(4)}`
       const homeUrl = `https${eventData.competitions[0].competitors[1].team.$ref.slice(4)}`
       const away = await fetch(awayUrl)
@@ -66,6 +67,7 @@ const GameTile = ({ game }: { game: { $ref: string } }) => {
   if (isLoading) return <p>Loading...</p>;
   if (!data) return null;
   const date = formatDate(data[0].competitions[0].date)
+
   return (
     <Link className='flex flex-col border-2 text-center text-xl font-bold border-slate-900 rounded-md w-[90%] bg-slate-200' href={`/create/${data[0]?.id}`}>
       <div className='flex justify-around'>

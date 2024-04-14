@@ -20,20 +20,19 @@ type Pool = RouterOutputs['pool']['getPoolById'] & {
 
 
 const PoolContainer = (props: Pool) => {
-  const { id, userId, session, away, home } = props
+  const { id, userId, session, away, home, x, y } = props
   const squares = props.squares.map((square) => {
     return {
       ...square,
       isSelected: false
     }
   })
-  const [x, setX] = useState(props.x)
-  const [y, setY] = useState(props.y)
+  // const [x, setX] = useState(props.x)
+  // const [y, setY] = useState(props.y)
   const [top, setTop] = useState(props.top)
   const [left, setLeft] = useState(props.left)
   const [availableSquares, setSquare] = useState(squares)
   const [signiture, setSigniture] = useState('')
-
   const adminUpdateSquares = api.square.adminUpdateSquares.useMutation()
   const updateSquares = api.square.updateSquares.useMutation({
     onSuccess: () => {
@@ -96,6 +95,25 @@ const PoolContainer = (props: Pool) => {
     updateSquares.mutate({ name: signiture, ids: selectedSquares, status: 'pending', userId: userId })
   }
 
+  const adminUpdate = () => {
+    const selectedSquares = availableSquares.filter((square) => {
+      if (square.isSelected) {
+        return square
+      }
+    }
+    ).map((square) => {
+      return {
+        id: square.id,
+        status: square.status,
+        name: square.status === 'open' ? '' : square.name ? square.name : signiture,
+        userId: userId ? userId : undefined
+      }
+    }
+    )
+    console.log('admin update firing...', selectedSquares)
+    adminUpdateSquares.mutate(selectedSquares)
+  }
+
   const drawNumbers = () => {
     const vals = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     const xArr = [...vals].sort(() => Math.random() - 0.5)
@@ -115,27 +133,6 @@ const PoolContainer = (props: Pool) => {
       left: vals[1]!,
     })
   }
-
-  const adminUpdate = () => {
-    const selectedSquares = availableSquares.filter((square) => {
-      if (square.isSelected) {
-        console.log(square.number)
-        return square
-      }
-    }
-    ).map((square) => {
-      return {
-        id: square.id,
-        status: square.status,
-        name: signiture,
-        userId: userId ? userId : undefined
-      }
-    }
-    )
-    console.log('admin update firing...', selectedSquares)
-    adminUpdateSquares.mutate(selectedSquares)
-  }
-
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="border-2 rounded-md border-black grid grid-cols-10 grid-rows-10 relative">

@@ -36,7 +36,7 @@ const PoolTile = async ({ id, event, league, sport }: { id: string, size: number
   const home = gameData?.boxscore.teams[1].team
   const homeLogo = `https${home?.logo.slice(5)}`
   const awayLogo = `https${away?.logo.slice(5)}`
-  console.log('in pool tile', gameData)
+
   return (
     <Link className='flex rounded-md border-2 border-slate-950 bg-slate-200 items-center justify-center gap-20' href={`/pools/${id}`}>
       <Image src={awayLogo} alt={`${away.name} logo`} width={100} height={100} />

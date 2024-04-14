@@ -42,6 +42,8 @@ export const poolRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const pool = await ctx.db.pool.create({
+        // TODO: TRY TO FIGURE OUT A WAY TO CREATE MULTIPLE SQUARES AT ONCE
+        // WITHOUT HAVING TO ITERATE THROUGH THE ARRAY
         data: {
           size: input.size,
           event: input.event,

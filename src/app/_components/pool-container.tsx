@@ -27,13 +27,27 @@ const PoolContainer = (props: Pool) => {
       isSelected: false
     }
   })
-  // const [x, setX] = useState(props.x)
-  // const [y, setY] = useState(props.y)
   const [top, setTop] = useState(props.top)
   const [left, setLeft] = useState(props.left)
   const [availableSquares, setSquare] = useState(squares)
   const [signiture, setSigniture] = useState('')
-  const adminUpdateSquares = api.square.adminUpdateSquares.useMutation()
+  const adminUpdateSquares = api.square.adminUpdateSquares.useMutation({
+    onSuccess: (data) => {
+      const dataMap = new Map(data.map((square) => [square.id, square]))
+      setSquare(prev => {
+        return prev.map((square) => {
+          if (dataMap.has(square.id)) {
+            return {
+              ...square,
+              ...dataMap.get(square.id)
+            }
+          }
+          return square
+        })
+      })
+      console.log('success')
+    }
+  })
   const updateSquares = api.square.updateSquares.useMutation({
     onSuccess: () => {
       setSquare(prev => {
@@ -106,11 +120,10 @@ const PoolContainer = (props: Pool) => {
         id: square.id,
         status: square.status,
         name: square.status === 'open' ? '' : square.name ? square.name : signiture,
-        userId: userId ? userId : undefined
+        userId: square.status !== 'open' && square.userId ? square.userId : undefined
       }
     }
     )
-    console.log('admin update firing...', selectedSquares)
     adminUpdateSquares.mutate(selectedSquares)
   }
 

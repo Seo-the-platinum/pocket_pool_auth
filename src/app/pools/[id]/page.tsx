@@ -5,6 +5,8 @@ import Image from 'next/image'
 import PoolContainer from '~/app/_components/pool-container'
 import { getServerAuthSession } from '~/server/auth'
 import Quarters from '~/app/_components/quarters-container'
+import PendingList from '~/app/_components/pending-list'
+import type { soldSquare } from '~/app/types/pool'
 //TODO: Implement static generation, not working on production
 // export const generateStaticParams = async () => {
 //   const pools = await db.pool.findMany()
@@ -66,6 +68,9 @@ const Pool = async ({ params }: Params) => {
   const homeLogo = `https${home?.logo.slice(5)}`
   const awayLogo = `https${away?.logo.slice(5)}`
 
+  if (!pool) {
+    return <div>...Loading</div>
+  }
   // TODO: ADD LOGIC TO ONLY ITERATE THROUGH PLAYS IF THE GAME HAS STARTED OR
   // IF THE GAME HAS ENDED
   const quarters = gameData.plays ? gameData.plays.filter((play) => {
@@ -81,7 +86,7 @@ const Pool = async ({ params }: Params) => {
       homeName: home.name
     }
   }) : null
-
+  const purchasedSquares = pool.squares.filter((square) => square.name)
   return (
     <div className='flex flex-col items-center gap-32 justify-center pt-4'>
       {/* <p>{pool?.user.name}</p> */}
@@ -100,7 +105,7 @@ const Pool = async ({ params }: Params) => {
 
         {quarters?.length && <Quarters quarters={quarters} />}
       </div>
-
+      <PendingList squares={purchasedSquares as soldSquare[]} />
       {
         pool && <PoolContainer {...pool} session={session?.user.id} away={{ id: away.id, name: away.name, logo: away.logo }} home={{ id: home.id, name: home.name, logo: home.logo }} />
       }

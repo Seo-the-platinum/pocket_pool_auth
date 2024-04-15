@@ -18,18 +18,18 @@ export const squareRouter = createTRPCRouter({
       ),
     )
     .mutation(async ({ ctx, input }) => {
-      // TODO: FIGURE OUT WHY THIS DOESNT WORK
-      await ctx.db.$executeRaw`
-        WITH "data" AS (
-          SELECT UNNEST (${input}) AS item
-        )
-        UPDATE "Square" s
-        SET
-          s.status = d.status,
-          s.name = d.name
-        FROM "data" d
-        INNER JOIN "Square" s ON d.id = s.id;
-      `;
+      const queries = input.map((square) => {
+        return ctx.db.square.update({
+          where: { id: square.id },
+          data: {
+            status: square.status,
+            name: square.name,
+            userId: square?.userId ? square.userId : null,
+          },
+        });
+      });
+
+      return await ctx.db.$transaction(queries);
     }),
   updateSquare: publicProcedure
     .input(

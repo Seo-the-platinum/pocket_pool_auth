@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { api } from '~/trpc/server'
 import Image from 'next/image'
@@ -88,29 +87,36 @@ const Pool = async ({ params }: Params) => {
   }) : null
   const purchasedSquares = pool.squares.filter((square) => square.name)
   return (
-    <div className='flex flex-col items-center gap-32 justify-center pt-4'>
-      {/* <p>{pool?.user.name}</p> */}
-      <div className="flex flex-col items-center gap-4 justify-evenly">
-        <div className="flex gap-4">
-          <div className="flex flex-col items-center">
-            <Image src={awayLogo} width={100} height={100} alt={`${away.name}'s logo`} />
-            <p className='text-3xl'>{awayScore}</p>
+    <div className="flex flex-col gap-10 items-center justify-center p-4">
+      <div className='flex flex-col items-center gap-28 justify-center'>
+        <div className="flex flex-col items-center gap-4 justify-evenly">
+          <div className="flex gap-4">
+            <div className="flex flex-col items-center">
+              <Image src={awayLogo} width={100} height={100} alt={`${away.name}'s logo`} />
+              <p className='text-3xl'>{awayScore}</p>
+            </div>
+            <p className='self-center text-5xl'>@</p>
+            <div className="flex flex-col items-center">
+              <Image src={homeLogo} width={100} height={100} alt={`${home.name}'s logo`} />
+              <p className='text-3xl'>{homeScore}</p>
+            </div>
           </div>
-          <p className='self-center text-5xl'>@</p>
-          <div className="flex flex-col items-center">
-            <Image src={homeLogo} width={100} height={100} alt={`${home.name}'s logo`} />
-            <p className='text-3xl'>{homeScore}</p>
-          </div>
+
+          {quarters?.length && <Quarters quarters={quarters} />}
         </div>
-
-        {quarters?.length && <Quarters quarters={quarters} />}
-      </div>
+        {
+          pool
+          &&
+          <PoolContainer
+            {...pool}
+            quarters={quarters?.map((quarter) => { return { away: quarter.awayScore, home: quarter.homeScore, period: quarter.period } })}
+            session={session?.user.id}
+            away={{ id: away.id, name: away.name, logo: away.logo, score: awayScore }}
+            home={{ id: home.id, name: home.name, logo: home.logo, score: homeScore }} />
+        }
+      </div >
       <PendingList squares={purchasedSquares as soldSquare[]} />
-      {
-        pool && <PoolContainer {...pool} session={session?.user.id} away={{ id: away.id, name: away.name, logo: away.logo }} home={{ id: home.id, name: home.name, logo: home.logo }} />
-      }
-
-    </div >
+    </div>
   )
 }
 

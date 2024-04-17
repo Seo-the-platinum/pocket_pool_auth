@@ -87,6 +87,7 @@ model Pool {
     left    String?
     sport   String
     league  String
+    status  String   @default("open")
 }
 
 model Square {

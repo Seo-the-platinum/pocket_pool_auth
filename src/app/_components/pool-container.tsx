@@ -216,7 +216,7 @@ const PoolContainer = (props: Pool) => {
                 admin={session === userId}
                 currentWinner={square.x === currentWinner.x && square.y === currentWinner.y}
                 quarters={quarters}
-                poolStatus={status as string}
+                poolStatus={status}
               />
             )
           })

@@ -21,7 +21,7 @@ type Square = RouterOutputs['square']['updateSquare'] & {
 }
 
 const Square = (props: Square) => {
-  const { admin, number, id, setSquare, name, status, currentWinner, poolStatus, quarters } = props
+  const { admin, number, id, setSquare, name, status, currentWinner, poolStatus } = props
   const toggle = () => {
     setSquare((prev) => {
       const square = prev.find(square => square.id === id); //check if square exists and store in square variable

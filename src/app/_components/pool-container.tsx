@@ -5,6 +5,7 @@ import type { RouterOutputs } from '~/trpc/shared'
 import { api } from '~/trpc/react'
 import Team from './team-label'
 
+
 type quarter = {
   away: number;
   home: number;
@@ -27,7 +28,6 @@ type Pool = RouterOutputs['pool']['getPoolById'] & {
   quarters: quarter[] | undefined
 }
 
-
 const PoolContainer = (props: Pool) => {
   const { id, userId, session, away, home, x, y, status, quarters } = props
   const squares = props.squares.map((square) => {
@@ -40,6 +40,7 @@ const PoolContainer = (props: Pool) => {
   const [left, setLeft] = useState(props.left)
   const [availableSquares, setSquare] = useState(squares)
   const [signiture, setSigniture] = useState('')
+  const closePool = api.pool.closePool.useMutation()
   const adminUpdateSquares = api.square.adminUpdateSquares.useMutation({
     onSuccess: (data) => {
       const dataMap = new Map(data.map((square) => [square.id, square]))
@@ -160,7 +161,6 @@ const PoolContainer = (props: Pool) => {
     y: top === 'away' ? away.score && away.score % 10 : home.score && home.score % 10
   }
 
-
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="border-2 rounded-md border-black grid grid-cols-10 grid-rows-10 relative">
@@ -242,6 +242,11 @@ const PoolContainer = (props: Pool) => {
       }
       {
         session === userId && <button className="bg-blue-500 text-white rounded-md p-2" onClick={adminUpdate}>Update Squares</button>
+      }
+      {
+        session === userId && <button onClick={() => {
+          closePool.mutate({ id: id })
+        }}>Close Pool</button>
       }
     </div >
   )

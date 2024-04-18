@@ -77,7 +77,7 @@ export const poolRouter = createTRPCRouter({
         },
         data: {
           x: input.x,
-          y: input.y,
+          y: [...input.y],
         },
       });
     }),
@@ -97,6 +97,18 @@ export const poolRouter = createTRPCRouter({
         data: {
           top: input.top,
           left: input.left,
+        },
+      });
+    }),
+  closePool: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.db.pool.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          status: "closed",
         },
       });
     }),

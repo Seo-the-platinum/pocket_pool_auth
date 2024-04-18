@@ -6,6 +6,7 @@ import { getServerAuthSession } from '~/server/auth'
 import Quarters from '~/app/_components/quarters-container'
 import PendingList from '~/app/_components/pending-list'
 import type { soldSquare } from '~/app/types/pool'
+import type { GameType } from '~/app/types/event'
 //TODO: Implement static generation, not working on production
 // export const generateStaticParams = async () => {
 //   const pools = await db.pool.findMany()
@@ -14,47 +15,7 @@ import type { soldSquare } from '~/app/types/pool'
 //   }))
 // }
 
-type Params = {
-  params: {
-    id: string
-  }
-}
-
-type GameType = {
-  boxscore: {
-    teams: [
-      {
-        team: {
-          id: string
-          name: string
-          logo: string
-        }
-      },
-      {
-        team: {
-          id: string
-          name: string
-          logo: string
-        }
-      }
-    ]
-  },
-  plays: [
-    {
-      awayScore: number
-      homeScore: number
-      type: {
-        text: string
-      }
-      period: {
-        number: number
-      }
-    }
-
-  ]
-}
-
-const Pool = async ({ params }: Params) => {
+const Pool = async ({ params }: { params: { id: string } }) => {
   const { id } = params
   const session = await getServerAuthSession()
   const pool = await api.pool.getPoolById.query({ id })
@@ -86,6 +47,7 @@ const Pool = async ({ params }: Params) => {
     }
   }) : null
   const purchasedSquares = pool.squares.filter((square) => square.name)
+  const qtrs = quarters?.map((quarter) => { return { away: quarter.awayScore, home: quarter.homeScore, period: quarter.period } })
   return (
     <div className="flex flex-col gap-10 items-center justify-center p-4">
       <div className='flex flex-col items-center gap-28 justify-center'>
@@ -109,7 +71,7 @@ const Pool = async ({ params }: Params) => {
           &&
           <PoolContainer
             {...pool}
-            quarters={quarters?.map((quarter) => { return { away: quarter.awayScore, home: quarter.homeScore, period: quarter.period } })}
+            quarters={qtrs}
             session={session?.user.id}
             away={{ id: away.id, name: away.name, logo: away.logo, score: awayScore }}
             home={{ id: home.id, name: home.name, logo: home.logo, score: homeScore }} />

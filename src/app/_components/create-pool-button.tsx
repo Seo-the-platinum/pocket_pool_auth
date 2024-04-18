@@ -8,8 +8,8 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
   const [size, setSize] = useState<25 | 100>(100)
   const router = useRouter()
   const createPool = api.pool.create.useMutation({
-    onSuccess: () => {
-      router.push('/')
+    onSuccess: (pool) => {
+      router.push(`/pools/${pool.id}`)
     },
   })
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

@@ -3,8 +3,8 @@ import React from 'react'
 import type { RouterOutputs } from '~/trpc/shared'
 
 type quarter = {
-  away: number;
-  home: number;
+  x: number;
+  y: number;
   period: number;
 }
 
@@ -16,12 +16,13 @@ type Square = RouterOutputs['square']['updateSquare'] & {
   admin: boolean
   currentWinner: boolean
   poolStatus: string
-  quarters: quarter[] | undefined
+  winners: quarter[] | undefined
   setSquare: React.Dispatch<React.SetStateAction<ModifiedSquare[]>>
 }
 
 const Square = (props: Square) => {
-  const { admin, number, id, setSquare, name, status, currentWinner, poolStatus } = props
+  const { admin, number, id, setSquare, name, status, currentWinner, poolStatus, winners, x, y } = props
+  const winner = winners?.some(quarter => quarter.x === x && quarter.y === y)
   const toggle = () => {
     setSquare((prev) => {
       const square = prev.find(square => square.id === id); //check if square exists and store in square variable
@@ -44,13 +45,14 @@ const Square = (props: Square) => {
       return prev;
     })
   }
+  const squareStyles = `
+  ${poolStatus === 'closed' ? (winner ? 'bg-amber-200' : (currentWinner ? 'bg-red-500' : 'bg-slate-300')) :
+      (status === 'open' ? 'bg-emerald-400' : (status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'))} 
+   size-[28px] flex flex-col overflow-hidden sm:size-14 lg:size-20 border-[1px] border-black
+`;
   return (
     <div
-      className={`
-      ${poolStatus === 'closed' ? 'bg-slate-200' : status === 'open' ? 'bg-emerald-400' : status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'}
-      ${currentWinner && poolStatus === 'closed' ? 'bg-amber-200' : ''}
-        size-[28px] flex flex-col overflow-hidden sm:size-14 lg:size-20 border-[1px] border-black
-      `}
+      className={squareStyles}
       onClick={toggle}>
       <p className='text-xs self-start'>{number}</p>
       <p className='text-xs text-ellipsis overflow-hidden flex-1 text-center'>{name}</p>
@@ -61,6 +63,12 @@ const Square = (props: Square) => {
 //MemoSquare wraps Square component to prevent unnecessary re-renders by comparing the previous and next status.
 //useMemo and React.memo although are similar, they are different. React.memo is used to prevent unnecessary re-renders of a component, 
 //while useMemo is used to prevent unnecessary re-computations of a value.
-const MemoSquare = React.memo(Square, (prev, next) => prev.status === next.status && prev.name === next.name && prev.currentWinner === next.currentWinner)
+const MemoSquare = React.memo(Square, (prev, next) => {
+  return prev.status === next.status &&
+    prev.name === next.name &&
+    prev.currentWinner === next.currentWinner &&
+    prev.winners === next.winners &&
+    prev.poolStatus === next.poolStatus
+})
 
 export default MemoSquare

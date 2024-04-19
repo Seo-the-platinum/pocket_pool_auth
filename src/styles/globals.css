@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply rounded-md bg-blue-500 p-2 text-white;
+  }
+}

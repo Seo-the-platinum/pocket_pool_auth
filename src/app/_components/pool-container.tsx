@@ -29,18 +29,27 @@ type Pool = RouterOutputs['pool']['getPoolById'] & {
 }
 
 const PoolContainer = (props: Pool) => {
-  const { id, userId, session, away, home, x, y, status, quarters } = props
+  const { id, userId, session, away, home, x, y, quarters } = props
   const squares = props.squares.map((square) => {
     return {
       ...square,
       isSelected: false
     }
   })
+
   const [top, setTop] = useState(props.top)
   const [left, setLeft] = useState(props.left)
   const [availableSquares, setSquare] = useState(squares)
   const [signiture, setSigniture] = useState('')
-  const closePool = api.pool.closePool.useMutation()
+  const [status, setStatus] = useState(props.status)
+
+  //TRPC PROCEDURES
+
+  const closePool = api.pool.closePool.useMutation({
+    onSuccess: () => {
+      setStatus('closed')
+    }
+  })
   const adminUpdateSquares = api.square.adminUpdateSquares.useMutation({
     onSuccess: (data) => {
       const dataMap = new Map(data.map((square) => [square.id, square]))
@@ -160,6 +169,13 @@ const PoolContainer = (props: Pool) => {
     x: left === 'away' ? away.score && away.score % 10 : home.score && home.score % 10,
     y: top === 'away' ? away.score && away.score % 10 : home.score && home.score % 10
   }
+  const winners = quarters?.map((quarter) => {
+    return {
+      x: left === 'away' ? quarter.away % 10 : quarter.home % 10,
+      y: top === 'away' ? quarter.away % 10 : quarter.home % 10,
+      period: quarter.period
+    }
+  })
 
   return (
     <div className="flex flex-col items-center gap-8">
@@ -215,38 +231,44 @@ const PoolContainer = (props: Pool) => {
                 setSquare={setSquare}
                 admin={session === userId}
                 currentWinner={square.x === currentWinner.x && square.y === currentWinner.y}
-                quarters={quarters}
+                winners={winners}
                 poolStatus={status}
               />
             )
           })
         }
       </div>
-      <form className='w-full flex justify-evenly' onSubmit={handleSubmit}>
-        <input
-          className='pl-2 ring-2 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400'
-          type="text"
-          placeholder="Name"
-          value={signiture}
-          onChange={(e) => setSigniture(e.target.value)} />
-        <button type="submit" className="bg-blue-500 text-white rounded-md p-2">
-          Submit
-        </button>
-      </form>
       {
-        session === userId && x.length < 1 && y.length < 1 && (!variables) &&
-        <button onClick={drawNumbers}>Draw Numbers</button>
-      }
-      {
-        session === userId && !top && !left && <button onClick={drawTeams}>Draw Teams</button>
-      }
-      {
-        session === userId && <button className="bg-blue-500 text-white rounded-md p-2" onClick={adminUpdate}>Update Squares</button>
-      }
-      {
-        session === userId && <button onClick={() => {
-          closePool.mutate({ id: id })
-        }}>Close Pool</button>
+        status === 'open' &&
+        <>
+          <form className='w-full flex justify-evenly' onSubmit={handleSubmit}>
+            <input
+              className='pl-2 ring-2 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400'
+              type="text"
+              placeholder="Name"
+              value={signiture}
+              onChange={(e) => setSigniture(e.target.value)} />
+            <button type="submit" className="btn">
+              Submit
+            </button>
+          </form>
+          {
+            session === userId && x.length < 1 && y.length < 1 && (!variables) &&
+            <button onClick={drawNumbers}>Draw Numbers</button>
+          }
+          {
+            session === userId && !top && !left && <button onClick={drawTeams}>Draw Teams</button>
+          }
+          {
+            session === userId && <button className="btn" onClick={adminUpdate}>Update Squares</button>
+          }
+          {
+            session === userId && <button className='btn' onClick={() => {
+              closePool.mutate({ id: id })
+            }}>Close Pool</button>
+          }
+        </>
+
       }
     </div >
   )

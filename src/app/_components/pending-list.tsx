@@ -1,7 +1,7 @@
 import React from 'react'
-import type { soldSquares } from '../types/pool'
+import type { SoldSquares } from '../types/pool'
 
-const PendingList = ({ squares }: soldSquares) => {
+const PendingList = ({ squares }: SoldSquares) => {
   const hash: Record<string, number[]> = {
   }
   squares.forEach((square) => {

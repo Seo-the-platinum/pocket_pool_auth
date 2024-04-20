@@ -5,7 +5,7 @@ import PoolContainer from '~/app/_components/pool-container'
 import { getServerAuthSession } from '~/server/auth'
 import Quarters from '~/app/_components/quarters-container'
 import PendingList from '~/app/_components/pending-list'
-import type { soldSquare } from '~/app/types/pool'
+import type { SoldSquare } from '~/app/types/pool'
 import type { GameType } from '~/app/types/event'
 //TODO: Implement static generation, not working on production
 // export const generateStaticParams = async () => {
@@ -77,7 +77,7 @@ const Pool = async ({ params }: { params: { id: string } }) => {
             home={{ id: home.id, name: home.name, logo: home.logo, score: homeScore }} />
         }
       </div >
-      <PendingList squares={purchasedSquares as soldSquare[]} />
+      <PendingList squares={purchasedSquares as SoldSquare[]} />
     </div>
   )
 }

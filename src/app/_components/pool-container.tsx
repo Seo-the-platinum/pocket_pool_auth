@@ -1,47 +1,17 @@
 'use client'
 import React, { useState } from 'react'
 import MemoSquare from './square'
-import type { RouterOutputs } from '~/trpc/shared'
 import { api } from '~/trpc/react'
 import Team from './team-label'
+import type { ExtendedPools } from '../types/pool'
+import { adminSquares, userSquares } from '../utils/PoolHelpers'
 
-
-type quarter = {
-  away: number;
-  home: number;
-  period: number;
-}
-
-type Pool = RouterOutputs['pool']['getPoolById'] & {
-  session: string | undefined, away: {
-    id: string,
-    name: string,
-    logo: string
-    score: number | null | undefined
-  },
-  home: {
-    id: string,
-    name: string,
-    logo: string
-    score: number | null | undefined
-  },
-  quarters: quarter[] | undefined
-}
-
-const PoolContainer = (props: Pool) => {
-  const { id, userId, session, away, home, x, y, quarters } = props
-  const squares = props.squares.map((square) => {
-    return {
-      ...square,
-      isSelected: false
-    }
-  })
-
-  const [top, setTop] = useState(props.top)
-  const [left, setLeft] = useState(props.left)
-  const [availableSquares, setSquare] = useState(squares)
+const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, left, squares, status }: ExtendedPools) => {
+  const [topState, setTop] = useState(top)
+  const [leftState, setLeft] = useState(left)
+  const [availableSquares, setSquare] = useState(squares.map((square) => { return { ...square, isSelected: false } }))
   const [signiture, setSigniture] = useState('')
-  const [status, setStatus] = useState(props.status)
+  const [statusState, setStatus] = useState(status)
 
   //TRPC PROCEDURES
 
@@ -50,6 +20,7 @@ const PoolContainer = (props: Pool) => {
       setStatus('closed')
     }
   })
+
   const adminUpdateSquares = api.square.adminUpdateSquares.useMutation({
     onSuccess: (data) => {
       const dataMap = new Map(data.map((square) => [square.id, square]))
@@ -67,6 +38,7 @@ const PoolContainer = (props: Pool) => {
       console.log('success')
     }
   })
+
   const updateSquares = api.square.updateSquares.useMutation({
     onSuccess: () => {
       setSquare(prev => {
@@ -96,7 +68,7 @@ const PoolContainer = (props: Pool) => {
     onSuccess: () => {
       if (variables) {
         squareValues.mutate({
-          poolId: props.id,
+          poolId: id,
           x: variables.x,
           y: variables.y
         })
@@ -104,6 +76,8 @@ const PoolContainer = (props: Pool) => {
       console.log('success')
     }
   })
+
+  // POOL UPDATE FUNTIONS
 
   const addTeams = api.pool.addTeams.useMutation({
     onSettled: (data) => {
@@ -116,33 +90,15 @@ const PoolContainer = (props: Pool) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
     if (!signiture || signiture.length < 1) {
       return
     }
-    const selectedSquares = availableSquares.filter((square) => {
-      if (square.isSelected) {
-        return square
-      }
-    }).map((square) => square.id)
+    const selectedSquares = userSquares(availableSquares)
     updateSquares.mutate({ name: signiture, ids: selectedSquares, status: 'pending', userId: userId })
   }
 
   const adminUpdate = () => {
-    const selectedSquares = availableSquares.filter((square) => {
-      if (square.isSelected) {
-        return square
-      }
-    }
-    ).map((square) => {
-      return {
-        id: square.id,
-        status: square.status,
-        name: square.status === 'open' ? '' : square.name ? square.name : signiture,
-        userId: square.status !== 'open' && square.userId ? square.userId : undefined
-      }
-    }
-    )
+    const selectedSquares = adminSquares(availableSquares, signiture)
     adminUpdateSquares.mutate(selectedSquares)
   }
 
@@ -166,13 +122,13 @@ const PoolContainer = (props: Pool) => {
     })
   }
   const currentWinner = {
-    x: left === 'away' ? away.score && away.score % 10 : home.score && home.score % 10,
-    y: top === 'away' ? away.score && away.score % 10 : home.score && home.score % 10
+    x: leftState === 'away' ? away.score && away.score % 10 : home.score && home.score % 10,
+    y: topState === 'away' ? away.score && away.score % 10 : home.score && home.score % 10
   }
   const winners = quarters?.map((quarter) => {
     return {
-      x: left === 'away' ? quarter.away % 10 : quarter.home % 10,
-      y: top === 'away' ? quarter.away % 10 : quarter.home % 10,
+      x: leftState === 'away' ? quarter.away % 10 : quarter.home % 10,
+      y: topState === 'away' ? quarter.away % 10 : quarter.home % 10,
       period: quarter.period
     }
   })
@@ -181,7 +137,7 @@ const PoolContainer = (props: Pool) => {
     <div className="flex flex-col items-center gap-8">
       <div className="border-2 rounded-md border-black grid grid-cols-10 grid-rows-10 relative">
         <div className="flex flex-col w-full absolute bottom-[102%] gap-2">
-          {top && <Team team={top === 'home' ? home : away} position={'top'} />}
+          {topState && <Team team={topState === 'home' ? home : away} position={'top'} />}
           <div className="grid grid-cols-10">
             {
               y.length > 0 ? y.map((y, i) => {
@@ -202,7 +158,7 @@ const PoolContainer = (props: Pool) => {
         </div>
         <div className="absolute right-[102%] h-full flex">
           <div className="h-full flex-col items-center">
-            {left && <Team team={left === 'home' ? home : away} position={'left'} />}
+            {leftState && <Team team={leftState === 'home' ? home : away} position={'left'} />}
           </div>
           <div className="grid grid-rows-10">
             {
@@ -232,7 +188,7 @@ const PoolContainer = (props: Pool) => {
                 admin={session === userId}
                 currentWinner={square.x === currentWinner.x && square.y === currentWinner.y}
                 winners={winners}
-                poolStatus={status}
+                poolStatus={statusState}
               />
             )
           })
@@ -268,7 +224,6 @@ const PoolContainer = (props: Pool) => {
             }}>Close Pool</button>
           }
         </>
-
       }
     </div >
   )

@@ -22,13 +22,12 @@ const CreatePool = () => {
   const [league, setLeague] = useState<'nfl' | 'nba'>('nba')
   const { data }: UseQueryResult<EventTypes> = useQuery(['events', league, page], async () => {
     const sport = league === 'nfl' ? 'football' : 'basketball'
-    const response = await fetch(`https://sports.core.api.espn.com/v2/sports/${sport}/leagues/${league}/events?dates=${date}-20240419&page=${page}`)
+    const response = await fetch(`https://sports.core.api.espn.com/v2/sports/${sport}/leagues/${league}/events?dates=${date}-20240623&page=${page}`)
     return response.json()
   }, {
     enabled: !!league,
   }
   )
-
   return (
     <div className='flex flex-col gap-2'>
       <label>Choose League:</label>

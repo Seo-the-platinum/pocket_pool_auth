@@ -12,7 +12,6 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   const [availableSquares, setSquare] = useState(squares.map((square) => { return { ...square, isSelected: false } }))
   const [signiture, setSigniture] = useState('')
   const [statusState, setStatus] = useState(status)
-
   //TRPC PROCEDURES
 
   const closePool = api.pool.closePool.useMutation({
@@ -132,7 +131,6 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
       period: quarter.period
     }
   })
-
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="border-2 rounded-md border-black grid grid-cols-10 grid-rows-10 relative">

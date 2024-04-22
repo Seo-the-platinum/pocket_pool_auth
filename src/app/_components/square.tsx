@@ -22,7 +22,7 @@ type Square = RouterOutputs['square']['updateSquare'] & {
 
 const Square = (props: Square) => {
   const { admin, number, id, setSquare, name, status, currentWinner, poolStatus, winners, x, y } = props
-  const winner = winners?.some(quarter => quarter.x === x && quarter.y === y)
+  const winner = winners?.find(quarter => quarter.x === x && quarter.y === y)
   const toggle = () => {
     setSquare((prev) => {
       const square = prev.find(square => square.id === id); //check if square exists and store in square variable
@@ -45,8 +45,14 @@ const Square = (props: Square) => {
       return prev;
     })
   }
+  const winnerColors: Record<number, string> = {
+    1: 'bg-gradient-to-br from-amber-500 from-5% via-amber-700 via-50% to-amber-500 to-95% border-2 border-slate-900',
+    2: 'bg-gradient-to-br from-slate-100 from-5% via-slate-400 via-50% to-slate-100 to-95% border-2 border-slate-900',
+    3: 'bg-gradient-to-br from-yellow-200 from-5% via-yellow-600 via-50% to-yellow-200 to-95% border-2 border-slate-900',
+    4: 'bg-gradient-to-br from-gray-300 from-1% via-gray-600 via-50% to-gray-300 to-99% border-2 border-slate-900',
+  }
   const squareStyles = `
-  ${poolStatus === 'closed' ? (winner ? 'bg-amber-200' : (currentWinner ? 'bg-red-500' : 'bg-slate-300')) :
+  ${poolStatus === 'closed' ? (winner ? winnerColors[winner.period] : (currentWinner ? 'bg-red-500' : 'bg-slate-100')) :
       (status === 'open' ? 'bg-emerald-400' : (status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'))} 
    size-[28px] flex flex-col overflow-hidden sm:size-14 lg:size-20 border-[1px] border-black
 `;

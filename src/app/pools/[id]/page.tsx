@@ -7,6 +7,7 @@ import Quarters from '~/app/_components/quarters-container'
 import PendingList from '~/app/_components/pending-list'
 import type { SoldSquare } from '~/app/types/pool'
 import type { GameType } from '~/app/types/event'
+
 //TODO: Implement static generation, not working on production
 // export const generateStaticParams = async () => {
 //   const pools = await db.pool.findMany()
@@ -31,8 +32,7 @@ const Pool = async ({ params }: { params: { id: string } }) => {
   if (!pool) {
     return <div>...Loading</div>
   }
-  // TODO: ADD LOGIC TO ONLY ITERATE THROUGH PLAYS IF THE GAME HAS STARTED OR
-  // IF THE GAME HAS ENDED
+
   const quarters = gameData.plays ? gameData.plays.filter((play) => {
     return play.type.text === "End Period"
   }).map((play) => {
@@ -64,7 +64,7 @@ const Pool = async ({ params }: { params: { id: string } }) => {
             </div>
           </div>
 
-          {quarters?.length && <Quarters quarters={quarters} />}
+          {quarters?.length ? <Quarters quarters={quarters} /> : null}
         </div>
         {
           pool

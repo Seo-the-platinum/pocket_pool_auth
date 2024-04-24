@@ -12,6 +12,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   const [availableSquares, setSquare] = useState(squares.map((square) => { return { ...square, isSelected: false } }))
   const [signiture, setSigniture] = useState('')
   const [statusState, setStatus] = useState(status)
+
   //TRPC PROCEDURES
 
   const closePool = api.pool.closePool.useMutation({

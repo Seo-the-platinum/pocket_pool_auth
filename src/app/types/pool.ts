@@ -36,6 +36,8 @@ export type Quarter = {
   period: number;
 };
 
+export type Pool = RouterOutputs["pool"]["getPoolById"];
+
 export type ExtendedPools = RouterOutputs["pool"]["getPoolById"] & {
   session: string | undefined;
   away: {

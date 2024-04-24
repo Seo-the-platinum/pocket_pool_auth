@@ -38,7 +38,7 @@ const CreatePool = () => {
       {
         data && <GamesList games={data?.items} />
       }
-      <div className="flex w-full justify-evenly">
+      <div className="flex w-full justify-evenly h-8">
         {
           data && Array.from({ length: data.pageCount }).map((_, i) => (
             <button className={`${i + 1 === page ? 'bg-slate-400 text-blue-500' : 'bg-slate-200'} rounded-full size-6`} key={i} onClick={() => setPage(i + 1)}>{i + 1}</button>

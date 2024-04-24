@@ -132,6 +132,9 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
       period: quarter.period
     }
   })
+  const unsold = squares.some((square) => square.status !== 'sold')
+  console.log('are all sold', unsold)
+
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="border-2 rounded-md border-black grid grid-cols-10 grid-rows-10 relative">
@@ -208,19 +211,22 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
             </button>
           </form>
           {
-            session === userId && x.length < 1 && y.length < 1 && (!variables) &&
-            <button onClick={drawNumbers}>Draw Numbers</button>
-          }
-          {
-            session === userId && !top && !left && <button onClick={drawTeams}>Draw Teams</button>
-          }
-          {
-            session === userId && <button className="btn" onClick={adminUpdate}>Update Squares</button>
-          }
-          {
-            session === userId && <button className='btn' onClick={() => {
-              closePool.mutate({ id: id })
-            }}>Close Pool</button>
+            session === userId &&
+            <>
+              {
+                x.length < 1 && y.length < 1 && unsold === false && (!variables) &&
+                <button onClick={drawNumbers}>Draw Numbers</button>
+              }
+              {
+                !top && !left && unsold === false && <button onClick={drawTeams}>Draw Teams</button>
+              }
+              {
+                unsold === false && <button onClick={() => {
+                  closePool.mutate({ id: id })
+                }}>Close Pool</button>
+              }
+              <button className="btn" onClick={adminUpdate}>Update Squares</button>
+            </>
           }
         </>
       }

@@ -37,8 +37,8 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
     return <div>...Loading</div>
   }
 
-  const lastPlay = data.plays[data.plays.length - 1]
-  if (lastPlay?.type.text !== "End Game" && data.plays.length > 1) {
+  const lastPlay = data.plays?.length > 0 && data.plays[data.plays.length - 1]
+  if (lastPlay && lastPlay?.type.text !== "End Game" && data.plays.length > 1) {
     setDynamicStaleTime(1000 * 60 * 5)
   }
 

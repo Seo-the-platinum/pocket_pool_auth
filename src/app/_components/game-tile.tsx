@@ -30,7 +30,7 @@ const GameTile = ({ game }: { game: { $ref: string } }) => {
   const date = formatDate(data[0].competitions[0].date)
 
   return (
-    <Link className='flex flex-col border-2 text-center text-xl font-bold border-slate-900 rounded-md w-[90%] bg-slate-200' href={`/create/${data[0]?.id}`}>
+    <Link className='flex flex-col border-2 text-center text-xl font-bold border-slate-900 rounded-md w-[90%] bg-slate-200 w-full' href={`/create/${data[0]?.id}`}>
       <div className='flex justify-around'>
         <Image src={data[2].logos[0]?.href} width={100} height={100} alt={`${data[2].name} team logo`} />
         <Image src={data[1].logos[0]?.href} width={100} height={100} alt={`${data[1].name} team logo`} />

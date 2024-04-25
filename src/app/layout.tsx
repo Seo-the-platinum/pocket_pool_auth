@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import Nav from './_components/nav/nav'
 
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",

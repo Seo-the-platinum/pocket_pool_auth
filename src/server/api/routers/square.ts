@@ -6,6 +6,7 @@ import {
 } from "~/server/api/trpc";
 
 export const squareRouter = createTRPCRouter({
+  // TODO: LOOK INTO HOW WE CAN MAKE A CUSTOM SQL QUERY TO DECREASE ELAPSED TIME
   adminUpdateSquares: protectedProcedure
     .input(
       z.array(

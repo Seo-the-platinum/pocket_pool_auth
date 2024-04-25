@@ -10,7 +10,6 @@ const PendingList = ({ squares }: SoldSquares) => {
     }
     hash[square.name]?.push(square.number)
   })
-
   return (
     <div className='flex flex-col gap-4'>
       <h1 className='text-2xl font-bold'>Pending & Sold Squares</h1>
@@ -19,7 +18,7 @@ const PendingList = ({ squares }: SoldSquares) => {
           Object.keys(hash).map((name) => (
             <div className='flex flex-col divide-y-2' key={name}>
               <h1>{name} </h1>
-              <ul className='flex gap-1'>
+              <ul className='flex gap-1 flex-wrap'>
                 {
                   hash[name]?.map((number) => (
                     <li key={number}>{number},</li>

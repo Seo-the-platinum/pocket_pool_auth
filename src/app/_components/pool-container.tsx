@@ -133,7 +133,6 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
     }
   })
   const unsold = squares.some((square) => square.status !== 'sold')
-  console.log('are all sold', unsold)
 
   return (
     <div className="flex flex-col items-center gap-8">

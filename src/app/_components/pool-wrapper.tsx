@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PoolContainer from './pool-container'
 import Quarters from './quarters-container'
 import PendingList from './pending-list'
@@ -10,7 +10,7 @@ import type { Pool } from '../types/pool'
 import type { GameType } from '../types/event'
 
 const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefined }) => {
-  const [dynamicStaleTime, setDynamicStaleTime] = useState(1000 * 60 * 60)
+  const [dynamicInterval, setDynamicInterval] = useState(1000 * 60 * 5)
   const { data } = useQuery(['pool', pool?.id], async () => {
     const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${pool?.event}`)
     const res = await data.json() as GameType
@@ -30,16 +30,21 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
       awayLogo,
       plays
     }
-  }, { staleTime: dynamicStaleTime }
-  )
-
-  if (!pool || !data) {
-    return <div>...Loading</div>
+  }, {
+    refetchInterval: dynamicInterval,
   }
+  )
+  useEffect(() => {
+    if (!pool || !data) return
+    const lastPlay = data.plays?.length > 0 && data.plays[data.plays.length - 1]
+    if (lastPlay && lastPlay?.type.text !== "End Game" && data.plays.length > 1) {
+      setDynamicInterval(1000 * 60)
+    }
 
-  const lastPlay = data.plays?.length > 0 && data.plays[data.plays.length - 1]
-  if (lastPlay && lastPlay?.type.text !== "End Game" && data.plays.length > 1) {
-    setDynamicStaleTime(1000 * 60 * 5)
+  }, [pool, data])
+
+  if (!data) {
+    return <div>...Loading</div>
   }
 
   const quarters = data?.plays ? data.plays.filter((play) => {

@@ -52,7 +52,7 @@ const Square = (props: Square) => {
     4: 'bg-gradient-to-br from-gray-300 from-1% via-gray-600 via-50% to-gray-300 to-99% border-2 border-slate-900',
   }
   const squareStyles = `
-  ${poolStatus === 'closed' ? (winner ? winnerColors[winner.period] : (currentWinner ? 'bg-red-500' : 'bg-slate-100')) :
+  ${poolStatus === 'closed' ? (winner ? winnerColors[winner.period] : (currentWinner ? 'bg-teal-300' : 'bg-slate-100')) :
       (status === 'open' ? 'bg-emerald-400' : (status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'))} 
    size-[28px] flex flex-col overflow-hidden sm:size-14 lg:size-20 border-[1px] border-black
 `;

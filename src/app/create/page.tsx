@@ -13,6 +13,7 @@ type EventTypes = {
   pageCount: number
 }
 const CreatePool = () => {
+  // TODO: UPDATE DATE SO THAT GAMES THAT HAVE STARTED ARE NOT INCLUDED IN THE LIST
   const [page, setPage] = useState(1)
   const today = new Date()
   const year = today.getFullYear()

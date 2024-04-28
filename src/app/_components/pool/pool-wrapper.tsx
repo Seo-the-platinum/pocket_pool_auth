@@ -1,13 +1,13 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import PoolContainer from './pool-container'
-import Quarters from './quarters-container'
-import PendingList from './pending-list'
-import type { SoldSquare } from '../types/pool'
+import Quarters from '../quarters-container'
+import PendingList from '../pending-list'
+import type { SoldSquare } from '../../types/pool'
 import Image from 'next/image'
 import { useQuery } from '@tanstack/react-query'
-import type { Pool } from '../types/pool'
-import type { GameType } from '../types/event'
+import type { Pool } from '../../types/pool'
+import type { GameType } from '../../types/event'
 
 const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefined }) => {
   const [dynamicInterval, setDynamicInterval] = useState(1000 * 60 * 5)
@@ -62,11 +62,10 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   }) : null
   const purchasedSquares = pool?.squares.filter((square) => square.name)
   const qtrs = quarters?.map((quarter) => { return { away: quarter.awayScore, home: quarter.homeScore, period: quarter.period } })
-
   return (
-    <div className="flex flex-col gap-10 items-center justify-center p-4">
+    <div className="flex flex-col gap-10 items-center justify-center">
       <div className='flex flex-col items-center gap-28 justify-center'>
-        <div className="flex flex-col items-center gap-4 justify-evenly">
+        <div className="flex flex-col items-center gap-4 justify-evenly p-2 rounded-md bg-slate-300 border-2 border-black">
           <div className="flex gap-4">
             <div className="flex flex-col items-center">
               <Image src={data.awayLogo} width={100} height={100} alt={`${data.away.name}'s logo`} />
@@ -87,8 +86,8 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
             {...pool}
             quarters={qtrs}
             session={session}
-            away={{ id: data.away.id, name: data.away.name, logo: data.away.logo, score: data.awayScore }}
-            home={{ id: data.home.id, name: data.home.name, logo: data.homeLogo, score: data.homeScore }} />
+            away={{ id: data.away.id, name: data.away.name, logo: data.away.logo, score: data.awayScore, abbreviation: data.away.abbreviation }}
+            home={{ id: data.home.id, name: data.home.name, logo: data.homeLogo, score: data.homeScore, abbreviation: data.home.abbreviation }} />
         }
       </div >
       <PendingList squares={purchasedSquares as SoldSquare[]} />

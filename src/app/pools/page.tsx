@@ -1,6 +1,6 @@
 import React from 'react'
 import { api } from '~/trpc/server'
-import PoolTile from '~/app/_components/pool-tile'
+import PoolTile from '~/app/_components/pool/pool-tile'
 
 const Pools = async () => {
   const pools = await api.pool.getUsersPools.query()

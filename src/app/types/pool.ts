@@ -45,12 +45,14 @@ export type ExtendedPools = RouterOutputs["pool"]["getPoolById"] & {
     name: string;
     logo: string;
     score: number | null | undefined;
+    abbreviation: string;
   };
   home: {
     id: string;
     name: string;
     logo: string;
     score: number | null | undefined;
+    abbreviation: string;
   };
   quarters: Quarter[] | undefined;
 };

@@ -2,9 +2,9 @@
 import React, { useState } from 'react'
 import MemoSquare from './square'
 import { api } from '~/trpc/react'
-import Team from './team-label'
-import type { ExtendedPools } from '../types/pool'
-import { adminSquares, userSquares } from '../utils/PoolHelpers'
+import Team from '../team-label'
+import type { ExtendedPools } from '../../types/pool'
+import { adminSquares, userSquares } from '../../utils/PoolHelpers'
 
 const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, left, squares, status }: ExtendedPools) => {
   const [topState, setTop] = useState(top)
@@ -158,7 +158,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
           </div>
         </div>
         <div className="absolute right-[102%] h-full flex">
-          <div className="h-full flex-col items-center">
+          <div className="h-full flex-col flex justify-center">
             {leftState && <Team team={leftState === 'home' ? home : away} position={'left'} />}
           </div>
           <div className="grid grid-rows-10">

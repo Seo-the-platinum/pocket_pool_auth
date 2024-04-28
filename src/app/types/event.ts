@@ -3,6 +3,7 @@ export type GameType = {
     teams: [
       {
         team: {
+          abbreviation: string;
           id: string;
           name: string;
           logo: string;
@@ -10,6 +11,7 @@ export type GameType = {
       },
       {
         team: {
+          abbreviation: string;
           id: string;
           name: string;
           logo: string;

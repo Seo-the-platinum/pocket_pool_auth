@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { FaMoon, FaSun } from "react-icons/fa";
+import { BsFillMoonStarsFill, BsSun } from "react-icons/bs";
 import { useTheme } from 'next-themes';
 
 const ThemeSwitcher = () => {
@@ -11,25 +11,27 @@ const ThemeSwitcher = () => {
   useEffect(() => setMounted(true), [])
   //if the component is not mounted, we want to render a temoporary image to avoid
   //layout shift
-  if (!mounted) (
-    <svg className='animate-spin size-6' />
-  )
-  return (
-    <button
-      type="button"
-      className="flex text-lg rounded-md gap-2 inset-0 max-w-[30vw] justify-evenly bg-slate-400 p-1"
-      onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-    >
-      <h1>{resolvedTheme === 'dark' ? 'Light' : 'Dark'}</h1>
-      {
-        resolvedTheme === 'dark' ? (
-          <FaSun className='size-6' />
-        ) : (
-          <FaMoon className='size-6' />
-        )
-      }
-    </button>
-  )
+  if (!mounted) {
+    return <svg className='animate-spin size-6' />
+  }
+
+  if (resolvedTheme === 'dark') {
+    return (
+      <button className='btn' onClick={() => setTheme('light')}>
+        <p>Dark</p>
+        <BsFillMoonStarsFill className='size-5' />
+      </button>
+    )
+  }
+
+  if (resolvedTheme === 'light') {
+    return (
+      <button className='btn' onClick={() => setTheme('dark')}>
+        <p>Light</p>
+        <BsSun className='size-5' />
+      </button>
+    )
+  }
 }
 
 export default ThemeSwitcher

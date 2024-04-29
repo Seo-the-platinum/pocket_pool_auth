@@ -16,7 +16,7 @@ const Pool = async ({ params }: { params: { id: string } }) => {
   const session = await getServerAuthSession()
   const pool = await api.pool.getPoolById.query({ id })
   return (
-    <div className="flex flex-col gap-10 items-center justify-center px-4 bg-gradient-to-br from-slate-500 to-indigo-950 to-85%">
+    <div className="flex flex-col gap-10 items-center justify-center px-4 dark:bg-slate-700">
       <PoolWrapper pool={pool} session={session?.user.id} />
     </div>
   )

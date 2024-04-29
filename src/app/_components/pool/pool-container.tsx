@@ -136,7 +136,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
 
   return (
     <div className="flex flex-col items-center gap-8">
-      <div className="border-2 rounded-md border-black grid grid-cols-10 grid-rows-10 relative">
+      <div className="border-2 rounded-md border-black dark:border-slate-300 grid grid-cols-10 grid-rows-10 relative text-slate-950 dark:text-slate-300">
         <div className="flex flex-col w-full absolute bottom-[102%] gap-2">
           {topState && <Team team={topState === 'home' ? home : away} position={'top'} />}
           <div className="grid grid-cols-10">

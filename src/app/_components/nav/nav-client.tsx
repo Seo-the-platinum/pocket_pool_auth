@@ -11,7 +11,7 @@ const NavClient = ({ session }: { session: boolean }) => {
 
   return (
     <div>
-      <div className='justify-end gap-4 border-b-2 border-b-black p-4 hidden lg:flex'>
+      <div className='justify-end gap-4 rounded-b-md p-4 hidden lg:flex'>
         <Link href='/'>Home</Link>
         {session &&
           <>

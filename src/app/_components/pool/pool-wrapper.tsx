@@ -63,7 +63,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   const purchasedSquares = pool?.squares.filter((square) => square.name)
   const qtrs = quarters?.map((quarter) => { return { away: quarter.awayScore, home: quarter.homeScore, period: quarter.period } })
   return (
-    <div className="flex flex-col gap-10 items-center justify-center">
+    <div className="flex flex-col gap-10 items-center justify-center pt-16">
       <div className='flex flex-col items-center gap-28 justify-center'>
         <div className="flex flex-col items-center gap-4 justify-evenly p-2 rounded-md bg-slate-300 border-2 border-black">
           <div className="flex gap-4">

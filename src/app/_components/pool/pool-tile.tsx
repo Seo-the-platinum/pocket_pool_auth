@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+
 type GameType = {
   boxscore: {
     teams: [
@@ -38,7 +39,7 @@ const PoolTile = async ({ id, event, league, sport }: { id: string, size: number
   const awayLogo = `https${away?.logo.slice(5)}`
 
   return (
-    <Link className='flex rounded-md border-2 border-slate-950 bg-slate-200 items-center justify-center gap-20' href={`/pools/${id}`}>
+    <Link className='tile' href={`/pools/${id}`}>
       <Image src={awayLogo} alt={`${away.name} logo`} width={100} height={100} />
       <Image src={homeLogo} alt={`${home.name} logo`} width={100} height={100} />
     </Link>

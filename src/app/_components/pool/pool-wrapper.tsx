@@ -65,7 +65,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   return (
     <div className="flex flex-col gap-10 items-center justify-center pt-16">
       <div className='flex flex-col items-center gap-28 justify-center'>
-        <div className="flex flex-col items-center gap-4 justify-evenly p-2 rounded-md bg-slate-300 border-2 border-black">
+        <div className="flex flex-col items-center gap-4 justify-evenly p-2 rounded-md bg-slate-300 ring-2 ring-black dark:ring-sky-600 dark:bg-slate-500">
           <div className="flex gap-4">
             <div className="flex flex-col items-center">
               <Image src={data.awayLogo} width={100} height={100} alt={`${data.away.name}'s logo`} />

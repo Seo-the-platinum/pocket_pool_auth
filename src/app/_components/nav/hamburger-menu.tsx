@@ -32,7 +32,7 @@ const HamburgerMenu = ({ open, toggle, session }: HamburgerMenuProps) => {
           <li>
             <div className='flex justify-evenly pt-4'>
               <LoginButton session={session ? true : false} />
-              <ThemeSwitcher />
+              <ThemeSwitcher toggle={toggle} />
             </div>
           </li>
         </ul>

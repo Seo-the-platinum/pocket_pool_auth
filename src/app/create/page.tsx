@@ -30,7 +30,7 @@ const CreatePool = () => {
   }
   )
   return (
-    <div className='flex flex-col gap-2 p-4'>
+    <div className='page'>
       <label>Choose League:</label>
       <select id='league' name='league' onChange={(event) => setLeague(event?.target.value as 'nfl' | 'nba')}>
         <option value='nba'>NBA</option>

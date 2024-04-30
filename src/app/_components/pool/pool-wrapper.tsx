@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { useQuery } from '@tanstack/react-query'
 import type { Pool } from '../../types/pool'
 import type { GameType } from '../../types/event'
+import PricePayouts from './price-payouts'
 
 const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefined }) => {
   const [dynamicInterval, setDynamicInterval] = useState(1000 * 60 * 5)
@@ -43,7 +44,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
 
   }, [pool, data])
 
-  if (!data) {
+  if (!data || !pool) {
     return <div>...Loading</div>
   }
 
@@ -62,6 +63,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   }) : null
   const purchasedSquares = pool?.squares.filter((square) => square.name)
   const qtrs = quarters?.map((quarter) => { return { away: quarter.awayScore, home: quarter.homeScore, period: quarter.period } })
+
   return (
     <div className="flex flex-col gap-10 items-center justify-center pt-16">
       <div className='flex flex-col items-center gap-28 justify-center'>
@@ -77,6 +79,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
               <p className='text-3xl'>{data.homeScore}</p>
             </div>
           </div>
+          <PricePayouts pricePerSquare={pool.pricePerSquare.toString()} payouts={pool.payouts.map(payout => payout.toString())} />
           {quarters?.length ? <Quarters quarters={quarters} /> : null}
         </div>
         {

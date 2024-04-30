@@ -18,9 +18,8 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
   })
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e)
     const sport = league === 'nba' ? 'basketball' : 'football'
-    createPool.mutate({ size, event, league, sport, pricePerSquare: parseInt(pricePerSquare), payouts: payouts.map(payout => parseInt(payout)) });
+    createPool.mutate({ size, event, league, sport, pricePerSquare: Number(pricePerSquare), payouts: payouts.map(payout => Number(payout)) });
   }
 
   const handlePriceChange = (e: ChangeEvent<HTMLInputElement>) => {

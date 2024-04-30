@@ -75,9 +75,9 @@ model VerificationToken {
 }
 
 model Pool {
-    id             String   @id @default(cuid())
+    id             String    @id @default(cuid())
     userId         String
-    user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
     size           Int
     squares        Square[]
     x              Int[]
@@ -87,9 +87,9 @@ model Pool {
     left           String?
     sport          String
     league         String
-    status         String   @default("open")
-    pricePerSquare Int
-    payouts        Int[]
+    status         String    @default("open")
+    pricePerSquare Decimal   @db.Decimal
+    payouts        Decimal[] @db.Decimal
 }
 
 model Square {

@@ -1,11 +1,15 @@
 'use client'
 import React, { useState } from 'react'
-import type { FormEvent } from 'react'
+import type { ChangeEvent, FormEvent } from 'react'
 import { api } from '~/trpc/react'
 import { useRouter } from 'next/navigation'
 
 const CreatePoolButton = ({ event, league }: { event: string, league: string, }) => {
   const [size, setSize] = useState<25 | 100>(100)
+  const [pricePerSquare, setPrice] = useState('')
+  const [payouts, setPayouts] = useState(['', '', '', ''])
+
+
   const router = useRouter()
   const createPool = api.pool.create.useMutation({
     onSuccess: (pool) => {
@@ -14,19 +18,54 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
   })
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(e)
     const sport = league === 'nba' ? 'basketball' : 'football'
-    createPool.mutate({ size, event, league, sport });
+    createPool.mutate({ size, event, league, sport, pricePerSquare: parseInt(pricePerSquare), payouts: payouts.map(payout => parseInt(payout)) });
+  }
+
+  const handlePriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setPrice(value)
+  }
+
+  const handlePayouts = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    const payoutsCopy = [...payouts]
+    payoutsCopy[index] = e.target.value
+    setPayouts(payoutsCopy)
   }
   return (
     <form className="flex flex-col gap-4" onSubmit={(e) => handleSubmit(e)}>
-      <div className="flex">
-        <label htmlFor='size'> Choose Size:</label>
-        <select className='text-slate-900' id='size' name='size' onChange={(event) => setSize(parseInt(event?.target.value) as 25 | 100)}>
-          <option value={25} >25</option>
-          <option value={100}>100</option>
-        </select>
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
+          <label htmlFor='pricePerSquare'>Price Per Square</label>
+          <input
+            className='input'
+            id='pricePerSquare'
+            onChange={handlePriceChange}
+            type='number'
+            pattern="[0-9]+"
+            value={pricePerSquare}
+          />
+        </div>
+        {
+          payouts.map((payout, index) => {
+            return (
+              <div className='flex flex-col gap-2' key={index}>
+                <label htmlFor={`quarter-${index}`}>Quarter {index + 1} </label>
+                <input
+                  className='input'
+                  id={`quarter-${index + 1}`}
+                  onChange={(e) => handlePayouts(e, index)}
+                  type='number'
+                  pattern="[0-9]+"
+                  value={payout}
+                />
+              </div>
+            )
+          })
+        }
       </div>
-      <button className='rounded focus:outline-sky-500 bg-slate-100 border-2 border-slate-950' type='submit'>
+      <button className='btn' type='submit'>
         Create Pool
       </button>
     </form>

@@ -38,6 +38,8 @@ export const poolRouter = createTRPCRouter({
         event: z.string(),
         league: z.string(),
         sport: z.string(),
+        pricePerSquare: z.number(),
+        payouts: z.array(z.number()),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -49,6 +51,8 @@ export const poolRouter = createTRPCRouter({
           event: input.event,
           league: input.league,
           sport: input.sport,
+          pricePerSquare: input.pricePerSquare,
+          payouts: input.payouts,
           user: { connect: { id: ctx.session.user.id } },
           squares: {
             createMany: {

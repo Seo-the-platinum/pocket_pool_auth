@@ -75,19 +75,21 @@ model VerificationToken {
 }
 
 model Pool {
-    id      String   @id @default(cuid())
-    userId  String
-    user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    size    Int
-    squares Square[]
-    x       Int[]
-    y       Int[]
-    event   String
-    top     String?
-    left    String?
-    sport   String
-    league  String
-    status  String   @default("open")
+    id             String   @id @default(cuid())
+    userId         String
+    user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    size           Int
+    squares        Square[]
+    x              Int[]
+    y              Int[]
+    event          String
+    top            String?
+    left           String?
+    sport          String
+    league         String
+    status         String   @default("open")
+    pricePerSquare Int
+    payouts        Int[]
 }
 
 model Square {

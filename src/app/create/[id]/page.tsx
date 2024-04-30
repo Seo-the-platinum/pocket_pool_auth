@@ -40,8 +40,8 @@ const Create = async ({ params }: { params: { id: string } }) => {
   const league = gameData.header.league.slug
   const date = formatDate(gameData.header.competitions[0].date)
   return (
-    <div className='flex flex-col items-center px-4 gap-4'>
-      <div className="flex flex-col text-center text-bold text-xl border-2 rounded-lg border-slate-950 w-full bg-slate-100">
+    <div className='flex flex-col items-center px-4 gap-4 pt-16'>
+      <div className="flex flex-col text-center text-bold text-xl border-2 rounded-lg border-slate-950 w-full bg-slate-200 dark:bg-slate-700">
         <div className="flex justify-around">
           <Image src={away.logo} width={100} height={100} alt={away.name} />
           <p className='self-center text-5xl'>@</p>

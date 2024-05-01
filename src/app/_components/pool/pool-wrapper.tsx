@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import PoolContainer from './pool-container'
 import Quarters from '../quarters-container'
-import PendingList from '../pending-list'
-import type { SoldSquare } from '../../types/pool'
 import Image from 'next/image'
 import { useQuery } from '@tanstack/react-query'
 import type { Pool } from '../../types/pool'
@@ -61,13 +59,12 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
       homeName: data.home.name
     }
   }) : null
-  const purchasedSquares = pool?.squares.filter((square) => square.name)
   const qtrs = quarters?.map((quarter) => { return { away: quarter.awayScore, home: quarter.homeScore, period: quarter.period } })
 
   return (
-    <div className="flex flex-col gap-10 items-center justify-center pt-16">
+    <div className="flex flex-col gap-10 items-center justify-center">
       <div className='flex flex-col items-center gap-28 justify-center'>
-        <div className="flex flex-col items-center gap-4 justify-evenly p-2 rounded-md bg-slate-300 ring-2 ring-black dark:ring-sky-600 dark:bg-slate-500">
+        <div className="flex flex-col items-center gap-4 justify-evenly p-4 rounded-md bg-slate-300 dark:bg-sky-950">
           <div className="flex gap-4">
             <div className="flex flex-col items-center">
               <Image src={data.awayLogo} width={100} height={100} alt={`${data.away.name}'s logo`} />
@@ -93,7 +90,6 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
             home={{ id: data.home.id, name: data.home.name, logo: data.homeLogo, score: data.homeScore, abbreviation: data.home.abbreviation }} />
         }
       </div >
-      <PendingList squares={purchasedSquares as SoldSquare[]} />
     </div>
   )
 }

@@ -5,11 +5,12 @@ const PendingList = ({ squares }: SoldSquares) => {
   const hash: Record<string, number[]> = {
   }
   squares.forEach((square) => {
-    if (!hash[square.name]) {
-      hash[square.name] = []
+    if (!hash[square.name?.toLowerCase()] && square.name !== null && square.name.length > 0) {
+      hash[square.name.toLowerCase()] = []
     }
-    hash[square.name]?.push(square.number)
+    hash[square.name?.toLowerCase()]?.push(square.number)
   })
+
   return (
     <div className='flex flex-col gap-4'>
       <h1 className='text-2xl font-bold'>Pending & Sold Squares</h1>

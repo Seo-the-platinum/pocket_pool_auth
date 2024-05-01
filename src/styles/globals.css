@@ -24,7 +24,7 @@
   }
 
   .page {
-    @apply flex flex-col bg-slate-200 bg-gradient-to-br from-slate-500 to-slate-700 px-4
-    pt-16 dark:bg-gradient-to-br dark:from-slate-700 dark:from-5% dark:to-slate-950 dark:to-30%;
+    @apply flex min-h-screen flex-col bg-slate-200 bg-gradient-to-br from-slate-100 to-slate-700 px-4
+    pt-16 dark:bg-gradient-to-br dark:from-slate-700 dark:from-10% dark:to-slate-950 dark:to-60%;
   }
 }

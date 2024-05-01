@@ -1,10 +1,13 @@
 'use client'
 import React, { useState } from 'react'
 import MemoSquare from './square'
+import PendingList from '../pending-list'
 import { api } from '~/trpc/react'
 import Team from '../team-label'
 import type { ExtendedPools } from '../../types/pool'
+import type { SoldSquare } from '../../types/pool'
 import { adminSquares, userSquares } from '../../utils/PoolHelpers'
+import { AiOutlineLoading } from "react-icons/ai";
 
 const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, left, squares, status }: ExtendedPools) => {
   const [topState, setTop] = useState(top)
@@ -29,7 +32,8 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
           if (dataMap.has(square.id)) {
             return {
               ...square,
-              ...dataMap.get(square.id)
+              ...dataMap.get(square.id),
+              isSelected: false
             }
           }
           return square
@@ -43,18 +47,17 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
     onSuccess: () => {
       setSquare(prev => {
         return prev.map((square) => {
-
           if (square.isSelected) {
             return {
               ...square,
               name: signiture,
+              isSelected: false,
             }
           }
           return square
         })
       })
       setSigniture('')
-
       console.log('success')
     }
   })
@@ -204,9 +207,14 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
               placeholder="Name"
               value={signiture}
               onChange={(e) => setSigniture(e.target.value)} />
-            <button type="submit" className="btn">
-              Submit
-            </button>
+            {
+              updateSquares.isLoading ? <button className='btn' disabled>
+                <AiOutlineLoading className='animate-spin' />
+              </button> :
+                <button type="submit" className="btn">
+                  Submit
+                </button>
+            }
           </form>
           {
             session === userId &&
@@ -223,11 +231,17 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
                   closePool.mutate({ id: id })
                 }}>Close Pool</button>
               }
-              <button className="btn" onClick={adminUpdate}>Update Squares</button>
+              {
+                adminUpdateSquares.isLoading ?
+                  <button className='btn' disabled>
+                    <AiOutlineLoading className='animate-spin' />
+                  </button> :
+                  <button className="btn" onClick={adminUpdate}>Update Squares</button>}
             </>
           }
         </>
       }
+      <PendingList squares={availableSquares as SoldSquare[]} />
     </div >
   )
 }

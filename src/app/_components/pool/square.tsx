@@ -53,8 +53,8 @@ const Square = (props: Square) => {
   }
   const squareStyles = `
   ${poolStatus === 'closed' ? (winner ? winnerColors[winner.period] : (currentWinner ? 'bg-emerald-400 animate-pulse' : 'bg-slate-100 dark:bg-slate-800')) :
-      (status === 'open' ? 'bg-emerald-400' : (status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'))} 
-   size-[28px] flex flex-col overflow-hidden sm:size-14 lg:size-20 border-[1px] border-black rounded-md
+      (status === 'open' ? 'bg-sky-500' : (status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'))} 
+   size-[28px] flex flex-col overflow-hidden sm:size-14 lg:size-20 border-[1px] border-black rounded-md text-black
 `;
   return (
     <div

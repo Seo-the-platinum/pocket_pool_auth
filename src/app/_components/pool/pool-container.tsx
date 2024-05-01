@@ -133,10 +133,9 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
     }
   })
   const unsold = squares.some((square) => square.status !== 'sold')
-
   return (
     <div className="flex flex-col items-center gap-8">
-      <div className="rounded-md grid grid-cols-10 grid-rows-10 relative text-slate-950 dark:text-slate-300 bg-slate-950">
+      <div className="rounded-md grid grid-cols-10 grid-rows-10 relative text-slate-950 dark:text-slate-300 bg-slate-300 dark:bg-slate-950">
         <div className="flex flex-col w-full absolute bottom-[102%] gap-2">
           {topState && <Team team={topState === 'home' ? home : away} position={'top'} />}
           <div className="grid grid-cols-10">
@@ -220,7 +219,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
                 !top && !left && unsold === false && <button onClick={drawTeams}>Draw Teams</button>
               }
               {
-                unsold === false && <button onClick={() => {
+                unsold === false && status === 'open' && <button onClick={() => {
                   closePool.mutate({ id: id })
                 }}>Close Pool</button>
               }

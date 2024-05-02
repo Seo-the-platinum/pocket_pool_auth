@@ -16,7 +16,7 @@ const Pool = async ({ params }: { params: { id: string } }) => {
   const session = await getServerAuthSession()
   const pool = await api.pool.getPoolById.query({ id })
   return (
-    <div className="page">
+    <div className="page pb-8">
       <PoolWrapper pool={pool} session={session?.user.id} />
     </div>
   )

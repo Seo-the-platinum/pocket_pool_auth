@@ -16,13 +16,13 @@ const PendingList = ({ squares }: SoldSquares) => {
       <h1 className='text-2xl font-bold'>Pending & Sold Squares</h1>
       <div className='flex flex-col gap-2'>
         {
-          Object.keys(hash).map((name) => (
+          Object.keys(hash).sort().map((name) => (
             <div className='flex flex-col divide-y-2' key={name}>
               <h1>{name} </h1>
               <ul className='flex gap-1 flex-wrap'>
                 {
                   hash[name]?.map((number) => (
-                    <li key={number}>{number},</li>
+                    <li key={number}>{number}</li>
                   ))
                 }
               </ul>

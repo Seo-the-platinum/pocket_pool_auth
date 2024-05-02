@@ -88,8 +88,8 @@ model Pool {
     sport          String
     league         String
     status         String    @default("open")
-    pricePerSquare Decimal   @db.Decimal
-    payouts        Decimal[] @db.Decimal
+    pricePerSquare Decimal   @db.Decimal(10, 2)
+    payouts        Decimal[] @db.Decimal(10, 2)
 }
 
 model Square {

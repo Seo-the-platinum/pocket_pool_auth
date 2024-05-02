@@ -4,7 +4,7 @@
 
 @layer components {
   .btn {
-    @apply flex h-10 min-w-28 items-center justify-evenly rounded-md bg-slate-300 p-2 text-lg
+    @apply flex h-10 min-w-24 items-center justify-evenly rounded-md bg-slate-300 p-2 text-lg
     ring-2 ring-slate-950 dark:bg-slate-500 dark:text-slate-200 dark:ring-sky-600;
   }
 

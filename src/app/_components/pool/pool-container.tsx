@@ -138,7 +138,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   const unsold = squares.some((square) => square.status !== 'sold')
   return (
     <div className="flex flex-col items-center gap-8">
-      <div className="rounded-md grid grid-cols-10 grid-rows-10 relative text-slate-950 dark:text-slate-300 bg-slate-300 dark:bg-slate-950">
+      <div className="rounded-md grid grid-cols-10 grid-rows-10 relative text-slate-950 dark:text-slate-300 bg-transparent">
         <div className="flex flex-col w-full absolute bottom-[102%] gap-2">
           {topState && <Team team={topState === 'home' ? home : away} position={'top'} />}
           <div className="grid grid-cols-10">
@@ -200,13 +200,13 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
       {
         status === 'open' &&
         <>
-          <form className='w-full flex justify-evenly' onSubmit={handleSubmit}>
+          <form className='w-full flex justify-evenly gap-4' onSubmit={handleSubmit}>
             <input
               className='pl-2 ring-2 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400'
               type="text"
               placeholder="Name"
               value={signiture}
-              onChange={(e) => setSigniture(e.target.value)} />
+              onChange={(e) => setSigniture(e.target.value.trimEnd())} />
             {
               updateSquares.isLoading ? <button className='btn' disabled>
                 <AiOutlineLoading className='animate-spin' />
@@ -236,7 +236,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
                   <button className='btn' disabled>
                     <AiOutlineLoading className='animate-spin' />
                   </button> :
-                  <button className="btn" onClick={adminUpdate}>Update Squares</button>}
+                  <button className="btn" onClick={adminUpdate}>Update</button>}
             </>
           }
         </>

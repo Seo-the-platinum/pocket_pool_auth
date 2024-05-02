@@ -21,7 +21,7 @@ type Square = RouterOutputs['square']['updateSquare'] & {
 }
 
 const Square = (props: Square) => {
-  const { admin, number, id, setSquare, name, status, currentWinner, poolStatus, winners, x, y } = props
+  const { admin, number, id, setSquare, name, status, currentWinner, poolStatus, winners, x, y, isSelected } = props
   const winner = winners?.find(quarter => quarter.x === x && quarter.y === y)
   const toggle = () => {
     setSquare((prev) => {
@@ -53,9 +53,10 @@ const Square = (props: Square) => {
   }
   const squareStyles = `
   ${poolStatus === 'closed' ? (winner ? winnerColors[winner.period] : (currentWinner ? 'bg-sky-500 animate-grow' : 'bg-slate-300 dark:bg-slate-100')) :
-      (status === 'open' ? 'bg-sky-500' : (status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'))} 
+      isSelected && status === 'pending' ? 'bg-emerald-500' : (status === 'open' ? 'bg-sky-500' : (status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'))} 
    size-[28px] flex flex-col overflow-hidden sm:size-14 lg:size-20 border-[1px] border-black rounded-md text-black
 `;
+
   return (
     <div
       className={squareStyles}

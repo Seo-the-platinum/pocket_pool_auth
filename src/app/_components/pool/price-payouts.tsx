@@ -15,7 +15,7 @@ const PricePayouts = ({ pricePerSquare, payouts }: { pricePerSquare: string, pay
               return (
                 <div className='flex flex-col items-center' key={index}>
                   <p>Quarter {index + 1}</p>
-                  <p>{`$${payout.toString()}`}</p>
+                  <p>{`$${parseFloat(payout).toFixed(2)}`}</p>
                 </div>
               )
             })

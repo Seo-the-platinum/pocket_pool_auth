@@ -26,7 +26,10 @@ const PendingList = ({ squares, setUser, winners }: SoldSquares) => {
         {
           Object.keys(hash).sort().map((name) => (
             <div className='flex flex-col divide-y-2 gap-2' key={name}>
-              <button className='btn w-20 h-8 overflow-ellipsis overflow-hidden' onClick={() => setUser(name)}>{name} </button>
+              <div className="flex gap-4 items-center">
+                <button className='btn w-20 h-8 overflow-ellipsis overflow-hidden' onClick={() => setUser(name)}>{name} </button>
+                <h1 className='text-xl'>{`- ${hash[name]?.length}`}</h1>
+              </div>
               <ul className='flex gap-1 flex-wrap'>
                 {
                   hash[name]?.map((square) => (

@@ -47,14 +47,14 @@ const Square = (props: Square) => {
     })
   }
   const winnerColors: Record<number, string> = {
-    1: 'bg-gradient-to-br from-amber-500 from-5% via-amber-700 via-50% to-amber-500 to-95% border-2 border-slate-900 scale-110',
-    2: 'bg-gradient-to-br from-slate-100 from-5% via-slate-400 via-50% to-slate-100 to-95% border-2 border-slate-900 scale-110',
-    3: 'bg-gradient-to-br from-yellow-200 from-5% via-yellow-600 via-50% to-yellow-200 to-95% border-2 border-slate-900 scale-110',
-    4: 'bg-gradient-to-br from-gray-300 from-1% via-gray-600 via-50% to-gray-300 to-99% border-2 border-slate-900 scale-110',
+    1: 'bg-gradient-to-br from-amber-500 from-5% via-amber-700 via-50% to-amber-500 to-95% border-2 border-slate-900 scale-125',
+    2: 'bg-gradient-to-br from-slate-100 from-5% via-slate-500 via-50% to-slate-100 to-95% border-2 border-slate-900 scale-125',
+    3: 'bg-gradient-to-br from-yellow-200 from-5% via-yellow-700 via-50% to-yellow-200 to-95% border-2 border-slate-900 scale-125',
+    4: 'bg-gradient-to-br from-gray-300 from-1% via-gray-600 via-50% to-gray-300 to-99% border-2 border-slate-900 scale-125',
   }
   const squareStyles = `
   ${poolStatus === 'closed' ? (winner ? winnerColors[winner.period] : (currentWinner ? 'bg-sky-500 animate-grow' :
-      selectedUser === name?.toLocaleLowerCase() ? 'bg-amber-300' : 'bg-slate-300 dark:bg-slate-100')) :
+      selectedUser === name?.toLocaleLowerCase() ? 'bg-teal-400' : 'bg-slate-300 dark:bg-slate-100')) :
       isSelected && status === 'pending' ? 'bg-emerald-500' : (status === 'open' ? 'bg-sky-500' : (status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'))}
    size-[28px] flex flex-col overflow-hidden sm:size-14 lg:size-20 border-[1px] border-black rounded-md text-black justify-center cursor-pointer
 `;

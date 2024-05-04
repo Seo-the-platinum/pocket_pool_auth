@@ -26,9 +26,20 @@ export type Squares = {
   squares: Square[];
 };
 
+type winner = {
+  x: number;
+  y: number;
+  period: number;
+};
+
 export type SoldSquares = {
   squares: SoldSquare[];
   setUser: React.Dispatch<React.SetStateAction<string>>;
+  winners: winner[] | undefined;
+};
+
+export type SoldSquareWithWinner = SoldSquare & {
+  period: number;
 };
 
 export type Quarter = {

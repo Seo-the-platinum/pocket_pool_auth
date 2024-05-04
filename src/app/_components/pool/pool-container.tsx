@@ -242,7 +242,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
           }
         </>
       }
-      <PendingList squares={availableSquares as SoldSquare[]} setUser={setUser} />
+      <PendingList squares={availableSquares as SoldSquare[]} setUser={setUser} winners={winners} />
     </div >
   )
 }

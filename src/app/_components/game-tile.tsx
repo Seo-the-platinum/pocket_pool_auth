@@ -11,6 +11,7 @@ const GameTile = ({ game }: { game: { $ref: string } }) => {
     const gameRef = `https${game.$ref.slice(4)}`
     const response = await fetch(gameRef)
     const eventData = await response.json() as EventData
+    if (parseInt(eventData.competitions[0].competitors[0].id) < 0 || parseInt(eventData.competitions[0].competitors[1].id) < 0) return null
     const statusRef = `https${eventData.competitions[0].status.$ref.slice(4)}`
     const eventStatus = await fetch(statusRef)
     const statusData = await eventStatus.json() as StatusType
@@ -28,7 +29,6 @@ const GameTile = ({ game }: { game: { $ref: string } }) => {
   if (isLoading) return <p>Loading...</p>;
   if (!data) return null;
   const date = formatDate(data[0].competitions[0].date)
-
   return (
     <Link className='gameTile' href={`/create/${data[0]?.id}`}>
       <div className='flex justify-around'>

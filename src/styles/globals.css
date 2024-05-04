@@ -5,22 +5,22 @@
 @layer components {
   .btn {
     @apply flex h-10 min-w-24 items-center justify-evenly rounded-md bg-slate-300 p-2 text-lg
-    ring-2 ring-slate-950 dark:bg-slate-500 dark:text-slate-200 dark:ring-sky-600;
+    ring-2 ring-slate-950 dark:bg-slate-700 dark:text-slate-50 dark:ring-sky-700;
   }
 
   .input {
     @apply h-8 w-full rounded-md bg-slate-300 p-2 text-lg
-    ring-2 ring-slate-950 dark:bg-slate-500 dark:text-slate-200 dark:ring-sky-600;
+    ring-2 ring-slate-950 dark:bg-slate-700 dark:text-slate-200 dark:ring-sky-600;
   }
 
   .tile {
     @apply flex items-center justify-center gap-20 rounded-md
-    bg-slate-200 ring-2 ring-slate-950 dark:bg-slate-500 dark:ring-sky-600;
+    bg-slate-200 ring-2 ring-slate-950 dark:bg-slate-800 dark:ring-sky-600;
   }
 
   .gameTile {
     @apply flex min-w-[90%] flex-col justify-center rounded-md bg-slate-200
-    text-center ring-2 ring-slate-950 dark:bg-slate-500 dark:ring-sky-600;
+    text-center ring-2 ring-slate-950 dark:bg-slate-800 dark:ring-sky-600;
   }
 
   .page {

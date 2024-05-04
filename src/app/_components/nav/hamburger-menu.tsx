@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import LoginButton from '../login-button'
 import type { HamburgerMenuProps } from '~/app/types/nav'
-import ThemeSwitcher from '../theme-switcher'
+import ThemeSwitcher from './theme-switcher'
 
 const HamburgerMenu = ({ open, toggle, session }: HamburgerMenuProps) => {
   const path = usePathname()

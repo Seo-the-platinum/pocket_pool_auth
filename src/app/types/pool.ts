@@ -28,6 +28,7 @@ export type Squares = {
 
 export type SoldSquares = {
   squares: SoldSquare[];
+  setUser: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export type Quarter = {

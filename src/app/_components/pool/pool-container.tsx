@@ -15,7 +15,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   const [availableSquares, setSquare] = useState(squares.map((square) => { return { ...square, isSelected: false } }))
   const [signiture, setSigniture] = useState('')
   const [statusState, setStatus] = useState(status)
-
+  const [selectedUser, setUser] = useState('')
   //TRPC PROCEDURES
 
   const closePool = api.pool.closePool.useMutation({
@@ -189,9 +189,10 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
                 {...square}
                 setSquare={setSquare}
                 admin={session === userId}
-                currentWinner={square.x === currentWinner.x && square.y === currentWinner.y}
+                currentWinner={(square.x !== null && square.x === currentWinner.x) && (square.y !== null && square.y === currentWinner.y)}
                 winners={winners}
                 poolStatus={statusState}
+                selectedUser={selectedUser}
               />
             )
           })
@@ -241,7 +242,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
           }
         </>
       }
-      <PendingList squares={availableSquares as SoldSquare[]} />
+      <PendingList squares={availableSquares as SoldSquare[]} setUser={setUser} />
     </div >
   )
 }

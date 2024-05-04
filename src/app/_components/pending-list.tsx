@@ -1,7 +1,7 @@
 import React from 'react'
 import type { SoldSquares } from '../types/pool'
 
-const PendingList = ({ squares }: SoldSquares) => {
+const PendingList = ({ squares, setUser }: SoldSquares) => {
   const hash: Record<string, number[]> = {
   }
   squares.forEach((square) => {
@@ -17,8 +17,8 @@ const PendingList = ({ squares }: SoldSquares) => {
       <div className='flex flex-col gap-2'>
         {
           Object.keys(hash).sort().map((name) => (
-            <div className='flex flex-col divide-y-2' key={name}>
-              <h1>{name} </h1>
+            <div className='flex flex-col divide-y-2 gap-2' key={name}>
+              <button className='btn w-20 h-8 overflow-ellipsis overflow-hidden' onClick={() => setUser(name)}>{name} </button>
               <ul className='flex gap-1 flex-wrap'>
                 {
                   hash[name]?.map((number) => (

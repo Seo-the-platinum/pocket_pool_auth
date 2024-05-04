@@ -9,12 +9,12 @@ const PricePayouts = ({ pricePerSquare, payouts }: { pricePerSquare: string, pay
       </div>
       <div className='flex flex-col text-center divide-y-2 divide-sky-500'>
         <h1 className='text-2xl'>Payouts</h1>
-        <div className='flex gap-2 justify-end'>
+        <div className='flex gap-4 justify-end text-xl'>
           {
             payouts.map((payout, index) => {
               return (
                 <div className='flex flex-col items-center' key={index}>
-                  <p>Quarter {index + 1}</p>
+                  <p>Q{index + 1}</p>
                   <p>{`$${parseFloat(payout).toFixed(2)}`}</p>
                 </div>
               )

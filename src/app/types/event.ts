@@ -39,11 +39,13 @@ export type EventData = {
       date: Date;
       competitors: [
         {
+          id: string;
           team: {
             $ref: string;
           };
         },
         {
+          id: string;
           team: {
             $ref: string;
           };

@@ -9,7 +9,7 @@ import type { SoldSquare } from '../../types/pool'
 import { adminSquares, userSquares } from '../../utils/PoolHelpers'
 import { AiOutlineLoading } from "react-icons/ai";
 
-const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, left, squares, status }: ExtendedPools) => {
+const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, left, squares, status, pricePerSquare }: ExtendedPools) => {
   const [topState, setTop] = useState(top)
   const [leftState, setLeft] = useState(left)
   const [availableSquares, setSquare] = useState(squares.map((square) => { return { ...square, isSelected: false } }))
@@ -137,7 +137,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   })
   const unsold = squares.some((square) => square.status !== 'sold')
   return (
-    <div className="flex flex-col items-center gap-8">
+    <div className="flex flex-col items-center gap-8" id='pool-container'>
       <div className="rounded-md grid grid-cols-10 grid-rows-10 relative text-slate-950 dark:text-slate-300 bg-transparent">
         <div className="flex flex-col w-full absolute bottom-[102%] gap-2">
           {topState && <Team team={topState === 'home' ? home : away} position={'top'} />}
@@ -201,6 +201,10 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
       {
         status === 'open' &&
         <>
+          <div className="flex gap-4">
+            <p>{`Total Squares: ${userSquares(availableSquares).length}`}</p>
+            <p>{`Total Value: $${(userSquares(availableSquares).length * Number(pricePerSquare)).toFixed(2)}`}</p>
+          </div>
           <form className='w-full flex justify-evenly gap-4' onSubmit={handleSubmit}>
             <input
               className='pl-2 ring-2 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400'
@@ -242,7 +246,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
           }
         </>
       }
-      <PendingList squares={availableSquares as SoldSquare[]} setUser={setUser} winners={winners} />
+      <PendingList squares={availableSquares as SoldSquare[]} setUser={setUser} winners={winners} pricePerSquare={Number(pricePerSquare)} />
     </div >
   )
 }

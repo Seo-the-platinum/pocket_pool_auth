@@ -1,7 +1,11 @@
 import React from 'react'
 import type { SoldSquares, SoldSquareWithWinner } from '../types/pool'
+import { useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
-const PendingList = ({ squares, setUser, winners }: SoldSquares) => {
+const PendingList = ({ squares, setUser, winners, pricePerSquare }: SoldSquares) => {
+  const router = useRouter()
+  const pathname = usePathname()
   const hash: Record<string, SoldSquareWithWinner[]> = {
   }
   squares.forEach((square) => {
@@ -19,6 +23,10 @@ const PendingList = ({ squares, setUser, winners }: SoldSquares) => {
     4: 'bg-gradient-to-br from-gray-300 from-1% via-gray-600 via-50% to-gray-300 to-99% border-2 border-slate-900 scale-125 rounded-md',
     5: ''
   }
+  const handleUserHighlight = (name: string) => {
+    setUser(name)
+    router.push(`${pathname}/#pool-container`)
+  }
   return (
     <div className='flex flex-col gap-4'>
       <h1 className='text-2xl font-bold'>Pending & Sold Squares</h1>
@@ -27,8 +35,9 @@ const PendingList = ({ squares, setUser, winners }: SoldSquares) => {
           Object.keys(hash).sort().map((name) => (
             <div className='flex flex-col divide-y-2 gap-2' key={name}>
               <div className="flex gap-4 items-center">
-                <button className='btn w-20 h-8 overflow-ellipsis overflow-hidden' onClick={() => setUser(name)}>{name} </button>
+                <button className='btn w-20 h-8 overflow-ellipsis overflow-hidden' onClick={() => handleUserHighlight(name)}>{name} </button>
                 <h1 className='text-xl'>{`- ${hash[name]?.length}`}</h1>
+                <p>{`Total: $${(Number(hash[name]?.length) * pricePerSquare).toFixed(2)}`}</p>
               </div>
               <ul className='flex gap-1 flex-wrap'>
                 {

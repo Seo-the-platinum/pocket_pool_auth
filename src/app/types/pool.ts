@@ -36,6 +36,7 @@ export type SoldSquares = {
   squares: SoldSquare[];
   setUser: React.Dispatch<React.SetStateAction<string>>;
   winners: winner[] | undefined;
+  pricePerSquare: number;
 };
 
 export type SoldSquareWithWinner = SoldSquare & {

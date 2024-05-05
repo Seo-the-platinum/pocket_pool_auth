@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer components {
+  html {
+    @apply scroll-smooth;
+  }
   .btn {
     @apply flex h-10 min-w-24 items-center justify-evenly rounded-md bg-slate-300 p-2 text-lg
     ring-2 ring-slate-950 dark:bg-slate-700 dark:text-slate-50 dark:ring-sky-700;

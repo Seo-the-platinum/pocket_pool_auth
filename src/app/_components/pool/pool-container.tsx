@@ -9,7 +9,6 @@ import type { SoldSquare } from '../../types/pool'
 import { adminSquares, userSquares } from '../../utils/PoolHelpers'
 import { AiOutlineLoading } from "react-icons/ai";
 import { FaCopy, FaCheck } from "react-icons/fa";
-import { usePathname } from 'next/navigation'
 
 const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, left, squares, status, pricePerSquare }: ExtendedPools) => {
   const [topState, setTop] = useState(top)
@@ -19,7 +18,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   const [statusState, setStatus] = useState(status)
   const [selectedUser, setUser] = useState('')
   const [copied, setCopied] = useState(false)
-  const path = usePathname()
+
   //TRPC PROCEDURES
 
   const closePool = api.pool.closePool.useMutation({
@@ -141,11 +140,11 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   })
   const unsold = squares.some((square) => square.status !== 'sold')
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(path)
+    await navigator.clipboard.writeText(window.location.href)
     setCopied(true)
     setTimeout(() => {
       setCopied(false)
-    }, 3000)
+    }, 5000)
   }
 
   return (

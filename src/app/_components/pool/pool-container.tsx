@@ -8,6 +8,8 @@ import type { ExtendedPools } from '../../types/pool'
 import type { SoldSquare } from '../../types/pool'
 import { adminSquares, userSquares } from '../../utils/PoolHelpers'
 import { AiOutlineLoading } from "react-icons/ai";
+import { FaCopy, FaCheck } from "react-icons/fa";
+import { usePathname } from 'next/navigation'
 
 const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, left, squares, status, pricePerSquare }: ExtendedPools) => {
   const [topState, setTop] = useState(top)
@@ -16,6 +18,8 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   const [signiture, setSigniture] = useState('')
   const [statusState, setStatus] = useState(status)
   const [selectedUser, setUser] = useState('')
+  const [copied, setCopied] = useState(false)
+  const path = usePathname()
   //TRPC PROCEDURES
 
   const closePool = api.pool.closePool.useMutation({
@@ -136,6 +140,14 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
     }
   })
   const unsold = squares.some((square) => square.status !== 'sold')
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(path)
+    setCopied(true)
+    setTimeout(() => {
+      setCopied(false)
+    }, 3000)
+  }
+
   return (
     <div className="flex flex-col items-center gap-8" id='pool-container'>
       <div className="rounded-md grid grid-cols-10 grid-rows-10 relative text-slate-950 dark:text-slate-300 bg-transparent">
@@ -241,7 +253,13 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
                   <button className='btn' disabled>
                     <AiOutlineLoading className='animate-spin' />
                   </button> :
-                  <button className="btn" onClick={adminUpdate}>Update</button>}
+                  <button className="btn" onClick={adminUpdate}>Update</button>
+              }
+              <button className='btn min-w-fit gap-2' onClick={handleCopy}>{
+                !copied ? <>
+                  <p>Copy to Clipboard</p> <FaCopy /></> :
+                  <><p>Copied</p><FaCheck /></>}
+              </button>
             </>
           }
         </>

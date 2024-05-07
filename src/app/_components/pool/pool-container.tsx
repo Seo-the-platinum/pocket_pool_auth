@@ -218,7 +218,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
           </div>
           <form className='w-full flex justify-evenly gap-4' onSubmit={handleSubmit}>
             <input
-              className='pl-2 ring-2 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400'
+              className='input'
               type="text"
               placeholder="Name"
               value={signiture}
@@ -249,16 +249,26 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
               }
               {
                 adminUpdateSquares.isLoading ?
-                  <button className='btn' disabled>
-                    <AiOutlineLoading className='animate-spin' />
-                  </button> :
-                  <button className="btn" onClick={adminUpdate}>Update</button>
+                  <div className='flex gap-4'>
+                    <button className='btn' disabled>
+                      <AiOutlineLoading className='animate-spin' />
+                    </button>
+                    <button className='btn min-w-fit gap-2' onClick={handleCopy}>{
+                      !copied ? <>
+                        <p>Copy to Clipboard</p> <FaCopy /></> :
+                        <><p>Copied</p><FaCheck /></>}
+                    </button>
+                  </div> :
+                  <div className='flex gap-4'>
+                    <button className="btn" onClick={adminUpdate}>Update</button>
+                    <button className='btn min-w-fit gap-2' onClick={handleCopy}>{
+                      !copied ? <>
+                        <p>Copy to Clipboard</p> <FaCopy /></> :
+                        <><p>Copied</p><FaCheck /></>}
+                    </button>
+                  </div>
               }
-              <button className='btn min-w-fit gap-2' onClick={handleCopy}>{
-                !copied ? <>
-                  <p>Copy to Clipboard</p> <FaCopy /></> :
-                  <><p>Copied</p><FaCheck /></>}
-              </button>
+
             </>
           }
         </>

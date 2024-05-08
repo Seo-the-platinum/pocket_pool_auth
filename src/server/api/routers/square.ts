@@ -7,6 +7,14 @@ import {
 
 export const squareRouter = createTRPCRouter({
   // TODO: LOOK INTO HOW WE CAN MAKE A CUSTOM SQL QUERY TO DECREASE ELAPSED TIME
+  getSquare: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const square = await ctx.db.square.findUnique({
+        where: { id: input.id },
+      });
+      return square;
+    }),
   adminUpdateSquares: protectedProcedure
     .input(
       z.array(

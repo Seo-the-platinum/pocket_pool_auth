@@ -61,12 +61,20 @@ const Square = (props: Square) => {
 `;
 
   return (
-    <div
-      className={squareStyles}
-      onClick={toggle}>
-      {/* <p className='text-xs self-start'>{number}</p> */}
-      <p className='text-xs text-ellipsis overflow-hidden'>{name}</p>
-    </div>
+    <>
+      {
+        poolStatus === 'open' ?
+          <div
+            className={squareStyles}
+            onClick={toggle}>
+            {/* <p className='text-xs self-start'>{number}</p> */}
+            <p className='text-xs text-ellipsis overflow-hidden'>{name}</p>
+          </div> :
+          <Link className={squareStyles} href={`/squares/${id}`}>
+            <p>{name}</p>
+          </Link>
+      }
+    </>
   )
 }
 

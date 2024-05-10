@@ -18,7 +18,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   const [statusState, setStatus] = useState(status)
   const [selectedUser, setUser] = useState('')
   const [copied, setCopied] = useState(false)
-
+  const [squareUpdateError, setSquareUpdateError] = useState(false)
   //TRPC PROCEDURES
 
   const closePool = api.pool.closePool.useMutation({
@@ -61,7 +61,13 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
         })
       })
       setSigniture('')
+      setSquareUpdateError(false)
       console.log('success')
+    },
+    onError: (error) => {
+      if (error.message === 'Failed to update squares') {
+        setSquareUpdateError(true)
+      }
     }
   })
   const squareValues = api.square.addSquareValues.useMutation({
@@ -100,8 +106,6 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
       return
     }
     const selectedSquares = userSquares(availableSquares, signiture)
-    console.log(selectedSquares)
-    // updateSquares.mutate({ name: signiture, ids: selectedSquares, status: 'pending', userId: userId, })
     updateSquares.mutate(selectedSquares)
   }
 
@@ -218,25 +222,35 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
             <p>{`Total Squares: ${userSquares(availableSquares, signiture).length}`}</p>
             <p>{`Total Value: $${(userSquares(availableSquares, signiture).length * Number(pricePerSquare)).toFixed(2)}`}</p>
           </div>
-          <form className='w-full flex justify-evenly gap-4' onSubmit={handleSubmit}>
-            <input
-              className='input'
-              type="text"
-              placeholder="Name"
-              value={signiture}
-              onChange={(e) => setSigniture(e.target.value.trimEnd())} />
+          <form className='w-full flex flex-col items-center gap-4 text-center' onSubmit={handleSubmit}>
+            <div className='flex gap-4'>
+              <input
+                className='input'
+                type="text"
+                placeholder="Name"
+                value={signiture}
+                onChange={(e) => setSigniture(e.target.value.trimEnd())} />
+
+              {
+                updateSquares.isLoading ? <button className='btn' disabled>
+                  <AiOutlineLoading className='animate-spin' />
+                </button> :
+                  <button type="submit" className="btn" disabled={signiture.length > 12 ? true : false}>
+                    Submit
+                  </button>
+              }
+
+            </div>
             {
-              updateSquares.isLoading ? <button className='btn' disabled>
-                <AiOutlineLoading className='animate-spin' />
-              </button> :
-                <button type="submit" className="btn">
-                  Submit
-                </button>
+              squareUpdateError && <p className='text-red-500 text-sm'>One or more of the squares you selected are no longer available</p>
+            }
+            {
+              signiture.length > 12 && <p className='text-red-500 text-sm'>Name must 12 characters or less</p>
             }
           </form>
           {
             session === userId &&
-            <>
+            <div className='flex w-full'>
               {
                 x.length < 1 && y.length < 1 && unsold === false && (!variables) &&
                 <button onClick={drawNumbers}>Draw Numbers</button>
@@ -251,19 +265,19 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
               }
               {
                 adminUpdateSquares.isLoading ?
-                  <div className='flex gap-4'>
+                  <div className='flex gap-4 w-full'>
                     <button className='btn' disabled>
                       <AiOutlineLoading className='animate-spin' />
                     </button>
-                    <button className='btn min-w-fit gap-2' onClick={handleCopy}>{
+                    <button className='btn gap-2' onClick={handleCopy}>{
                       !copied ? <>
                         <p>Copy to Clipboard</p> <FaCopy /></> :
                         <><p>Copied</p><FaCheck /></>}
                     </button>
                   </div> :
-                  <div className='flex gap-4'>
+                  <div className='flex justify-between w-full'>
                     <button className="btn" onClick={adminUpdate}>Update</button>
-                    <button className='btn min-w-fit gap-2' onClick={handleCopy}>{
+                    <button className='btn gap-2' onClick={handleCopy}>{
                       !copied ? <>
                         <p>Copy to Clipboard</p> <FaCopy /></> :
                         <><p>Copied</p><FaCheck /></>}
@@ -271,7 +285,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
                   </div>
               }
 
-            </>
+            </div>
           }
         </>
       }

@@ -101,7 +101,7 @@ model Square {
     x         Int?
     y         Int?
     status    String   @default("open")
-    name      String?
+    name      String?  @db.VarChar(12)
     number    Int
     updatedAt DateTime @updatedAt
 }

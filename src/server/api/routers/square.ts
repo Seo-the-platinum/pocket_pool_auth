@@ -96,7 +96,6 @@ export const squareRouter = createTRPCRouter({
         }
         return updateSquares;
       } catch (error) {
-        console.error("Error updating squares: ", error);
         throw new Error("Failed to update squares");
       }
     }),

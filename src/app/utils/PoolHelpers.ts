@@ -22,12 +22,23 @@ export const adminSquares = (
     });
 };
 
-export const userSquares = (userSquares: SelectedSquares) => {
+export const userSquares = (
+  userSquares: SelectedSquares,
+  signiture: string,
+) => {
   return userSquares
     .filter((square) => {
       if (square.isSelected) {
         return square;
       }
     })
-    .map((square: SelectedSquare) => square.id);
+    .map((square: SelectedSquare) => {
+      return {
+        id: square.id,
+        status: square.status,
+        updatedAt: square.updatedAt,
+        userId: square.userId ? square.userId : undefined,
+        name: signiture,
+      };
+    });
 };

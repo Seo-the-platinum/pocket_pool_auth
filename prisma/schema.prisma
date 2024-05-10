@@ -93,14 +93,15 @@ model Pool {
 }
 
 model Square {
-    id     String  @id @default(cuid())
-    poolId String
-    pool   Pool    @relation(fields: [poolId], references: [id], onDelete: Cascade)
-    userId String?
-    user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-    x      Int?
-    y      Int?
-    status String  @default("open")
-    name   String?
-    number Int
+    id        String   @id @default(cuid())
+    poolId    String
+    pool      Pool     @relation(fields: [poolId], references: [id], onDelete: Cascade)
+    userId    String?
+    user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    x         Int?
+    y         Int?
+    status    String   @default("open")
+    name      String?
+    number    Int
+    updatedAt DateTime @updatedAt
 }

@@ -9,6 +9,7 @@ export type Square = {
   x: number | null;
   y: number | null;
   poolId: string;
+  updatedAt: Date;
 };
 
 export type SoldSquare = {

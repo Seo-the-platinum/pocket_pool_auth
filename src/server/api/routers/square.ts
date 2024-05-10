@@ -58,22 +58,47 @@ export const squareRouter = createTRPCRouter({
     }),
   updateSquares: publicProcedure
     .input(
-      z.object({
-        ids: z.array(z.string()),
-        status: z.string(),
-        userId: z.optional(z.string()),
-        name: z.string(),
-      }),
+      z.array(
+        z.object({
+          id: z.string(),
+          status: z.string(),
+          userId: z.optional(z.string()),
+          name: z.string(),
+          updatedAt: z.date(),
+        }),
+      ),
     )
     .mutation(async ({ ctx, input }) => {
       //USE ANY TO UPDATE MULTIPLE ROWS THAT MATCH IDS IN THE INPUT.IDS ARRAY
-      await ctx.db.$executeRaw`
-        UPDATE "Square"
-        SET "status" = ${input.status},
-          "name" = ${input.name},
-          "userId" = ${input.userId}
-        WHERE "id" = any (${input.ids})
-      `;
+      try {
+        // await ctx.db.$executeRaw`
+        //   UPDATE "Square"
+        //   SET "status" = ${input.status},
+        //     "name" = ${input.name},
+        //     "userId" = ${input.userId}
+        //   WHERE "id" = any (${input.ids})
+        // `;
+        const updateSquares = await ctx.db.$transaction(async (tx) => {
+          const results = await Promise.all(
+            input.map(async (update) => {
+              const { id, updatedAt, ...updateData } = update;
+              const updateSquare = await tx.square.update({
+                where: { id, updatedAt },
+                data: updateData,
+              });
+              return updateSquare;
+            }),
+          );
+          return results.filter((square) => square !== null);
+        });
+        if (updateSquares.length !== input.length) {
+          throw new Error("Failed to update all squares");
+        }
+        return updateSquares;
+      } catch (error) {
+        console.error("Error updating squares: ", error);
+        throw new Error("Failed to update squares");
+      }
     }),
   addSquareValues: protectedProcedure
     .input(

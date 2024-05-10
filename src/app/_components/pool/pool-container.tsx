@@ -10,7 +10,7 @@ import { adminSquares, userSquares } from '../../utils/PoolHelpers'
 import { AiOutlineLoading } from "react-icons/ai";
 import { FaCopy, FaCheck } from "react-icons/fa";
 
-const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, left, squares, status, pricePerSquare }: ExtendedPools) => {
+const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, left, squares, status, pricePerSquare, }: ExtendedPools) => {
   const [topState, setTop] = useState(top)
   const [leftState, setLeft] = useState(left)
   const [availableSquares, setSquare] = useState(squares.map((square) => { return { ...square, isSelected: false } }))
@@ -99,8 +99,10 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
     if (!signiture || signiture.length < 1) {
       return
     }
-    const selectedSquares = userSquares(availableSquares)
-    updateSquares.mutate({ name: signiture, ids: selectedSquares, status: 'pending', userId: userId })
+    const selectedSquares = userSquares(availableSquares, signiture)
+    console.log(selectedSquares)
+    // updateSquares.mutate({ name: signiture, ids: selectedSquares, status: 'pending', userId: userId, })
+    updateSquares.mutate(selectedSquares)
   }
 
   const adminUpdate = () => {
@@ -213,8 +215,8 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
         status === 'open' &&
         <>
           <div className="flex gap-4">
-            <p>{`Total Squares: ${userSquares(availableSquares).length}`}</p>
-            <p>{`Total Value: $${(userSquares(availableSquares).length * Number(pricePerSquare)).toFixed(2)}`}</p>
+            <p>{`Total Squares: ${userSquares(availableSquares, signiture).length}`}</p>
+            <p>{`Total Value: $${(userSquares(availableSquares, signiture).length * Number(pricePerSquare)).toFixed(2)}`}</p>
           </div>
           <form className='w-full flex justify-evenly gap-4' onSubmit={handleSubmit}>
             <input

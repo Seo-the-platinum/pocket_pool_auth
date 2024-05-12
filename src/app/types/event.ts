@@ -19,6 +19,16 @@ export type GameType = {
       },
     ];
   };
+  header: {
+    league: {
+      slug: string;
+    };
+    competitions: [
+      {
+        date: Date;
+      },
+    ];
+  };
   plays: [
     {
       awayScore: number;
@@ -73,4 +83,16 @@ export type TeamData = {
       href: string;
     },
   ];
+};
+
+export type CreateTile = {
+  away: {
+    name: string;
+    logo: string;
+  };
+  home: {
+    name: string;
+    logo: string;
+  };
+  dateString: Date;
 };

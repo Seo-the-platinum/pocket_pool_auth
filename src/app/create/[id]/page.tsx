@@ -1,36 +1,7 @@
 import React from 'react'
-import Image from 'next/image'
 import CreatePoolButton from '~/app/_components/create-pool-button'
-import { formatDate } from '~/app/utils/FormatDate'
-
-type GameType = {
-  boxscore: {
-    teams: [
-      {
-        team: {
-          name: string
-          logo: string
-        }
-      },
-      {
-        team: {
-          name: string
-          logo: string
-        }
-      }
-    ]
-  },
-  header: {
-    league: {
-      slug: string
-    }
-    competitions: [
-      {
-        date: Date
-      }
-    ]
-  }
-}
+import CreateGameTile from '~/app/_components/create-game-tile'
+import type { GameType } from '~/app/types/event'
 
 const Create = async ({ params }: { params: { id: string } }) => {
   const game = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${params.id}`)
@@ -38,17 +9,12 @@ const Create = async ({ params }: { params: { id: string } }) => {
   const away = gameData.boxscore.teams[0].team
   const home = gameData.boxscore.teams[1].team
   const league = gameData.header.league.slug
-  const date = formatDate(gameData.header.competitions[0].date)
+
+  const date = gameData.header.competitions[0].date
+
   return (
     <div className='page items-center'>
-      <div className="gameTile">
-        <div className="flex justify-around">
-          <Image src={away.logo} width={100} height={100} alt={away.name} />
-          <p className='self-center text-5xl'>@</p>
-          <Image src={home.logo} width={100} height={100} alt={home.name} />
-        </div>
-        <p>{date}</p>
-      </div>
+      <CreateGameTile away={away} home={home} dateString={date} />
       <CreatePoolButton event={params.id} league={league} />
     </div>
   )

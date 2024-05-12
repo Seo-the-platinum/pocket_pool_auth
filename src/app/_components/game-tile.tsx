@@ -28,6 +28,7 @@ const GameTile = ({ game }: { game: { $ref: string } }) => {
   })
   if (isLoading) return <p>Loading...</p>;
   if (!data) return null;
+
   const date = formatDate(data[0].competitions[0].date)
   return (
     <Link className='gameTile' href={`/create/${data[0]?.id}`}>

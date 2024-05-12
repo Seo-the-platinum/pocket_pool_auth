@@ -116,4 +116,13 @@ export const poolRouter = createTRPCRouter({
         },
       });
     }),
+  deletePool: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.db.pool.delete({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
 });

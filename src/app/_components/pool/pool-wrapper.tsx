@@ -7,9 +7,19 @@ import { useQuery } from '@tanstack/react-query'
 import type { Pool } from '../../types/pool'
 import type { GameType } from '../../types/event'
 import PricePayouts from './price-payouts'
+import { TiDelete } from "react-icons/ti";
+import { api } from '~/trpc/react'
+import { useRouter } from 'next/navigation'
 
 const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefined }) => {
   const [dynamicInterval, setDynamicInterval] = useState(1000 * 60 * 5)
+  const router = useRouter()
+  const mutate = api.pool.deletePool.useMutation({
+    onSuccess: () => {
+      void router.push('/')
+    }
+  })
+
   const { data } = useQuery(['pool', pool?.id], async () => {
     const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${pool?.event}`)
     const res = await data.json() as GameType
@@ -60,11 +70,18 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
     }
   }) : null
   const qtrs = quarters?.map((quarter) => { return { away: quarter.awayScore, home: quarter.homeScore, period: quarter.period } })
-
+  const handleDelete = () => {
+    mutate.mutate({ id: pool.id })
+  }
   return (
     <div className="flex flex-col items-center justify-center">
       <div className='flex flex-col items-center gap-28 justify-center'>
         <div className="flex flex-col items-center gap-4 justify-evenly p-4 rounded-md bg-slate-300 ring-2 dark:bg-slate-900 dark:ring-sky-700">
+          <button
+            className='relative left-[50%] -top-[20px] transition ease-in-out duration-300 hover:scale-125'
+            onClick={handleDelete}>
+            <TiDelete className='fill-red-600' size={48} />
+          </button>
           <div className="flex gap-4">
             <div className="flex flex-col items-center">
               <Image src={data.awayLogo} width={100} height={100} alt={`${data.away.name}'s logo`} />

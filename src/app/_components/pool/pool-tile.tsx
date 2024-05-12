@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-
+import { TiDelete } from "react-icons/ti";
 type GameType = {
   boxscore: {
     teams: [
@@ -42,6 +42,7 @@ const PoolTile = async ({ id, event, league, sport }: { id: string, size: number
     <Link className='tile' href={`/pools/${id}`}>
       <Image src={awayLogo} alt={`${away.name} logo`} width={100} height={100} />
       <Image src={homeLogo} alt={`${home.name} logo`} width={100} height={100} />
+
     </Link>
   )
 }

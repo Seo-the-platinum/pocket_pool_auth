@@ -10,6 +10,7 @@ import PricePayouts from './price-payouts'
 import { TiDelete } from "react-icons/ti";
 import { api } from '~/trpc/react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefined }) => {
   const [dynamicInterval, setDynamicInterval] = useState(1000 * 60 * 5)
@@ -70,18 +71,16 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
     }
   }) : null
   const qtrs = quarters?.map((quarter) => { return { away: quarter.awayScore, home: quarter.homeScore, period: quarter.period } })
-  const handleDelete = () => {
-    mutate.mutate({ id: pool.id })
-  }
+
   return (
     <div className="flex flex-col items-center justify-center">
       <div className='flex flex-col items-center gap-28 justify-center'>
         <div className="flex flex-col items-center gap-4 justify-evenly p-4 rounded-md bg-slate-300 ring-2 dark:bg-slate-900 dark:ring-sky-700">
-          <button
+          <Link
             className='relative left-[50%] -top-[20px] transition ease-in-out duration-300 hover:scale-125'
-            onClick={handleDelete}>
+            href={`/delete-pool/${pool.id}`}>
             <TiDelete className='fill-red-600' size={48} />
-          </button>
+          </Link>
           <div className="flex gap-4">
             <div className="flex flex-col items-center">
               <Image src={data.awayLogo} width={100} height={100} alt={`${data.away.name}'s logo`} />

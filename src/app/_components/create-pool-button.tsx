@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
 import { api } from '~/trpc/react'
 import { useRouter } from 'next/navigation'
+import { AiOutlineLoading } from "react-icons/ai";
 
 const CreatePoolButton = ({ event, league }: { event: string, league: string, }) => {
   const [size, setSize] = useState<25 | 100>(100)
@@ -64,9 +65,13 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
           })
         }
       </div>
-      <button className='btn' type='submit'>
-        Create Pool
-      </button>
+      {
+        createPool.isLoading ? <button className='btn' disabled><AiOutlineLoading className='animate-spin' /></button> :
+          <button className='btn' type='submit'>
+            Create Pool
+          </button>
+
+      }
     </form>
   )
 }

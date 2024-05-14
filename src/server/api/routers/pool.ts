@@ -122,6 +122,7 @@ export const poolRouter = createTRPCRouter({
       return ctx.db.pool.delete({
         where: {
           id: input.id,
+          userId: ctx.session.user.id,
         },
       });
     }),

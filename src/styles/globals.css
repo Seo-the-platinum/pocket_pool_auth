@@ -28,6 +28,11 @@
 
   .page {
     @apply flex min-h-screen flex-col bg-slate-200 bg-gradient-to-br from-slate-100 to-slate-700 px-4
-    pt-16 dark:bg-gradient-to-br dark:from-cyan-950 dark:from-5% dark:via-slate-950 dark:via-80% dark:to-indigo-950;
+    pt-16 dark:bg-gradient-to-br dark:from-teal-900 dark:from-10% dark:via-slate-950 dark:via-55% dark:to-indigo-950 dark:to-95%;
+  }
+
+  .model {
+    @apply flex size-64 flex-col items-center justify-around gap-8 bg-slate-200 bg-gradient-to-br from-slate-100 to-slate-700 p-4  text-slate-950
+   dark:bg-gradient-to-br dark:from-teal-900 dark:from-10% dark:via-slate-950 dark:via-55% dark:to-indigo-950 dark:to-95% dark:text-slate-50;
   }
 }

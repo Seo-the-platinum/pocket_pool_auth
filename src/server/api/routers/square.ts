@@ -72,7 +72,7 @@ export const squareRouter = createTRPCRouter({
       //USE ANY TO UPDATE MULTIPLE ROWS THAT MATCH IDS IN THE INPUT.IDS ARRAY
       //TODO: FIGURE OUT A WAY TO CONVERT DATE TO DATETIME TO AVOID TPYING ISSUE
       try {
-        //   await ctx.db.$executeRaw`
+        // await ctx.db.$executeRaw`
         //   UPDATE "Square"
         //   SET "status" = ${input[0]?.status},
         //     "name" = ${input[0]?.name},

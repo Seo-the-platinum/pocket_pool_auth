@@ -79,11 +79,14 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
     <div className="flex flex-col items-center justify-center">
       <div className='flex flex-col items-center gap-28 justify-center'>
         <div className="flex flex-col items-center gap-4 p-4 rounded-md bg-slate-300 ring-2 dark:bg-slate-900 dark:ring-sky-700 relative">
-          <Link
-            className='absolute top-0 right-0 transition ease-in-out duration-300 hover:scale-125'
-            href={`/delete-pool/${pool.id}`}>
-            <TiDelete className='fill-red-600' size={48} />
-          </Link>
+          {
+            session === pool.userId &&
+            <Link
+              className='absolute top-0 right-0 transition ease-in-out duration-300 hover:scale-125'
+              href={`/delete-pool/${pool.id}`}>
+              <TiDelete className='fill-red-600' size={48} />
+            </Link>
+          }
           <div className="flex flex-col items-center gap-4">
             <div className="flex gap-4">
               <div className="flex flex-col items-center">

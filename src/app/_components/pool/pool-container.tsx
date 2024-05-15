@@ -19,6 +19,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   const [selectedUser, setUser] = useState('')
   const [copied, setCopied] = useState(false)
   const [squareUpdateError, setSquareUpdateError] = useState(false)
+
   //TRPC PROCEDURES
 
   const closePool = api.pool.closePool.useMutation({
@@ -26,7 +27,6 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
       setStatus('closed')
     }
   })
-
   const adminUpdateSquares = api.square.adminUpdateSquares.useMutation({
     onSuccess: (data) => {
       const dataMap = new Map(data.map((square) => [square.id, square]))

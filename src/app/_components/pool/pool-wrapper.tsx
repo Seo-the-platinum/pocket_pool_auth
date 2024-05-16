@@ -8,19 +8,11 @@ import type { Pool } from '../../types/pool'
 import type { GameType } from '../../types/event'
 import PricePayouts from './price-payouts'
 import { TiDelete } from "react-icons/ti";
-import { api } from '~/trpc/react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { formatDate } from '~/app/utils/FormatDate'
 
 const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefined }) => {
   const [dynamicInterval, setDynamicInterval] = useState(1000 * 60 * 5)
-  const router = useRouter()
-  const mutate = api.pool.deletePool.useMutation({
-    onSuccess: () => {
-      void router.push('/')
-    }
-  })
 
   const { data } = useQuery(['pool', pool?.id], async () => {
     const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${pool?.event}`)
@@ -75,6 +67,9 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   }) : null
   const qtrs = quarters?.map((quarter) => { return { away: quarter.awayScore, home: quarter.homeScore, period: quarter.period } })
   const formattedDate = formatDate(data.date)
+  const displayTime = data?.plays ? data.plays[data.plays.length - 1]?.clock.displayValue : null
+  const displayPeriod = data?.plays ? data.plays[data.plays.length - 1]?.period.displayValue : null
+
   return (
     <div className="flex flex-col items-center justify-center">
       <div className='flex flex-col items-center gap-28 justify-center'>
@@ -98,6 +93,10 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
                 <Image src={data.homeLogo} width={100} height={100} alt={`${data.home.name}'s logo`} />
                 <p className='text-3xl'>{data.homeScore}</p>
               </div>
+            </div>
+            <div className="flex gap-4">
+              <p>{displayTime}</p>
+              <p>{displayPeriod}</p>
             </div>
             <p className='text-2xl'>{formattedDate}</p>
           </div>

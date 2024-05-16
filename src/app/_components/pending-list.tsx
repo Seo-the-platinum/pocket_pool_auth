@@ -3,7 +3,7 @@ import type { SoldSquares, SoldSquareWithWinner } from '../types/pool'
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 
-const PendingList = ({ squares, setUser, winners, pricePerSquare }: SoldSquares) => {
+const PendingList = ({ squares, setUser, winners, pricePerSquare, selectedUser }: SoldSquares) => {
   const router = useRouter()
   const pathname = usePathname()
   const hash: Record<string, SoldSquareWithWinner[]> = {
@@ -24,19 +24,23 @@ const PendingList = ({ squares, setUser, winners, pricePerSquare }: SoldSquares)
     5: ''
   }
   const handleUserHighlight = (name: string) => {
+    if (name === selectedUser) {
+      setUser('')
+      return
+    }
     setUser(name)
     router.push(`${pathname}/#pool-container`)
   }
   return (
     <div className='flex flex-col gap-4 w-full text-center'>
       <h1 className='text-2xl font-bold'>Pending & Sold Squares</h1>
-      <div className='flex flex-col gap-2'>
+      <div className='flex flex-col gap-8'>
         {
           Object.keys(hash).sort().map((name) => (
-            <div className='flex flex-col divide-y-2 gap-2' key={name}>
+            <div className='flex flex-col gap-2 rounded-md shadow-lg shadow-slate-700 p-2 dark:bg-slate-950 ring-2 dark:ring-sky-700 brightness-110' key={name} onClick={() => handleUserHighlight(name)}>
               <div className="flex gap-4 items-center justify-between">
-                <div className="flex gap-2">
-                  <button className='btn w-20 h-8 overflow-ellipsis overflow-hidden' onClick={() => handleUserHighlight(name)}>{name} </button>
+                <div className="flex gap-2 items-center">
+                  <p>{name}</p>
                   <h1 className='text-xl'>{`- ${hash[name]?.length}`}</h1>
                 </div>
                 <p>{`Total: $${(Number(hash[name]?.length) * pricePerSquare).toFixed(2)}`}</p>

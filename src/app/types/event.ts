@@ -38,6 +38,10 @@ export type GameType = {
       };
       period: {
         number: number;
+        displayValue: string;
+      };
+      clock: {
+        displayValue: string;
       };
     },
   ];

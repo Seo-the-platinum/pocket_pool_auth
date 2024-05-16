@@ -77,7 +77,8 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   })
 
   const { mutate, variables } = api.pool.addValues.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data)
       if (variables) {
         squareValues.mutate({
           poolId: id,
@@ -248,6 +249,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
               signiture.length > 12 && <p className='text-red-500 text-sm'>Name must 12 characters or less</p>
             }
           </form>
+
           {
             session === userId &&
             <div className='flex w-full'>
@@ -284,12 +286,11 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
                     </button>
                   </div>
               }
-
             </div>
           }
         </>
       }
-      <PendingList squares={availableSquares as SoldSquare[]} setUser={setUser} winners={winners} pricePerSquare={Number(pricePerSquare)} />
+      <PendingList squares={availableSquares as SoldSquare[]} setUser={setUser} selectedUser={selectedUser} winners={winners} pricePerSquare={Number(pricePerSquare)} />
     </div >
   )
 }

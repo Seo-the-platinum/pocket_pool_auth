@@ -9,6 +9,7 @@ const ModalDeletePool = ({ params }: { params: { id: string } }) => {
   const { id } = params
   const mutation = api.pool.deletePool.useMutation({
     onSuccess: () => {
+      router.back()
       router.push('/')
     }
   })

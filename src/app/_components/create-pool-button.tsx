@@ -6,10 +6,9 @@ import { useRouter } from 'next/navigation'
 import { AiOutlineLoading } from "react-icons/ai";
 
 const CreatePoolButton = ({ event, league }: { event: string, league: string, }) => {
-  const [size, setSize] = useState<25 | 100>(100)
   const [pricePerSquare, setPrice] = useState('')
   const [payouts, setPayouts] = useState(['', '', '', ''])
-
+  const [open, setOpen] = useState('')
 
   const router = useRouter()
   const createPool = api.pool.create.useMutation({
@@ -17,10 +16,19 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
       router.push(`/pools/${pool.id}`)
     },
   })
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const sport = league === 'nba' ? 'basketball' : 'football'
-    createPool.mutate({ size, event, league, sport, pricePerSquare: Number(pricePerSquare), payouts: payouts.map(payout => Number(payout)) });
+    createPool.mutate({
+      size: 100,
+      event,
+      league,
+      sport,
+      pricePerSquare: Number(pricePerSquare),
+      payouts: payouts.map(payout => Number(payout)),
+      openDate: new Date(open).toISOString(),
+    });
   }
 
   const handlePriceChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +41,7 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
     payoutsCopy[index] = e.target.value
     setPayouts(payoutsCopy)
   }
+  console.log('open data here', open, new Date(open).toISOString())
   return (
     <form className="flex flex-col gap-4" onSubmit={(e) => handleSubmit(e)}>
       <div className="flex flex-col gap-2">
@@ -64,6 +73,12 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
             )
           })
         }
+        <label>Pool Open Date & Time </label>
+        <input
+          className='input'
+          type='datetime-local'
+          value={open}
+          onChange={(e) => setOpen(e.target.value)} />
       </div>
       {
         createPool.isLoading ? <button className='btn' disabled><AiOutlineLoading className='animate-spin' /></button> :

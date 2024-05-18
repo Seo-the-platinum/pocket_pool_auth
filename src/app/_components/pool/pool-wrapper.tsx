@@ -70,6 +70,8 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   const displayTime = data?.plays ? data.plays[data.plays.length - 1]?.clock.displayValue : null
   const displayPeriod = data?.plays ? data.plays[data.plays.length - 1]?.period.displayValue : null
 
+  const poolOpen = pool?.openDate && Date.now() > Date.parse(pool.openDate.toLocaleDateString())
+  const openDisplayDate = pool?.openDate && formatDate(pool.openDate)
   return (
     <div className="flex flex-col items-center justify-center">
       <div className='flex flex-col items-center gap-28 justify-center'>
@@ -83,14 +85,21 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
             </Link>
           }
           <div className="flex flex-col items-center gap-4">
+            {
+              !poolOpen &&
+              <div className='text-center text-2xl'>
+                <p>Pool Opens</p>
+                <p>{openDisplayDate}</p>
+              </div>
+            }
             <div className="flex gap-4">
               <div className="flex flex-col items-center">
-                <Image src={data.awayLogo} width={100} height={100} alt={`${data.away.name}'s logo`} />
+                <Image src={data.awayLogo} width={100} height={100} alt={`${data.away.name}'s logo`} priority />
                 <p className='text-3xl'>{data.awayScore}</p>
               </div>
               <p className='self-center text-5xl'>@</p>
               <div className="flex flex-col items-center">
-                <Image src={data.homeLogo} width={100} height={100} alt={`${data.home.name}'s logo`} />
+                <Image src={data.homeLogo} width={100} height={100} alt={`${data.home.name}'s logo`} priority />
                 <p className='text-3xl'>{data.homeScore}</p>
               </div>
             </div>
@@ -110,6 +119,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
             {...pool}
             quarters={qtrs}
             session={session}
+            poolOpen={poolOpen}
             away={{ id: data.away.id, name: data.away.name, logo: data.away.logo, score: data.awayScore, abbreviation: data.away.abbreviation }}
             home={{ id: data.home.id, name: data.home.name, logo: data.homeLogo, score: data.homeScore, abbreviation: data.home.abbreviation }} />
         }

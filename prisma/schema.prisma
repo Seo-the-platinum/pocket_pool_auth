@@ -90,6 +90,7 @@ model Pool {
     status         String    @default("open")
     pricePerSquare Decimal   @db.Decimal(10, 2)
     payouts        Decimal[] @db.Decimal(10, 2)
+    openDate       DateTime?
 }
 
 model Square {

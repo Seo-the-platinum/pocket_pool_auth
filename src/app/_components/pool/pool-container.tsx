@@ -10,7 +10,7 @@ import { adminSquares, userSquares } from '../../utils/PoolHelpers'
 import { AiOutlineLoading } from "react-icons/ai";
 import { FaCopy, FaCheck } from "react-icons/fa";
 
-const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, left, squares, status, pricePerSquare, }: ExtendedPools) => {
+const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, left, squares, status, pricePerSquare, poolOpen }: ExtendedPools) => {
   const [topState, setTop] = useState(top)
   const [leftState, setLeft] = useState(left)
   const [availableSquares, setSquare] = useState(squares.map((square) => { return { ...square, isSelected: false } }))
@@ -19,7 +19,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   const [selectedUser, setUser] = useState('')
   const [copied, setCopied] = useState(false)
   const [squareUpdateError, setSquareUpdateError] = useState(false)
-
+  const [error, setError] = useState(false)
   //TRPC PROCEDURES
 
   const closePool = api.pool.closePool.useMutation({
@@ -154,8 +154,37 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
     }, 5000)
   }
 
+  const toggle = (id: string) => {
+    if (!poolOpen) {
+      setTimeout(() => {
+        setError(false)
+      }, 5000)
+      return setError(true)
+    }
+    setSquare((prev) => {
+      const square = prev.find(square => square.id === id); //check if square exists and store in square variable
+      if (square && !square.name && !square.userId) {
+        const updatedSquare = { //use spread operator to update square status
+          ...square,
+          status: square.status === 'open' ? 'pending' : 'open',
+          isSelected: !square.isSelected
+        }
+        return prev.map(prevSquare => (prevSquare.id === id ? updatedSquare : prevSquare)); //go through lists, replace square with matching id with updated square
+      }
+      if (square && session === userId) {
+        const updatedSquare = { //use spread operator to update square status
+          ...square,
+          status: square.status === 'open' ? 'pending' : square.status === 'pending' ? 'sold' : 'open',
+          isSelected: true,
+        }
+        return prev.map(prevSquare => (prevSquare.id === id ? updatedSquare : prevSquare))//go through lists, replace square with matching id with updated square
+      }
+      return prev;
+    })
+  }
   return (
     <div className="flex flex-col items-center gap-8" id='pool-container'>
+      <p className={`${!error && 'invisible'} text-red-500`}>Please wait until the open date and time</p>
       <div className="rounded-md grid grid-cols-10 grid-rows-10 relative text-slate-950 dark:text-slate-300 bg-transparent">
         <div className="flex flex-col w-full absolute bottom-[102%] gap-2">
           {topState && <Team team={topState === 'home' ? home : away} position={'top'} />}
@@ -205,12 +234,14 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
               <MemoSquare
                 key={square.id}
                 {...square}
-                setSquare={setSquare}
-                admin={session === userId}
+                toggle={toggle}
+                // setSquare={setSquare}
+                // admin={session === userId}
                 currentWinner={(square.x !== null && square.x === currentWinner.x) && (square.y !== null && square.y === currentWinner.y)}
                 winners={winners}
                 poolStatus={statusState}
                 selectedUser={selectedUser}
+              // poolOpen={poolOpen}
               />
             )
           })

@@ -6,7 +6,7 @@ import type { HamburgerProps } from '~/app/types/nav';
 
 const Hamburger = ({ open, toggle }: HamburgerProps) => {
   return (
-    <div className='flex lg:hidden justify-between bg-slate-200 p-2 items-center dark:bg-sky-950 dark:text-slate-200'>
+    <div className='flex lg:hidden justify-between bg-slate-200 p-2 items-center dark:bg-slate-950 dark:text-slate-200'>
       <h1 className='text-2xl font-bold'>Pocket Pool</h1>
       <div>
         {open ? <IoClose className='fill-slate-950 dark:fill-slate-200' onClick={toggle} size={36} /> :

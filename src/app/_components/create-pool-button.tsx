@@ -27,7 +27,7 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
       sport,
       pricePerSquare: Number(pricePerSquare),
       payouts: payouts.map(payout => Number(payout)),
-      openDate: new Date(open).toISOString(),
+      openDate: open.length > 1 ? new Date(open).toISOString() : undefined,
     });
   }
 
@@ -41,6 +41,7 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
     payoutsCopy[index] = e.target.value
     setPayouts(payoutsCopy)
   }
+
   return (
     <form className="flex flex-col gap-4" onSubmit={(e) => handleSubmit(e)}>
       <div className="flex flex-col gap-2">

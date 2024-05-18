@@ -155,7 +155,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   }
 
   const toggle = (id: string) => {
-    if (!poolOpen) {
+    if (!poolOpen && poolOpen !== null) {
       setTimeout(() => {
         setError(false)
       }, 5000)

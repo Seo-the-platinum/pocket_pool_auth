@@ -72,6 +72,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
 
   const poolOpen = pool?.openDate && Date.now() > Date.parse(pool.openDate.toLocaleDateString())
   const openDisplayDate = pool?.openDate && formatDate(pool.openDate)
+
   return (
     <div className="flex flex-col items-center justify-center">
       <div className='flex flex-col items-center gap-28 justify-center'>

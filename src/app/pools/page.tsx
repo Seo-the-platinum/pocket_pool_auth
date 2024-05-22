@@ -5,7 +5,7 @@ import PoolTile from '~/app/_components/pool/pool-tile'
 const Pools = async () => {
   const pools = await api.pool.getUsersPools.query()
   return (
-    <div className='page gap-4'>
+    <div className='page gap-8'>
       {
         pools.map((pool) => {
           return (

@@ -17,7 +17,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   const { data } = useQuery(['pool', pool?.id], async () => {
     const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${pool?.event}`)
     const res = await data.json() as GameType
-    const date = res.header.competitions[0].date
+    const date = res.header?.competitions[0].date
     const away = res?.boxscore.teams[0].team
     const home = res?.boxscore.teams[1].team
     const awayScore = res?.plays ? res.plays[res.plays?.length - 1]?.awayScore : null

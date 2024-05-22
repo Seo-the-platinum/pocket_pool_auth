@@ -17,13 +17,13 @@
   }
 
   .tile {
-    @apply flex items-center justify-center gap-20 rounded-md
-    bg-slate-200 ring-2 ring-slate-950 dark:bg-slate-800 dark:ring-sky-700;
+    @apply flex items-center justify-center gap-20 rounded-md bg-slate-200 shadow-md
+    shadow-slate-400 ring-2 ring-slate-950 dark:bg-slate-950 dark:ring-sky-700;
   }
 
   .gameTile {
-    @apply flex min-w-[90%] flex-col justify-center rounded-md bg-slate-200
-    text-center ring-2 ring-slate-950 dark:bg-slate-800 dark:ring-sky-700;
+    @apply flex min-w-[90%] flex-col justify-center rounded-md bg-slate-200 text-center shadow-md
+    shadow-slate-400 ring-2 ring-slate-950 dark:bg-slate-950 dark:ring-sky-700;
   }
 
   .page {

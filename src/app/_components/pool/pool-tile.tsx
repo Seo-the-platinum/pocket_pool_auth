@@ -42,7 +42,6 @@ const PoolTile = async ({ id, event, league, sport }: { id: string, size: number
     <Link className='tile' href={`/pools/${id}`}>
       <Image src={awayLogo} alt={`${away.name} logo`} width={100} height={100} />
       <Image src={homeLogo} alt={`${home.name} logo`} width={100} height={100} />
-
     </Link>
   )
 }

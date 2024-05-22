@@ -54,6 +54,7 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
             type='number'
             pattern="[0-9]+"
             value={pricePerSquare}
+            required
           />
         </div>
         {
@@ -68,6 +69,7 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
                   type='number'
                   pattern="[0-9]+"
                   value={payout}
+                  required
                 />
               </div>
             )

@@ -13,8 +13,8 @@ export const poolRouter = createTRPCRouter({
   }),
   getPoolById: publicProcedure
     .input(z.object({ id: z.string() }))
-    .query(({ ctx, input }) => {
-      return ctx.db.pool.findFirst({
+    .query(async ({ ctx, input }) => {
+      const pool = await ctx.db.pool.findFirst({
         where: { id: input.id },
         include: {
           squares: {
@@ -25,6 +25,13 @@ export const poolRouter = createTRPCRouter({
           user: true,
         },
       });
+      if (pool) {
+        return {
+          ...pool,
+          pricePerSquare: pool.pricePerSquare.toString(),
+          payouts: pool.payouts.map((payout) => payout.toString()),
+        };
+      }
     }),
   getUsersPools: protectedProcedure.query(({ ctx }) => {
     return ctx.db.pool.findMany({

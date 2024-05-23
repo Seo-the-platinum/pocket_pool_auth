@@ -1,16 +1,12 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import PoolContainer from './pool-container'
-import Quarters from '../quarters-container'
-import Image from 'next/image'
+import PoolScoreboard from './pool-scoreboard'
 import { useQuery } from '@tanstack/react-query'
 import type { Pool } from '../../types/pool'
 import type { GameType } from '../../types/event'
-import PricePayouts from './price-payouts'
-import { TiDelete } from "react-icons/ti";
-import Link from 'next/link'
-import { formatDate } from '~/app/utils/FormatDate'
 
+// TODO: COME BACK TO THIS AND SEE IF WE CAN CLEAN UP THE CODE
 const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefined }) => {
   const [dynamicInterval, setDynamicInterval] = useState(1000 * 60 * 5)
 
@@ -25,6 +21,14 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
     const homeLogo = `https${home?.logo.slice(5)}`
     const awayLogo = `https${away?.logo.slice(5)}`
     const plays = res?.plays
+    const formattedAway = {
+      ...away,
+      logo: awayLogo
+    }
+    const formattedHome = {
+      ...home,
+      logo: homeLogo
+    }
     return {
       away,
       home,
@@ -33,7 +37,9 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
       homeLogo,
       awayLogo,
       plays,
-      date
+      date,
+      formattedAway,
+      formattedHome
     }
   }, {
     refetchInterval: dynamicInterval,
@@ -65,54 +71,34 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
       homeName: data.home.name
     }
   }) : null
+
   const qtrs = quarters?.map((quarter) => { return { away: quarter.awayScore, home: quarter.homeScore, period: quarter.period } })
-  const formattedDate = formatDate(data.date)
   const displayTime = data?.plays ? data.plays[data.plays.length - 1]?.clock.displayValue : null
   const displayPeriod = data?.plays ? data.plays[data.plays.length - 1]?.period.displayValue : null
-
   const poolOpen = pool?.openDate && Date.now() > Date.parse(pool.openDate.toLocaleDateString())
-  const openDisplayDate = pool?.openDate && formatDate(pool.openDate)
-
   return (
     <div className="flex flex-col items-center justify-center">
       <div className='flex flex-col items-center gap-28 justify-center'>
-        <div className="flex flex-col items-center gap-4 p-4 rounded-md bg-slate-300 ring-2 dark:bg-slate-950 shadow-xl shadow-slate-700 dark:ring-sky-700 relative">
-          {
-            session === pool.userId &&
-            <Link
-              className='absolute top-0 right-0 transition ease-in-out duration-300 hover:scale-125'
-              href={`/delete-pool/${pool.id}`}>
-              <TiDelete className='fill-red-600' size={48} />
-            </Link>
-          }
-          <div className="flex flex-col items-center gap-4">
-            {
-              !poolOpen &&
-              <div className='text-center text-2xl'>
-                <p>Pool Opens</p>
-                <p>{openDisplayDate}</p>
-              </div>
-            }
-            <div className="flex gap-4">
-              <div className="flex flex-col items-center">
-                <Image src={data.awayLogo} width={100} height={100} alt={`${data.away.name}'s logo`} priority />
-                <p className='text-3xl'>{data.awayScore}</p>
-              </div>
-              <p className='self-center text-5xl'>@</p>
-              <div className="flex flex-col items-center">
-                <Image src={data.homeLogo} width={100} height={100} alt={`${data.home.name}'s logo`} priority />
-                <p className='text-3xl'>{data.homeScore}</p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <p>{displayTime}</p>
-              <p>{displayPeriod}</p>
-            </div>
-            <p className='text-2xl'>{formattedDate}</p>
-          </div>
-          <PricePayouts pricePerSquare={pool.pricePerSquare.toString()} payouts={pool.payouts.map(payout => payout.toString())} />
-          {quarters?.length ? <Quarters quarters={quarters} /> : null}
-        </div>
+        <PoolScoreboard
+          poolId={pool.id}
+          date={data.date}
+          session={session}
+          userId={pool.userId}
+          displayTime={displayTime}
+          away={{
+            ...data.formattedAway,
+            score: data.awayScore
+          }}
+          home={{
+            ...data.formattedHome,
+            score: data.homeScore
+          }}
+          pricePerSquare={pool.pricePerSquare}
+          payouts={pool.payouts}
+          quarters={quarters}
+          displayPeriod={displayPeriod}
+          openDate={pool.openDate}
+        />
         {
           pool
           &&

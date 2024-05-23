@@ -70,7 +70,7 @@ export type ExtendedPools = RouterOutputs["pool"]["getPoolById"] & {
     abbreviation: string;
   };
   quarters: Quarter[] | undefined;
-  poolOpen: boolean | null;
+  poolOpen: boolean | null | undefined;
 };
 
 export type SelectedSquare = Square & { isSelected: boolean };

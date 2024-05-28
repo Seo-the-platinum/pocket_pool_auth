@@ -10,6 +10,7 @@ export type Square = {
   y: number | null;
   poolId: string;
   updatedAt: Date;
+  isSelected: boolean;
 };
 
 export type SoldSquare = {
@@ -21,6 +22,8 @@ export type SoldSquare = {
   x: number | null;
   y: number | null;
   poolId: string;
+  updatedAt: Date;
+  isSelected: boolean;
 };
 
 export type Squares = {
@@ -39,6 +42,7 @@ export type SoldSquares = {
   winners: winner[] | undefined;
   pricePerSquare: number;
   selectedUser: string;
+  setSquare: React.Dispatch<React.SetStateAction<Square[]>>;
 };
 
 export type SoldSquareWithWinner = SoldSquare & {
@@ -75,3 +79,19 @@ export type ExtendedPools = RouterOutputs["pool"]["getPoolById"] & {
 
 export type SelectedSquare = Square & { isSelected: boolean };
 export type SelectedSquares = SelectedSquare[];
+
+export type PendingListTileProps = {
+  name: string;
+  styles: Record<number, string>;
+  hash: Record<string, SoldSquareWithWinner[]>;
+  allSold: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    name: string,
+  ) => void;
+  allReset: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    name: string,
+  ) => void;
+  pricePerSquare: number;
+  userHighlight: (name: string) => void;
+};

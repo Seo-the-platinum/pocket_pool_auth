@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import MemoSquare from './square'
-import PendingList from '../pending-list'
+import PendingList from './pending-list'
 import { api } from '~/trpc/react'
 import Team from '../team-label'
 import type { ExtendedPools } from '../../types/pool'
@@ -77,8 +77,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   })
 
   const { mutate, variables } = api.pool.addValues.useMutation({
-    onSuccess: (data) => {
-      console.log(data)
+    onSuccess: () => {
       if (variables) {
         squareValues.mutate({
           poolId: id,
@@ -93,7 +92,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   // POOL UPDATE FUNTIONS
 
   const addTeams = api.pool.addTeams.useMutation({
-    onSettled: (data) => {
+    onSuccess: (data) => {
       if (data) {
         setTop(data.top)
         setLeft(data.left)
@@ -235,13 +234,10 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
                 key={square.id}
                 {...square}
                 toggle={toggle}
-                // setSquare={setSquare}
-                // admin={session === userId}
                 currentWinner={(square.x !== null && square.x === currentWinner.x) && (square.y !== null && square.y === currentWinner.y)}
                 winners={winners}
                 poolStatus={statusState}
                 selectedUser={selectedUser}
-              // poolOpen={poolOpen}
               />
             )
           })
@@ -283,23 +279,11 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
 
           {
             session === userId &&
-            <div className='flex w-full'>
-              {
-                x.length < 1 && y.length < 1 && unsold === false && (!variables) &&
-                <button onClick={drawNumbers}>Draw Numbers</button>
-              }
-              {
-                !top && !left && unsold === false && <button onClick={drawTeams}>Draw Teams</button>
-              }
-              {
-                unsold === false && status === 'open' && <button onClick={() => {
-                  closePool.mutate({ id: id })
-                }}>Close Pool</button>
-              }
+            <div className='flex flex-col w-full gap-4'>
               {
                 adminUpdateSquares.isLoading ?
                   <div className='flex gap-4 w-full'>
-                    <button className='btn' disabled>
+                    <button className='btn-sm' disabled>
                       <AiOutlineLoading className='animate-spin' />
                     </button>
                     <button className='btn gap-2' onClick={handleCopy}>{
@@ -317,11 +301,35 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
                     </button>
                   </div>
               }
+              <div className="flex gap-4 justify-center">
+                {
+                  unsold === false && <>
+                    {
+                      x.length < 1 && y.length < 1 && (!variables) &&
+                      <button className='btn-sm min-max' onClick={drawNumbers}>Draw Numbers</button>
+                    }
+                    {
+                      !top && !left && <button className='btn-sm min-max' onClick={drawTeams}>Draw Teams</button>
+                    }
+                    {
+                      status === 'open' && <button className='btn-sm w-max' onClick={() => {
+                        closePool.mutate({ id: id })
+                      }}>Close Pool</button>
+                    }
+                  </>
+                }
+              </div>
             </div>
           }
         </>
       }
-      <PendingList squares={availableSquares as SoldSquare[]} setUser={setUser} selectedUser={selectedUser} winners={winners} pricePerSquare={Number(pricePerSquare)} />
+      <PendingList
+        squares={availableSquares as SoldSquare[]}
+        setUser={setUser}
+        selectedUser={selectedUser}
+        winners={winners}
+        pricePerSquare={Number(pricePerSquare)}
+        setSquare={setSquare} />
     </div >
   )
 }

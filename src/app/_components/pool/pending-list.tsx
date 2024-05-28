@@ -1,15 +1,16 @@
 import React from 'react'
-import type { SoldSquares, SoldSquareWithWinner } from '../types/pool'
+import type { SoldSquares, SoldSquareWithWinner } from '../../types/pool'
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
+import PendingListTile from './pending-list-tile'
 
-const PendingList = ({ squares, setUser, winners, pricePerSquare, selectedUser }: SoldSquares) => {
+const PendingList = ({ squares, setUser, winners, pricePerSquare, selectedUser, setSquare }: SoldSquares) => {
   const router = useRouter()
   const pathname = usePathname()
   const hash: Record<string, SoldSquareWithWinner[]> = {
   }
   squares.forEach((square) => {
-    if (!hash[square.name?.toLowerCase()] && square.name !== null && square.name.length > 0) {
+    if (!hash[square.name?.toLowerCase()] && square.name !== null && square.name?.length > 0) {
       hash[square.name.toLowerCase()] = []
     }
     // TODO: FIGURE OUT SOLUTION IN THE EVENT A SQUARE WINS MORE THAN ONCE
@@ -31,28 +32,49 @@ const PendingList = ({ squares, setUser, winners, pricePerSquare, selectedUser }
     setUser(name)
     router.push(`${pathname}/#pool-container`)
   }
+  const handleAllSold = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, name: string) => {
+    e.stopPropagation()
+    setSquare(prev => {
+      return prev.map(square => {
+        if (square.name?.toLowerCase() === name) {
+          if (square.status === 'pending' || square.status === 'open') {
+            return { ...square, status: 'sold', isSelected: true }
+          }
+        }
+        return square
+      })
+    })
+  }
+
+  const handleAllReset = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, name: string) => {
+    e.stopPropagation()
+    setSquare(prev => {
+      return prev.map(square => {
+        if (square.name?.toLowerCase() === name) {
+          if (square.status === 'sold' || square.status === 'pending') {
+            return { ...square, status: 'open', isSelected: true }
+          }
+        }
+        return square
+      })
+    })
+  }
+
   return (
     <div className='flex flex-col gap-4 w-full text-center'>
       <h1 className='text-2xl font-bold'>Pending & Sold Squares</h1>
       <div className='flex flex-col gap-8'>
         {
           Object.keys(hash).sort().map((name) => (
-            <div className='flex flex-col gap-2 rounded-md shadow-lg shadow-slate-700 p-2 dark:bg-slate-950 ring-2 dark:ring-sky-700 brightness-110' key={name} onClick={() => handleUserHighlight(name)}>
-              <div className="flex gap-4 items-center justify-between">
-                <div className="flex gap-2 items-center">
-                  <p>{name}</p>
-                  <h1 className='text-xl'>{`- ${hash[name]?.length}`}</h1>
-                </div>
-                <p>{`Total: $${(Number(hash[name]?.length) * pricePerSquare).toFixed(2)}`}</p>
-              </div>
-              <ul className='flex gap-1 flex-wrap'>
-                {
-                  hash[name]?.map((square) => (
-                    <li className={`${styles[square.period]}`} key={square.number}>{square.number}</li>
-                  ))
-                }
-              </ul>
-            </div>
+            <PendingListTile
+              userHighlight={handleUserHighlight}
+              key={name}
+              name={name}
+              styles={styles}
+              hash={hash}
+              allSold={handleAllSold}
+              allReset={handleAllReset}
+              pricePerSquare={pricePerSquare} />
           ))
         }
       </div>

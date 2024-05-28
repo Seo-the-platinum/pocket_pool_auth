@@ -38,9 +38,14 @@ const Square = (props: Square) => {
   }
 
   const squareStyles = `
-  ${poolStatus === 'closed' ? (winning?.length && winning.length > 1 ? winnerColors[5] : winner ? winnerColors[winner.period] : (currentWinner ? 'bg-sky-500 animate-grow' :
-      selectedUser === name?.toLocaleLowerCase() ? 'bg-teal-400' : 'bg-slate-300 dark:bg-slate-100')) :
-      isSelected && status === 'pending' ? 'bg-emerald-500' : (status === 'open' ? 'bg-sky-500' : (status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'))}
+  ${selectedUser.length && selectedUser === name?.toLocaleLowerCase() ? 'bg-teal-400' :
+      poolStatus === 'closed' ? (winning?.length && winning.length > 1 ? winnerColors[5] :
+        winner ? winnerColors[winner.period] :
+          (currentWinner ? 'bg-sky-500 animate-grow' :
+            'bg-slate-300 dark:bg-slate-100')) :
+        isSelected && status === 'pending' ? 'bg-emerald-500' :
+          (status === 'open' ? 'bg-sky-500' :
+            (status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'))}
    size-[28px] flex flex-col overflow-hidden sm:size-14 lg:size-20 border-[1px] border-black rounded-md text-black cursor-pointer gap-2`;
 
   return (

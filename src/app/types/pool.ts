@@ -43,6 +43,7 @@ export type SoldSquares = {
   pricePerSquare: number;
   selectedUser: string;
   setSquare: React.Dispatch<React.SetStateAction<Square[]>>;
+  poolStatus: string;
 };
 
 export type SoldSquareWithWinner = SoldSquare & {
@@ -94,4 +95,5 @@ export type PendingListTileProps = {
   ) => void;
   pricePerSquare: number;
   userHighlight: (name: string) => void;
+  poolStatus: string;
 };

@@ -30,10 +30,10 @@ const Square = (props: Square) => {
   const winning = winners?.filter(quarter => quarter.x === x && quarter.y === y).map(quarter => quarter.period)
 
   const winnerColors: Record<number, string> = {
-    1: 'bg-gradient-to-br from-amber-500 from-5% via-amber-700 via-50% to-amber-500 to-95% border-2 border-slate-900 scale-125',
-    2: 'bg-gradient-to-br from-slate-100 from-5% via-slate-500 via-50% to-slate-100 to-95% border-2 border-slate-900 scale-125',
-    3: 'bg-gradient-to-br from-yellow-200 from-5% via-yellow-700 via-50% to-yellow-200 to-95% border-2 border-slate-900 scale-125',
-    4: 'bg-gradient-to-br from-gray-300 from-1% via-gray-600 via-50% to-gray-300 to-99% border-2 border-slate-900 scale-125',
+    1: 'bg-gradient-to-br from-amber-800 from-20% via-amber-500 via-50% to-amber-800 to-85% border-2 border-slate-900 scale-125',
+    2: 'bg-gradient-to-br from-slate-700 from-20% via-slate-200 via-50% to-slate-700 to-85% border-2 border-slate-900 scale-125',
+    3: 'bg-gradient-to-br from-yellow-800 from-20% via-yellow-200 via-50% to-yellow-800 to-85% border-2 border-slate-900 scale-125',
+    4: 'bg-gradient-to-br from-gray-700 from-20% via-gray-300 via-50% to-gray-700 to-85% border-2 border-slate-900 scale-125',
     5: 'bg-gradient-to-br from-sky-200 from-40% via-sky-400 via-50% to-sky-200 to-65% border-2 border-sky-400 scale-125 brightness-125',
   }
 

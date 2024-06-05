@@ -15,7 +15,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   const [leftState, setLeft] = useState(left)
   const [availableSquares, setSquare] = useState(squares.map((square) => { return { ...square, isSelected: false } }))
   const [signiture, setSigniture] = useState('')
-  const [statusState, setStatus] = useState(status)
+  const [poolStatus, setStatus] = useState(status)
   const [selectedUser, setUser] = useState('')
   const [copied, setCopied] = useState(false)
   const [squareUpdateError, setSquareUpdateError] = useState(false)
@@ -236,7 +236,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
                 toggle={toggle}
                 currentWinner={(square.x !== null && square.x === currentWinner.x) && (square.y !== null && square.y === currentWinner.y)}
                 winners={winners}
-                poolStatus={statusState}
+                poolStatus={poolStatus}
                 selectedUser={selectedUser}
               />
             )
@@ -329,6 +329,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
         selectedUser={selectedUser}
         winners={winners}
         pricePerSquare={Number(pricePerSquare)}
+        poolStatus={poolStatus}
         setSquare={setSquare} />
     </div >
   )

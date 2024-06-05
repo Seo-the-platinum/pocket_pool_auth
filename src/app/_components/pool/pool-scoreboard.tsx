@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { TiDelete } from "react-icons/ti";
 import { formatDate } from '~/app/utils/FormatDate'
 import PricePayouts from './price-payouts'
-import Quarters from '../quarters-container'
+import Quarters from './quarters-container'
 
 
 type Props = {
@@ -15,11 +15,13 @@ type Props = {
     logo: string
     name: string
     score: number | null | undefined
+    abbreviation: string
   }
   home: {
     logo: string
     name: string
     score: number | null | undefined
+    abbreviation: string
   }
   displayTime: string | null | undefined
   displayPeriod: string | null | undefined

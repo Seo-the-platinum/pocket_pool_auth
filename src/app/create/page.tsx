@@ -53,7 +53,7 @@ const CreatePool = () => {
         </select>
       </div>
       {
-        data && <GamesList games={data?.items} />
+        data && <GamesList games={data?.items} league={league} />
       }
       <div className="flex w-full justify-evenly h-8">
         {

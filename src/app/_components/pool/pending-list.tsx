@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import PendingListTile from './pending-list-tile'
 
-const PendingList = ({ squares, setUser, winners, pricePerSquare, selectedUser, setSquare }: SoldSquares) => {
+const PendingList = ({ squares, setUser, winners, pricePerSquare, selectedUser, setSquare, poolStatus }: SoldSquares) => {
   const router = useRouter()
   const pathname = usePathname()
   const hash: Record<string, SoldSquareWithWinner[]> = {
@@ -74,7 +74,9 @@ const PendingList = ({ squares, setUser, winners, pricePerSquare, selectedUser, 
               hash={hash}
               allSold={handleAllSold}
               allReset={handleAllReset}
-              pricePerSquare={pricePerSquare} />
+              pricePerSquare={pricePerSquare}
+              poolStatus={poolStatus}
+            />
           ))
         }
       </div>

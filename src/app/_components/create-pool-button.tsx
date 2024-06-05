@@ -61,7 +61,7 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
           payouts.map((payout, index) => {
             return (
               <div className='flex flex-col gap-2' key={index}>
-                <label htmlFor={`quarter-${index}`}>Quarter {index + 1} </label>
+                <label htmlFor={`quarter-${index + 1}`}>Quarter {index + 1} </label>
                 <input
                   className='input'
                   id={`quarter-${index + 1}`}

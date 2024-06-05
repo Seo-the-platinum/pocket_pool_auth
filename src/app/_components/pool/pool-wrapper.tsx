@@ -11,7 +11,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   const [dynamicInterval, setDynamicInterval] = useState(1000 * 60 * 5)
 
   const { data } = useQuery(['pool', pool?.id], async () => {
-    const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${pool?.event}`)
+    const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${pool?.league === 'nfl' ? 'football' : 'basketball'}/${pool?.league}/summary?event=${pool?.event}`)
     const res = await data.json() as GameType
     const date = res.header?.competitions[0].date
     const away = res?.boxscore.teams[0].team
@@ -67,8 +67,8 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
       period: play.period.number,
       awayLogo: data.awayLogo,
       homeLogo: data.homeLogo,
-      awayName: data.away.name,
-      homeName: data.home.name
+      awayName: data.away.abbreviation,
+      homeName: data.home.abbreviation
     }
   }) : null
 

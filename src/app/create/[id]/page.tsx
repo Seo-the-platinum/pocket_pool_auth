@@ -3,8 +3,9 @@ import CreatePoolButton from '~/app/_components/create-pool-button'
 import CreateGameTile from '~/app/_components/create-game-tile'
 import type { GameType } from '~/app/types/event'
 
-const Create = async ({ params }: { params: { id: string } }) => {
-  const game = await fetch(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${params.id}`)
+const Create = async ({ params, searchParams }: { params: { id: string }, searchParams: { league: string | null } }) => {
+  const game =
+    await fetch(`https://site.api.espn.com/apis/site/v2/sports/${searchParams.league === 'nfl' ? 'football' : 'basketball'}/${searchParams.league}/summary?event=${params.id}`)
   const gameData = await game.json() as GameType
   const away = gameData.boxscore.teams[0].team
   const home = gameData.boxscore.teams[1].team

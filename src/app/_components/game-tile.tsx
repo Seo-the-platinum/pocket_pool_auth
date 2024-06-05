@@ -6,7 +6,7 @@ import { formatDate } from '../utils/FormatDate'
 import type { EventData, StatusType, TeamData } from '../types/event'
 
 
-const GameTile = ({ game }: { game: { $ref: string } }) => {
+const GameTile = ({ game, league }: { game: { $ref: string }, league: string | null }) => {
   const { data, isLoading } = useQuery(['game', game.$ref], async (): Promise<[EventData, TeamData, TeamData, StatusType] | null> => {
     const gameRef = `https${game.$ref.slice(4)}`
     const response = await fetch(gameRef)
@@ -31,7 +31,7 @@ const GameTile = ({ game }: { game: { $ref: string } }) => {
 
   const date = formatDate(data[0].competitions[0].date)
   return (
-    <Link className='gameTile' href={`/create/${data[0]?.id}`}>
+    <Link className='gameTile' href={`/create/${data[0]?.id}?league=${league}`}>
       <div className='flex justify-around'>
         <Image src={data[2].logos[0]?.href} width={100} height={100} alt={`${data[2].name} team logo`} />
         <Image src={data[1].logos[0]?.href} width={100} height={100} alt={`${data[1].name} team logo`} />

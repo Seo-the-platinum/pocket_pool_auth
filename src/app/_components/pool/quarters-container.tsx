@@ -13,7 +13,7 @@ type Quarters = {
 
 const Quarters = ({ quarters }: { quarters: Quarters }) => {
   return (
-    <div className='flex gap-2'>
+    <div className='flex gap-2 w-full justify-evenly'>
       {
         quarters.map((quarter) => {
           return <Quarter key={quarter.period} quarter={quarter} />

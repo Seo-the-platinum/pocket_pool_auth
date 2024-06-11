@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Hamburger from './hamburger'
 import HamburgerMenu from './hamburger-menu'
 import Link from 'next/link'
-import LoginButton from '../login-button'
+import LoginButton from './login-button'
 
 const NavClient = ({ session }: { session: boolean }) => {
   const [open, setOpen] = useState(false)
@@ -21,15 +21,21 @@ const NavClient = ({ session }: { session: boolean }) => {
 
   return (
     <div>
-      <div className='justify-end gap-4 rounded-b-md p-4 hidden lg:flex'>
-        <Link href='/'>Home</Link>
-        {session &&
-          <>
-            <Link href='/create'>Create</Link>
-            <Link href='/pools'>Pools</Link>
-          </>
-        }
-        <LoginButton session={session ? true : false} />
+      <div className='justify-between rounded-b-md h-20 hidden px-8 py-2 text-2xl items-end lg:flex xl:px-16 2xl:px-32'>
+        <div className="flex items-end">
+          <Link className='nav-link text-5xl font-bold' href='/'>Pocket Pool</Link>
+        </div>
+        <div className="flex gap-8 items-end">
+          <Link className='nav-link'
+            href='/'>Home</Link>
+          {session &&
+            <>
+              <Link className='nav-link' href='/create'>Create</Link>
+              <Link className='nav-link' href='/pools'>Pools</Link>
+            </>
+          }
+          <LoginButton session={session ? true : false} />
+        </div>
       </div >
       <Hamburger open={open} toggle={toggle} />
       <div ref={ref}>

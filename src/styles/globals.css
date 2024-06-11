@@ -7,8 +7,8 @@
     @apply scroll-smooth;
   }
   .btn {
-    @apply flex h-10 min-w-24 items-center justify-evenly rounded-md bg-slate-300 p-2 text-lg shadow-lg shadow-sky-400/75
-    ring-2 ring-slate-950 focus:outline-sky-300 dark:bg-slate-900 dark:text-slate-50 dark:ring-sky-700;
+    @apply flex h-10 min-w-24 items-center justify-evenly rounded-md bg-slate-300 p-2 text-lg ring-2
+    ring-slate-950 transition-colors duration-300 focus:outline-sky-300 dark:bg-slate-950 dark:text-slate-50 dark:ring-sky-700 hover:dark:bg-sky-500;
   }
 
   .btn-sm {
@@ -39,5 +39,10 @@
   .model {
     @apply flex w-64 flex-col items-center justify-around gap-4 bg-slate-200 bg-gradient-to-br from-slate-100 to-slate-700
     p-4 dark:bg-gradient-to-br dark:from-sky-950 dark:from-5% dark:via-slate-950 dark:via-80% dark:to-sky-950;
+  }
+
+  .nav-link {
+    @apply bg-gradient-to-r from-sky-500 to-indigo-500
+    bg-[length:0%_2px] bg-left-bottom bg-no-repeat transition-all duration-300 ease-in-out hover:bg-[length:100%_2px];
   }
 }

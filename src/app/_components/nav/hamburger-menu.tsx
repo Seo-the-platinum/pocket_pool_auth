@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import LoginButton from '../login-button'
+import LoginButton from './login-button'
 import type { HamburgerMenuProps } from '~/app/types/nav'
 import ThemeSwitcher from './theme-switcher'
 

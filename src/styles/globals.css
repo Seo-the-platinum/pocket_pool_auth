@@ -17,7 +17,7 @@
   }
 
   .input {
-    @apply h-10 rounded-md bg-slate-300 p-2 pl-2 text-lg shadow-lg shadow-sky-400/75 ring-2
+    @apply h-10 rounded-md bg-slate-300 p-2 text-lg shadow-lg shadow-sky-400/75 ring-2
     ring-slate-950 focus:outline-sky-300 dark:bg-slate-900 dark:text-slate-200 dark:ring-sky-700;
   }
 

@@ -39,7 +39,7 @@ const CreatePool = () => {
     <div className='page gap-8 min-h-screen justify-between'>
       <div className="flex flex-col gap-2">
         <label>Choose League :</label>
-        <select className='p-2 rounded-md shadow-md shadow-sky-500/75 focus:outline-sky-500 ring-2 ring-sky-700'
+        <select className='input'
           id='league'
           name='league'
           onChange={(e) => handleOptionClick(e)}

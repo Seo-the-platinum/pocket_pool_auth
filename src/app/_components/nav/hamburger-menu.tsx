@@ -18,15 +18,15 @@ const HamburgerMenu = ({ open, toggle, session }: HamburgerMenuProps) => {
     >
       <div className="flex flex-col w-full overflow-y-hidden">
         <ul className='flex flex-col text-2xl text-black w-full h-[40vh] justify-between dark:text-slate-200 py-4'>
-          <li className='w-full border-b-2 border-slate-800 dark:border-sky-700'>
+          <li className='w-full border-b-2 border-slate-800 dark:border-sky-700 shadow-md shadow-sky-500/75'>
             <Link className={`${path === `/` && 'text-sky-500'}`} onClick={toggle} href='/'>Home</Link>
           </li>
           {session &&
             <>
-              <li className='w-full border-b-2 border-slate-800 dark:border-sky-700'>
+              <li className='w-full border-b-2 border-slate-800 dark:border-sky-700 shadow-md shadow-sky-500'>
                 <Link className={`${path === `/create` && 'text-sky-500 '}`} onClick={toggle} href='/create'>Create</Link>
               </li>
-              <li className='w-full border-b-2 border-slate-800 dark:border-sky-700'>
+              <li className='w-full border-b-2 border-slate-800 dark:border-sky-700 shadow-md shadow-sky-500/75'>
                 <Link className={`${path.startsWith('/pools') && 'text-sky-500'}`} onClick={toggle} href='/pools'>Pools</Link>
               </li>
             </>

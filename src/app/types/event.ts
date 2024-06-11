@@ -98,5 +98,5 @@ export type CreateTile = {
     name: string;
     logo: string;
   };
-  dateString: Date;
+  dateString: string;
 };

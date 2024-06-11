@@ -43,8 +43,8 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
   }
 
   return (
-    <form className="flex flex-col gap-4" onSubmit={(e) => handleSubmit(e)}>
-      <div className="flex flex-col gap-2">
+    <form className="flex flex-col gap-8" onSubmit={(e) => handleSubmit(e)}>
+      <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <label htmlFor='pricePerSquare'>Price Per Square</label>
           <input

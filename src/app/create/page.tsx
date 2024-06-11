@@ -13,7 +13,6 @@ type EventTypes = {
   pageCount: number
 }
 const CreatePool = () => {
-  // TODO: UPDATE DATE SO THAT GAMES THAT HAVE STARTED ARE NOT INCLUDED IN THE LIST
   const searchParams = useSearchParams()
   const router = useRouter()
   const [page, setPage] = useState(1)
@@ -38,11 +37,15 @@ const CreatePool = () => {
   }
   return (
     <div className='page gap-8 min-h-screen justify-between'>
-      <div className="flex flex-col">
-        <label>Choose League:</label>
-        <select id='league' name='league' onChange={(e) => handleOptionClick(e)} defaultValue=''>
+      <div className="flex flex-col gap-2">
+        <label>Choose League :</label>
+        <select className='p-2 rounded-md shadow-md shadow-sky-500/75 focus:outline-sky-500 ring-2 ring-sky-700'
+          id='league'
+          name='league'
+          onChange={(e) => handleOptionClick(e)}
+          defaultValue={league ? league : ''}>
           <option value='' disabled>
-            Please select a league
+            Select League
           </option>
           <option value='nfl'>
             NFL
@@ -58,7 +61,12 @@ const CreatePool = () => {
       <div className="flex w-full justify-evenly h-8">
         {
           data && Array.from({ length: data.pageCount }).map((_, i) => (
-            <button className={`${i + 1 === page ? 'bg-slate-400 text-blue-500' : 'bg-slate-200'} rounded-full size-6`} key={i} onClick={() => setPage(i + 1)}>{i + 1}</button>
+            <button
+              className={`${i + 1 === page ? 'bg-slate-400 text-blue-500' :
+                'bg-slate-200'} rounded-full size-6`}
+              key={i} onClick={() => setPage(i + 1)}>
+              {i + 1}
+            </button>
           ))
         }
       </div>

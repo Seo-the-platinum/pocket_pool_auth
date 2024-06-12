@@ -5,7 +5,7 @@ import type { CreateTile } from '~/app/types/event'
 
 const CreateGameTile = ({ away, home, dateString }: CreateTile) => {
   return (
-    <div className="gameTile">
+    <div className="gameTile pointer-events-none">
       <div className="flex justify-around">
         <Image src={away.logo} width={100} height={100} alt={away.name} />
         <p className='self-center text-5xl'>@</p>

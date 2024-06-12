@@ -36,8 +36,8 @@ const CreatePool = () => {
     router.push(`/create?league=${e.target.value}`)
   }
   return (
-    <div className='page gap-8 min-h-screen justify-between'>
-      <div className="flex flex-col gap-2">
+    <div className='page gap-16 justify-between items-center'>
+      <div className="flex flex-col gap-2 min-w-full sm:min-w-[70%] lg:min-w-[40%]">
         <label>Choose League :</label>
         <select className='input'
           id='league'

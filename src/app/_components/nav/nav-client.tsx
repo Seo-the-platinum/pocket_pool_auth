@@ -21,9 +21,9 @@ const NavClient = ({ session }: { session: boolean }) => {
 
   return (
     <div>
-      <div className='justify-between rounded-b-md h-20 hidden px-8 py-2 text-2xl items-end lg:flex xl:px-16 2xl:px-32'>
+      <div className='justify-between hidden px-8 py-2 text-xl items-end lg:flex xl:px-16 2xl:px-32'>
         <div className="flex items-end">
-          <Link className='nav-link text-5xl font-bold' href='/'>Pocket Pool</Link>
+          <Link className='nav-link text-3xl font-bold' href='/'>Pocket Pool</Link>
         </div>
         <div className="flex gap-8 items-end">
           <Link className='nav-link'

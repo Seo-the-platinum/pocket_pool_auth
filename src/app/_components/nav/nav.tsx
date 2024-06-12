@@ -5,7 +5,7 @@ import NavClient from './nav-client'
 const Nav = async () => {
   const session = await getServerAuthSession()
   return (
-    <div className='flex flex-col w-full border-b-[1px] rounded-b-md border-b-slate-800 justify-between z-20 absolute lg:static'>
+    <div className='flex flex-col w-full border-b-[1px] rounded-b-sm border-b-slate-700 justify-between z-20 absolute top-0'>
       <NavClient session={session ? true : false} />
     </div>
   )

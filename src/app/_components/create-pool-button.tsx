@@ -53,6 +53,7 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
             onChange={handlePriceChange}
             type='number'
             pattern="[0-9]+"
+            min={0}
             value={pricePerSquare}
             required
           />
@@ -67,6 +68,7 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
                   id={`quarter-${index + 1}`}
                   onChange={(e) => handlePayouts(e, index)}
                   type='number'
+                  min={0}
                   pattern="[0-9]+"
                   value={payout}
                   required

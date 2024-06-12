@@ -283,7 +283,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
               {
                 adminUpdateSquares.isLoading ?
                   <div className='flex gap-4 w-full'>
-                    <button className='btn-sm' disabled>
+                    <button className='' disabled>
                       <AiOutlineLoading className='animate-spin' />
                     </button>
                     <button className='btn gap-2' onClick={handleCopy}>{

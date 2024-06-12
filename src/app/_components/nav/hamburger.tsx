@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const Hamburger = ({ open, toggle }: HamburgerProps) => {
   return (
-    <div className='flex lg:hidden justify-between bg-slate-200 p-2 items-center dark:bg-slate-950 dark:text-slate-200'>
+    <div className='flex lg:hidden justify-between p-2 items-center bg-opacity-0 dark:text-slate-200'>
       <Link href='/' className='text-2xl font-bold'>Pocket Pool</Link>
       <div>
         {open ? <IoClose className='fill-slate-950 dark:fill-slate-200' onClick={toggle} size={36} /> :

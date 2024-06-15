@@ -9,18 +9,12 @@ type quarter = {
   period: number;
 }
 
-// type ModifiedSquare = RouterOutputs['square']['updateSquare'] & {
-//   isSelected: boolean
-// }
 type Square = RouterOutputs['square']['updateSquare'] & {
   isSelected: boolean
-  // admin: boolean
   currentWinner: boolean
   poolStatus: string
   winners: quarter[] | undefined
-  // setSquare: React.Dispatch<React.SetStateAction<ModifiedSquare[]>>
   selectedUser: string
-  // poolOpen: boolean | null
   toggle: (id: string) => void
 }
 
@@ -46,8 +40,7 @@ const Square = (props: Square) => {
         isSelected && status === 'pending' ? 'bg-emerald-500' :
           (status === 'open' ? 'bg-sky-500' :
             (status === 'pending' ? 'bg-yellow-400' : 'bg-red-500'))}
-   size-[28px] flex flex-col overflow-hidden sm:size-14 lg:size-20 border-[1px] border-black rounded-md text-black cursor-pointer gap-2`;
-
+   size-[28px] flex flex-col overflow-hidden sm:size-14 lg:size-20 border-[1px] border-black rounded-md text-black cursor-pointer gap-2 sm:items-center`;
   return (
     <>
       {

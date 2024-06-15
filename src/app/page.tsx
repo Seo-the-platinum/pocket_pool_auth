@@ -14,7 +14,7 @@ export default async function Home() {
       </div>
       <div className="rounded-md flex justify-center items-center w-full ">
         <iframe
-          className='rounded-md shadow-lg shadow-slate-700'
+          className='rounded-md shadow-lg shadow-sky-600'
           width="560"
           height="315"
           src="https://www.youtube.com/embed/baW1FXcUNYk?si=nl4YIORGzDJbjmeW"

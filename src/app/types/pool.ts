@@ -96,4 +96,5 @@ export type PendingListTileProps = {
   pricePerSquare: number;
   userHighlight: (name: string) => void;
   poolStatus: string;
+  selectedUser: string;
 };

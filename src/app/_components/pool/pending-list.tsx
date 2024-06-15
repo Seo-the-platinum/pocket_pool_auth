@@ -76,6 +76,7 @@ const PendingList = ({ squares, setUser, winners, pricePerSquare, selectedUser, 
               allReset={handleAllReset}
               pricePerSquare={pricePerSquare}
               poolStatus={poolStatus}
+              selectedUser={selectedUser}
             />
           ))
         }

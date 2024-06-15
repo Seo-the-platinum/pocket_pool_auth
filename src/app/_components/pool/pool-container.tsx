@@ -27,6 +27,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
       setStatus('closed')
     }
   })
+
   const adminUpdateSquares = api.square.adminUpdateSquares.useMutation({
     onSuccess: (data) => {
       const dataMap = new Map(data.map((square) => [square.id, square]))
@@ -283,18 +284,18 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
               {
                 adminUpdateSquares.isLoading ?
                   <div className='flex gap-4 w-full'>
-                    <button className='' disabled>
+                    <button className='btn' disabled>
                       <AiOutlineLoading className='animate-spin' />
                     </button>
-                    <button className='btn gap-2' onClick={handleCopy}>{
+                    <button className='btn gap-2 px-2' onClick={handleCopy}>{
                       !copied ? <>
                         <p>Copy to Clipboard</p> <FaCopy /></> :
                         <><p>Copied</p><FaCheck /></>}
                     </button>
                   </div> :
-                  <div className='flex justify-between w-full'>
+                  <div className='flex justify-center gap-4 w-full'>
                     <button className="btn" onClick={adminUpdate}>Update</button>
-                    <button className='btn gap-2' onClick={handleCopy}>{
+                    <button className='btn gap-2 px-2' onClick={handleCopy}>{
                       !copied ? <>
                         <p>Copy to Clipboard</p> <FaCopy /></> :
                         <><p>Copied</p><FaCheck /></>}
@@ -309,7 +310,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
                       <button className='btn-sm min-max' onClick={drawNumbers}>Draw Numbers</button>
                     }
                     {
-                      !top && !left && <button className='btn-sm min-max' onClick={drawTeams}>Draw Teams</button>
+                      !topState && !leftState && <button className='btn-sm min-max' onClick={drawTeams}>Draw Teams</button>
                     }
                     {
                       status === 'open' && <button className='btn-sm w-max' onClick={() => {

@@ -11,7 +11,9 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   const [dynamicInterval, setDynamicInterval] = useState(1000 * 60 * 5)
 
   const { data } = useQuery(['pool', pool?.id], async () => {
-    const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${pool?.league === 'nfl' ? 'football' : 'basketball'}/${pool?.league}/summary?event=${pool?.event}`)
+
+    const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${pool?.league === 'nfl' ? 'football'
+      : 'basketball'}/${pool?.league}/summary?event=${pool?.event}`)
     const res = await data.json() as GameType
     const date = res.header?.competitions[0].date
     const away = res?.boxscore.teams[0].team
@@ -45,6 +47,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
     refetchInterval: dynamicInterval,
   }
   )
+
   useEffect(() => {
     if (!pool || !data) return
     const lastPlay = data.plays?.length > 0 && data.plays[data.plays.length - 1]

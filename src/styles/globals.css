@@ -8,30 +8,30 @@
   }
   .btn {
     @apply flex h-10 min-w-24 items-center justify-evenly rounded-md bg-slate-300 text-lg ring-2
-    ring-slate-950 transition-colors duration-300 focus:outline-sky-300 dark:bg-slate-950 dark:text-slate-50 dark:ring-sky-500 hover:dark:bg-sky-500
-    hover:dark:shadow-lg hover:dark:shadow-sky-400;
+    ring-slate-950 transition-colors duration-300 focus:outline-sky-300 dark:bg-slate-950 dark:text-slate-50 dark:ring-sky-500 hover:dark:bg-sky-600
+    hover:dark:shadow-lg hover:dark:shadow-sky-600;
   }
 
   .btn-sm {
     @apply flex h-8 min-w-16 items-center justify-evenly rounded-md bg-slate-300 p-2 text-sm
     ring-2 ring-slate-950 transition-all duration-300 dark:bg-slate-900 dark:text-slate-50
-    dark:ring-sky-500 hover:dark:bg-sky-500 hover:dark:shadow-lg hover:dark:shadow-sky-400;
+    dark:ring-sky-500 hover:dark:bg-sky-600 hover:dark:shadow-lg hover:dark:shadow-sky-600;
   }
 
   .input {
-    @apply h-10 rounded-md bg-slate-300 p-2 text-lg shadow-lg shadow-sky-400/75 ring-2 
+    @apply h-10 rounded-md bg-slate-300 p-2 text-lg shadow-lg shadow-sky-600/75 ring-2 
     ring-slate-950 focus:outline-sky-300 dark:bg-slate-900 dark:text-slate-200 dark:ring-sky-700;
   }
 
   .tile {
     @apply flex min-w-full items-center justify-center gap-20 rounded-md bg-slate-200 ring-2 ring-slate-950 transition-all duration-500 
-    ease-in-out focus:outline-sky-300 dark:bg-slate-950 dark:ring-sky-700 hover:dark:bg-sky-500 hover:dark:shadow-lg hover:dark:shadow-sky-400/75 
+    ease-in-out focus:outline-sky-300 dark:bg-slate-950 dark:ring-sky-700 hover:dark:bg-sky-600 hover:dark:shadow-lg hover:dark:shadow-sky-600/75 
      sm:min-w-[70%] lg:min-w-[45%];
   }
 
   .gameTile {
     @apply flex min-w-full flex-col justify-center rounded-md bg-slate-200 p-2 text-center ring-2 ring-slate-950 transition-all duration-500 ease-in-out
-    focus:outline-sky-300 dark:bg-slate-950 dark:ring-sky-700 hover:dark:bg-sky-500 hover:dark:shadow-lg hover:dark:shadow-sky-400/75 sm:min-w-[70%] lg:min-w-[45%];
+    focus:outline-sky-300 dark:bg-slate-950 dark:ring-sky-700 hover:dark:bg-sky-600 hover:dark:shadow-lg hover:dark:shadow-sky-600/75 sm:min-w-[70%] lg:min-w-[45%];
   }
 
   .page {

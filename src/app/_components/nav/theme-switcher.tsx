@@ -18,24 +18,24 @@ const ThemeSwitcher = ({ toggle }: { toggle: React.MouseEventHandler }) => {
 
   if (resolvedTheme === 'dark') {
     return (
-      <button className='btn' onClick={(e) => {
+      <button className='btn-sm gap-2' onClick={(e) => {
         setTheme('light')
         toggle(e)
       }}>
         <p>Dark</p>
-        <BsFillMoonStarsFill className='size-5' />
+        <BsFillMoonStarsFill className='size-4' />
       </button>
     )
   }
 
   if (resolvedTheme === 'light') {
     return (
-      <button className='btn' onClick={(e) => {
+      <button className='btn-sm gap-2' onClick={(e) => {
         setTheme('dark')
         toggle(e)
       }}>
         <p>Light</p>
-        <BsSun className='size-5' />
+        <BsSun className='size-4' />
       </button>
     )
   }

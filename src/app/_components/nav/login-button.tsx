@@ -10,7 +10,7 @@ const button = ({ session }: Props) => {
   return (
     <div>
       {
-        session ? <button className='btn-sm' onClick={() => signOut()}> Logout </button> :
+        session ? <button className='btn-sm' onClick={() => signOut({ callbackUrl: '/' })}> Logout </button> :
           <button className='btn-sm' onClick={() => signIn('Google')}>Login with Google</button>
       }
     </div>

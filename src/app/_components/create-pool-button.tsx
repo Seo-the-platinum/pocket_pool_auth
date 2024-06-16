@@ -5,16 +5,20 @@ import { api } from '~/trpc/react'
 import { useRouter } from 'next/navigation'
 import { AiOutlineLoading } from "react-icons/ai";
 
-const CreatePoolButton = ({ event, league }: { event: string, league: string, }) => {
+const CreatePoolButton = ({ event, league }: { event: string, league: string }) => {
   const [pricePerSquare, setPrice] = useState('')
   const [payouts, setPayouts] = useState(['', '', '', ''])
   const [open, setOpen] = useState('')
-
+  const [error, setError] = useState('')
   const router = useRouter()
+
   const createPool = api.pool.create.useMutation({
     onSuccess: (pool) => {
-      router.push(`/pools/${pool.id}`)
+      router.push(`/pools/${pool?.id}`)
     },
+    onError: (error) => {
+      setError(error.message)
+    }
   })
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -44,6 +48,9 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string, })
 
   return (
     <form className="flex flex-col gap-8" onSubmit={(e) => handleSubmit(e)}>
+      {error &&
+        <p className='flex text-red-500 text-xs text-center'>{error}</p>
+      }
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <label htmlFor='pricePerSquare'>Price Per Square</label>

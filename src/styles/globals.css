@@ -36,7 +36,7 @@
 
   .page {
     @apply flex min-h-screen flex-col bg-slate-200 bg-gradient-to-br from-slate-100 to-slate-700
-    px-4 pt-20 dark:bg-gradient-to-br dark:from-sky-950 dark:from-5% dark:via-slate-950 dark:via-60% dark:to-sky-950 dark:to-90% xl:px-16 2xl:px-32;
+    p-4 pt-20 dark:bg-gradient-to-br dark:from-sky-950 dark:from-5% dark:via-slate-950 dark:via-60% dark:to-sky-950 dark:to-90% xl:px-16 2xl:px-32;
   }
 
   .model {

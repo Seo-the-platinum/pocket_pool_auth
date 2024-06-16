@@ -51,6 +51,14 @@ export const poolRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const usersPools = await ctx.db.pool.findMany({
+        where: { userId: ctx.session.user.id },
+      });
+      if (usersPools.length >= 5) {
+        throw new Error(
+          "You can only have 5 pools at a time. Please delete one of your pools to create a new one.",
+        );
+      }
       const pool = await ctx.db.pool.create({
         // TODO: TRY TO FIGURE OUT A WAY TO CREATE MULTIPLE SQUARES AT ONCE
         // WITHOUT HAVING TO ITERATE THROUGH THE ARRAY

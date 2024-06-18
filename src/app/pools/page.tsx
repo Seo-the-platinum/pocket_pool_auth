@@ -1,5 +1,4 @@
 import React from 'react'
-import { api } from '~/trpc/server'
 import PoolsContainer from '~/app/_components/pool/pools-container'
 
 const Pools = async () => {

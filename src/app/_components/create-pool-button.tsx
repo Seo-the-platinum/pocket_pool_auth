@@ -5,15 +5,17 @@ import { api } from '~/trpc/react'
 import { useRouter } from 'next/navigation'
 import { AiOutlineLoading } from "react-icons/ai";
 
+
 const CreatePoolButton = ({ event, league }: { event: string, league: string }) => {
   const [pricePerSquare, setPrice] = useState('')
   const [payouts, setPayouts] = useState(['', '', '', ''])
   const [open, setOpen] = useState('')
   const [error, setError] = useState('')
   const router = useRouter()
-
+  const utils = api.useUtils()
   const createPool = api.pool.create.useMutation({
-    onSuccess: (pool) => {
+    onSuccess: async (pool) => {
+      await utils.pool.getUsersPools.invalidate()
       router.push(`/pools/${pool?.id}`)
     },
     onError: (error) => {

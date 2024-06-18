@@ -7,8 +7,10 @@ import Modal from '~/app/_components/modal'
 const ModalDeletePool = ({ params }: { params: { id: string } }) => {
   const router = useRouter()
   const { id } = params
+  const utils = api.useUtils()
   const mutation = api.pool.deletePool.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
+      await utils.pool.getUsersPools.invalidate()
       router.push('/')
     }
   })

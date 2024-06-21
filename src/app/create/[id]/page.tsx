@@ -1,6 +1,6 @@
 import React from 'react'
-import CreatePoolButton from '~/app/_components/create-pool-button'
-import CreateGameTile from '~/app/_components/create-game-tile'
+import CreatePoolButton from '~/app/_components/create/create-pool-button'
+import CreateGameTile from '~/app/_components/create/create-game-tile'
 import type { GameType } from '~/app/types/event'
 import { formatDate } from '~/app/utils/FormatDate'
 

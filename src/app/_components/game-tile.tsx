@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import Image from 'next/image'
 import { useQuery } from '@tanstack/react-query'
@@ -5,7 +6,7 @@ import Link from 'next/link'
 import { formatDate } from '../utils/FormatDate'
 import type { EventData, StatusType, TeamData } from '../types/event'
 
-
+// TODO: COMPONENT MIGHT BE ABLE TO BE CONVERTED TO A SERVER COMPONENT
 const GameTile = ({ game, league }: { game: { $ref: string }, league: string | null }) => {
   const { data, isLoading } = useQuery(['game', game.$ref], async (): Promise<[EventData, TeamData, TeamData, StatusType] | null> => {
     const gameRef = `https${game.$ref.slice(4)}`

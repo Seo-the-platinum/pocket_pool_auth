@@ -24,7 +24,7 @@
   }
 
   .tile {
-    @apply flex min-w-full items-center justify-center gap-20 rounded-md bg-slate-200 ring-2 ring-slate-950 transition-all duration-500 
+    @apply flex min-w-full items-center justify-around gap-20 rounded-md bg-slate-200 ring-2 ring-slate-950 transition-all duration-500 
     ease-in-out focus:outline-sky-300 dark:bg-slate-950 dark:ring-sky-700 hover:dark:bg-sky-600 hover:dark:shadow-lg hover:dark:shadow-sky-600/75 
      sm:min-w-[70%] lg:min-w-[45%];
   }

@@ -4,6 +4,7 @@ import Hamburger from './hamburger'
 import HamburgerMenu from './hamburger-menu'
 import Link from 'next/link'
 import LoginButton from './login-button'
+import ThemeSwitcher from './theme-switcher'
 
 const NavClient = ({ session }: { session: boolean }) => {
   const [open, setOpen] = useState(false)
@@ -35,6 +36,7 @@ const NavClient = ({ session }: { session: boolean }) => {
             </>
           }
           <LoginButton session={session ? true : false} />
+          <ThemeSwitcher toggle={toggle} />
         </div>
       </div >
       <Hamburger open={open} toggle={toggle} />

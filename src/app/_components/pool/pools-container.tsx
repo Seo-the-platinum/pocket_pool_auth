@@ -6,7 +6,7 @@ import PoolTile from '~/app/_components/pool/pool-tile'
 const PoolsContainer = () => {
   const { data } = api.pool.getUsersPools.useQuery()
   return (
-    <div className='flex flex-col gap-16 items-center'>
+    <div className='flex flex-col gap-16 items-center w-full'>
       {
         data?.map((pool) => {
           return (

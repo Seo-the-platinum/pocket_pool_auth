@@ -1,8 +1,5 @@
 import React from 'react'
-import { useQuery } from '@tanstack/react-query'
-import type { UseQueryResult } from '@tanstack/react-query'
 import GamesList from '../_components/games-list'
-import { useSearchParams, useRouter } from 'next/navigation'
 import PaginationComponent from '../_components/create/pagination-component'
 import CreateSelect from '../_components/create/create-select'
 type EventTypes = {
@@ -14,9 +11,6 @@ type EventTypes = {
   pageCount: number
 }
 const CreatePool = async ({ searchParams }: { searchParams: { league: string, page: string } }) => {
-  // const searchParams = useSearchParams()
-  // const router = useRouter()
-  // const [page, setPage] = useState(1)
   const today = new Date()
   const year = today.getFullYear()
   const month = today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth() + 1
@@ -28,56 +22,18 @@ const CreatePool = async ({ searchParams }: { searchParams: { league: string, pa
   const sport = league === 'nfl' ? 'football' : 'basketball'
   const data = await fetch(`https://sports.core.api.espn.com/v2/sports/${sport}/leagues/${league}/events?dates=${date}-20241230&page=${page}`)
   const games = await data.json() as EventTypes
-
-  // const { data }: UseQueryResult<EventTypes> = useQuery(['events', league, page], async () => {
-  //   const sport = league === 'nfl' ? 'football' : 'basketball'
-  //   const response = await fetch(`https://sports.core.api.espn.com/v2/sports/${sport}/leagues/${league}/events?dates=${date}-20241230&page=${page}`)
-  //   return response.json()
-  // }, {
-  //   enabled: !!league,
-  // }
-  // )
-  // const handleOptionClick = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   if (e.target.value === '') return
-  //   router.push(`/create?league=${e.target.value}`)
-  // }
+  const pageCount = games.pageCount
+  const prevPage = page === '1' ? false : true
+  const nextPage = Number(page) === pageCount ? false : true
   return (
     <div className='page gap-16 justify-between items-center'>
       <CreateSelect league={league} />
-      {/* <div className="flex flex-col gap-2 min-w-full sm:min-w-[70%] lg:min-w-[40%]">
-        <label>Choose League :</label>
-        <select className='input'
-          id='league'
-          name='league'
-          onChange={(e) => handleOptionClick(e)}
-          defaultValue={league ? league : ''}>
-          <option value='' disabled>
-            Select League
-          </option>
-          <option value='nfl'>
-            NFL
-          </option>
-          <option value='nba'>
-            NBA
-          </option>
-        </select>
-      </div> */}
+
       {
-        data && <GamesList games={games?.items} league={league} />
+        data && <GamesList games={games.items} league={league} />
       }
-      {/* <div className="flex w-full justify-evenly h-8">
-        {
-          data && Array.from({ length: data.pageCount }).map((_, i) => (
-            <button
-              className={`${i + 1 === page ? 'bg-slate-400 text-blue-500' :
-                'bg-slate-200'} rounded-full size-6`}
-              key={i} onClick={() => setPage(i + 1)}>
-              {i + 1}
-            </button>
-          ))
-        }
-      </div> */}
-      <PaginationComponent league={league} page={page} />
+
+      <PaginationComponent league={league} page={Number(page)} prevPage={prevPage} nextPage={nextPage} />
     </div>
   )
 }

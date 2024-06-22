@@ -13,9 +13,10 @@ const Create = async ({ params, searchParams }: { params: { id: string }, search
   const home = gameData.boxscore.teams[1].team
   const league = gameData.header.league.slug
   const date = formatDate(gameData.header.competitions[0].date)
+  console.log(date)
   return (
     <div className='page items-center gap-8'>
-      <CreateGameTile away={away} home={home} dateString={date} />
+      <CreateGameTile away={away} home={home} dateString={gameData.header.competitions[0].date} />
       <CreatePoolButton event={params.id} league={league} />
     </div>
   )

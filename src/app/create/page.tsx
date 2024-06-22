@@ -22,7 +22,7 @@ const CreatePool = async ({ searchParams }: { searchParams: { league: string, pa
   const sport = league === 'nfl' ? 'football' : 'basketball'
   const data = await fetch(`https://sports.core.api.espn.com/v2/sports/${sport}/leagues/${league}/events?dates=${date}-20241230&page=${page}`)
   const games = await data.json() as EventTypes
-  const pageCount = games.pageCount
+  const { pageCount } = games
   const prevPage = page === '1' ? false : true
   const nextPage = Number(page) === pageCount ? false : true
   return (
@@ -33,7 +33,7 @@ const CreatePool = async ({ searchParams }: { searchParams: { league: string, pa
         data && <GamesList games={games.items} league={league} />
       }
 
-      <PaginationComponent league={league} page={Number(page)} prevPage={prevPage} nextPage={nextPage} />
+      <PaginationComponent league={league} page={Number(page)} prevPage={prevPage} nextPage={nextPage} pageCount={pageCount} />
     </div>
   )
 }

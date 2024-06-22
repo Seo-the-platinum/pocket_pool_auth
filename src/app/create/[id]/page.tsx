@@ -2,7 +2,7 @@ import React from 'react'
 import CreatePoolButton from '~/app/_components/create/create-pool-button'
 import CreateGameTile from '~/app/_components/create/create-game-tile'
 import type { GameType } from '~/app/types/event'
-import { formatDate } from '~/app/utils/FormatDate'
+
 
 
 const Create = async ({ params, searchParams }: { params: { id: string }, searchParams: { league: string | null } }) => {
@@ -12,8 +12,6 @@ const Create = async ({ params, searchParams }: { params: { id: string }, search
   const away = gameData.boxscore.teams[0].team
   const home = gameData.boxscore.teams[1].team
   const league = gameData.header.league.slug
-  const date = formatDate(gameData.header.competitions[0].date)
-  console.log(date)
   return (
     <div className='page items-center gap-8'>
       <CreateGameTile away={away} home={home} dateString={gameData.header.competitions[0].date} />

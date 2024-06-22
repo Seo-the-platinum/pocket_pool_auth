@@ -2,7 +2,9 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-const PaginationComponent = ({ league, page, prevPage, nextPage }: { league: string | null, page: number | null, prevPage: boolean, nextPage: boolean }) => {
+import type { PaginationProps } from '~/app/types/pagination'
+
+const PaginationComponent = ({ league, page, prevPage, nextPage, pageCount }: PaginationProps) => {
   const router = useRouter()
   const handlePrevPage = () => {
     router.push(`/create?league=${league}&page=${Number(page) - 1}`)
@@ -11,8 +13,7 @@ const PaginationComponent = ({ league, page, prevPage, nextPage }: { league: str
   const handleNextPage = () => {
     router.push(`/create?league=${league}&page=${Number(page) + 1}`)
   }
-
-
+  if (!pageCount) return null
   return (
     <div className='flex justify-center gap-4 w-full lg:gap-24'>
       <button className={`${!prevPage && 'hidden'} text-sm flex items-center px-2 rounded-md hover:bg-sky-900 gap-2`} onClick={handlePrevPage}> <IoIosArrowBack size={24} /> Prev </button>

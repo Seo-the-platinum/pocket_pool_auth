@@ -23,7 +23,7 @@ const ModalDeletePool = ({ params }: { params: { id: string } }) => {
   }
   return (
     <Modal>
-      <div className='model'>
+      <div className='modal'>
         <p className='text-4xl'>Delete Pool?</p>
         <div className='flex gap-8'>
           <button className='btn' onClick={handleCancel}>Cancel</button>

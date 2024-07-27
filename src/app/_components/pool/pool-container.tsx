@@ -112,6 +112,13 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
       return
     }
     const selectedSquares = userSquares(availableSquares, signiture)
+    if (selectedSquares.length < 1) {
+      setSignitureError(true)
+      setTimeout(() => {
+        setSignitureError(false)
+      }, 3000)
+      return
+    }
     updateSquares.mutate(selectedSquares)
   }
 
@@ -190,7 +197,9 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   return (
     <div className="flex flex-col items-center gap-8" id='pool-container'>
       <p className={`${!error && 'invisible'} text-red-500`}>Please wait until the open date and time</p>
-      <div className="rounded-md grid grid-cols-10 grid-rows-10 relative text-slate-950 dark:text-slate-300 bg-transparent">
+      <div className={`
+        ${updateSquares.isLoading || adminUpdateSquares.isLoading && 'pointer-events-none'}
+        rounded-md grid grid-cols-10 grid-rows-10 relative text-slate-950 dark:text-slate-300 bg-transparent`}>
         <div className="flex flex-col w-full absolute bottom-[102%] gap-2">
           {topState && <Team team={topState === 'home' ? home : away} position={'top'} />}
           <div className="grid grid-cols-10">
@@ -233,6 +242,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
             }
           </div>
         </div>
+
         {
           availableSquares?.map((square) => {
             return (
@@ -257,7 +267,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
             <p>{`Total Value: $${(userSquares(availableSquares, signiture).length * Number(pricePerSquare)).toFixed(2)}`}</p>
           </div>
           <form className='w-full flex flex-col items-center gap-4 text-center' onSubmit={handleSubmit}>
-            {signitureError && <p className='text-red-500 text-sm'>Name is required</p>}
+            {signitureError && <p className='text-red-500 text-sm'>Name and Square are required</p>}
             <div className='flex gap-4'>
               <input
                 className='input'

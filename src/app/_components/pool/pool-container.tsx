@@ -15,6 +15,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   const [leftState, setLeft] = useState(left)
   const [availableSquares, setSquare] = useState(squares.map((square) => { return { ...square, isSelected: false } }))
   const [signiture, setSigniture] = useState('')
+  const [signitureError, setSignitureError] = useState(false)
   const [poolStatus, setStatus] = useState(status)
   const [selectedUser, setUser] = useState('')
   const [copied, setCopied] = useState(false)
@@ -104,6 +105,10 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!signiture || signiture.length < 1) {
+      setSignitureError(true)
+      setTimeout(() => {
+        setSignitureError(false)
+      }, 3000)
       return
     }
     const selectedSquares = userSquares(availableSquares, signiture)
@@ -252,6 +257,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
             <p>{`Total Value: $${(userSquares(availableSquares, signiture).length * Number(pricePerSquare)).toFixed(2)}`}</p>
           </div>
           <form className='w-full flex flex-col items-center gap-4 text-center' onSubmit={handleSubmit}>
+            {signitureError && <p className='text-red-500 text-sm'>Name is required</p>}
             <div className='flex gap-4'>
               <input
                 className='input'

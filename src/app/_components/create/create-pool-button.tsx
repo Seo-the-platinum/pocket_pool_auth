@@ -65,6 +65,8 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string }) 
             min={0}
             value={pricePerSquare}
             required
+            onWheel={(e) => e.currentTarget.blur()}
+
           />
         </div>
         {
@@ -81,6 +83,7 @@ const CreatePoolButton = ({ event, league }: { event: string, league: string }) 
                   pattern="[0-9]+"
                   value={payout}
                   required
+                  onWheel={(e) => e.currentTarget.blur()}
                 />
               </div>
             )

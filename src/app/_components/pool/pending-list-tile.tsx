@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import type { PendingListTileProps } from '~/app/types/pool'
 
-const PendingListTile = ({ name, styles, hash, allSold, allReset, pricePerSquare, userHighlight, poolStatus, selectedUser }: PendingListTileProps) => {
+const PendingListTile = ({ name, styles, hash, allSold, allReset, pricePerSquare, userHighlight, poolStatus, selectedUser, editable }: PendingListTileProps) => {
   const [open, setOpen] = useState(false)
   const handleShow = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -19,7 +19,7 @@ const PendingListTile = ({ name, styles, hash, allSold, allReset, pricePerSquare
       </div>
       <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
         {
-          poolStatus === 'open' &&
+          poolStatus === 'open' && editable &&
           <div className="flex justify-between sm:gap-4">
             <button className='btn-sm' onClick={(e) => allSold(e, name)}>Mark All Sold</button>
             <button className='btn-sm' onClick={(e) => allReset(e, name)}>Reset All</button>

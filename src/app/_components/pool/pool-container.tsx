@@ -347,7 +347,10 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
         winners={winners}
         pricePerSquare={Number(pricePerSquare)}
         poolStatus={poolStatus}
-        setSquare={setSquare} />
+        setSquare={setSquare}
+        session={session}
+        userId={userId}
+      />
     </div >
   )
 }

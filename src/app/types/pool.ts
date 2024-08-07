@@ -44,6 +44,8 @@ export type SoldSquares = {
   selectedUser: string;
   setSquare: React.Dispatch<React.SetStateAction<Square[]>>;
   poolStatus: string;
+  userId: string;
+  session: string | undefined;
 };
 
 export type SoldSquareWithWinner = SoldSquare & {
@@ -97,4 +99,5 @@ export type PendingListTileProps = {
   userHighlight: (name: string) => void;
   poolStatus: string;
   selectedUser: string;
+  editable: boolean;
 };

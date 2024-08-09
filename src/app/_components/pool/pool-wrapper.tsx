@@ -18,11 +18,11 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
     const date = res.header?.competitions[0].date
     const away = res?.boxscore.teams[0].team
     const home = res?.boxscore.teams[1].team
-    const awayScore = res?.plays ? res.plays[res.plays?.length - 1]?.awayScore : null
-    const homeScore = res?.plays ? res.plays[res.plays?.length - 1]?.homeScore : null
+    const awayScore = res?.plays ? res.plays[res.plays?.length - 1]?.awayScore : res?.scoringPlays ? res.scoringPlays[res.scoringPlays.length - 1]?.awayScore : null
+    const homeScore = res?.plays ? res.plays[res.plays?.length - 1]?.homeScore : res?.scoringPlays ? res.scoringPlays[res.scoringPlays.length - 1]?.homeScore : null
     const homeLogo = `https${home?.logo.slice(5)}`
     const awayLogo = `https${away?.logo.slice(5)}`
-    const plays = res?.plays
+    const plays = res?.plays ? res.plays : res.scoringPlays
     const formattedAway = {
       ...away,
       logo: awayLogo
@@ -50,8 +50,8 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
 
   useEffect(() => {
     if (!pool || !data) return
-    const lastPlay = data.plays?.length > 0 && data.plays[data.plays.length - 1]
-    if (lastPlay && lastPlay?.type.text !== "End Game" && data.plays.length > 1) {
+    const lastPlay = data.plays?.length && data.plays?.length > 0 && data.plays[data.plays.length - 1]
+    if (lastPlay && lastPlay?.type.text !== "End Game" && data?.plays?.length && data.plays.length > 1) {
       setDynamicInterval(1000 * 60)
     }
 
@@ -79,6 +79,8 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   const displayTime = data?.plays ? data.plays[data.plays.length - 1]?.clock.displayValue : null
   const displayPeriod = data?.plays ? data.plays[data.plays.length - 1]?.period.displayValue : null
   const poolOpen = pool?.openDate && Date.now() > Date.parse(pool.openDate.toLocaleDateString())
+
+
   return (
     <div className="flex flex-col items-center justify-center">
       <div className='flex flex-col items-center gap-28 justify-center'>

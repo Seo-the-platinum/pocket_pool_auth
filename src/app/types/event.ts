@@ -29,7 +29,23 @@ export type GameType = {
       },
     ];
   };
-  plays: [
+  plays?: [
+    {
+      awayScore: number;
+      homeScore: number;
+      type: {
+        text: string;
+      };
+      period: {
+        number: number;
+        displayValue: string;
+      };
+      clock: {
+        displayValue: string;
+      };
+    },
+  ];
+  scoringPlays?: [
     {
       awayScore: number;
       homeScore: number;

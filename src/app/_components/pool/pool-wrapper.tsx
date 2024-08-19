@@ -15,6 +15,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
     const data = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${pool?.league === 'nfl' ? 'football'
       : 'basketball'}/${pool?.league}/summary?event=${pool?.event}`)
     const res = await data.json() as GameType
+    console.log(res)
     const date = res.header?.competitions[0].date
     const away = res?.boxscore.teams[0].team
     const home = res?.boxscore.teams[1].team
@@ -23,6 +24,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
     const homeLogo = `https${home?.logo.slice(5)}`
     const awayLogo = `https${away?.logo.slice(5)}`
     const plays = res?.plays ? res.plays : res.scoringPlays
+
     const formattedAway = {
       ...away,
       logo: awayLogo
@@ -60,7 +62,8 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   if (!data || !pool) {
     return <div>...Loading</div>
   }
-
+  // FOR NFL, SEARCH THROUGH DRIVES, CURRENT AND FILTER THE PLAYS TO FIND THE LAST PLAY OF THE QUARTER AND UPDATE.
+  // NEED TO FIX SOON, MAYBE TURN INTO ANOTHER COMPONENT FOR NFL
   const quarters = data?.plays ? data.plays.filter((play) => {
     return play.type.text === "End Period"
   }).map((play) => {
@@ -79,7 +82,6 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   const displayTime = data?.plays ? data.plays[data.plays.length - 1]?.clock.displayValue : null
   const displayPeriod = data?.plays ? data.plays[data.plays.length - 1]?.period.displayValue : null
   const poolOpen = pool?.openDate && Date.now() > Date.parse(pool.openDate.toLocaleDateString())
-
 
   return (
     <div className="flex flex-col items-center justify-center">

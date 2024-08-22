@@ -64,6 +64,8 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   }
   // FOR NFL, SEARCH THROUGH DRIVES, CURRENT AND FILTER THE PLAYS TO FIND THE LAST PLAY OF THE QUARTER AND UPDATE.
   // NEED TO FIX SOON, MAYBE TURN INTO ANOTHER COMPONENT FOR NFL
+
+  // this is a test to see if githubs working or my tokens are working
   const quarters = data?.plays ? data.plays.filter((play) => {
     return play.type.text === "End Period"
   }).map((play) => {

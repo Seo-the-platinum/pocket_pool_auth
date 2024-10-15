@@ -29,6 +29,28 @@ export type GameType = {
       },
     ];
   };
+  drives?: {
+    current: {
+      plays: {
+        period: { number: number };
+        awayScore: number;
+        homeScore: number;
+        type: {
+          text: string;
+        };
+      }[];
+    };
+    previous: {
+      plays: {
+        period: { number: number };
+        type: {
+          text: string;
+        };
+        awayScore: number;
+        homeScore: number;
+      }[];
+    }[];
+  };
   plays?: [
     {
       awayScore: number;

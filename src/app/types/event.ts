@@ -35,6 +35,9 @@ export type GameType = {
         period: { number: number };
         awayScore: number;
         homeScore: number;
+        clock: {
+          displayValue: string;
+        };
         type: {
           text: string;
         };
@@ -45,6 +48,9 @@ export type GameType = {
         period: { number: number };
         type: {
           text: string;
+        };
+        clock: {
+          displayValue: string;
         };
         awayScore: number;
         homeScore: number;

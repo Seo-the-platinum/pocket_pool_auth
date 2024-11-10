@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import type { Pool } from '../../types/pool'
 import type { GameType } from '../../types/event'
 
+
 type Plays = {
   awayScore: number;
   homeScore: number;
@@ -45,6 +46,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
     }
     return {
       away,
+      drives,
       nflPlays,
       home,
       awayScore,
@@ -83,7 +85,11 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
     }
   }
   )
-  const nflQuarters = nflPlays.map((play) => {
+
+  const uniquePeriods = new Set(nflPlays.map((play) => play.period.number))
+  const filteredNflPlays = nflPlays.filter((play) => uniquePeriods.has(play.period.number))
+
+  const nflQuarters = filteredNflPlays.map((play) => {
     return {
       awayScore: play.awayScore % 10,
       homeScore: play.homeScore % 10,
@@ -112,6 +118,8 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   const nflQtrs = nflQuarters?.map((quarter) => { return { away: quarter.awayScore, home: quarter.homeScore, period: quarter.period } })
   const displayTime = data?.plays ? data.plays[data.plays.length - 1]?.clock.displayValue : null
   const displayPeriod = data?.plays ? data.plays[data.plays.length - 1]?.period.displayValue : null
+  const nflDisplayTime = data?.nflPlays ? data.nflPlays[data.nflPlays.length - 1]?.clock.displayValue : null
+  const nflDisplayPeriod = data?.nflPlays ? data.nflPlays[data.nflPlays.length - 1]?.period.number : null
   const poolOpen = pool?.openDate && Date.now() > Date.parse(pool.openDate.toLocaleDateString())
 
   return (
@@ -122,19 +130,19 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
           date={data.date}
           session={session}
           userId={pool.userId}
-          displayTime={displayTime}
+          displayTime={pool.league === 'nfl' ? nflDisplayTime : displayTime}
           away={{
             ...data.formattedAway,
-            score: data.awayScore
+            score: data.awayScore ? data.awayScore : 0
           }}
           home={{
             ...data.formattedHome,
-            score: data.homeScore
+            score: data.homeScore ? data.homeScore : 0
           }}
           pricePerSquare={pool.pricePerSquare}
           payouts={pool.payouts}
           quarters={pool.league === 'nfl' ? nflQuarters : quarters}
-          displayPeriod={displayPeriod}
+          displayPeriod={pool.league === 'nfl' ? `Q${nflDisplayPeriod}` : displayPeriod}
           openDate={pool.openDate}
         />
         {
@@ -145,8 +153,8 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
             quarters={pool.league === 'nfl' ? nflQtrs : qtrs}
             session={session}
             poolOpen={poolOpen}
-            away={{ id: data.away.id, name: data.away.name, logo: data.away.logo, score: data.awayScore, abbreviation: data.away.abbreviation }}
-            home={{ id: data.home.id, name: data.home.name, logo: data.homeLogo, score: data.homeScore, abbreviation: data.home.abbreviation }} />
+            away={{ id: data.away.id, name: data.away.name, logo: data.away.logo, score: data.awayScore ? data.awayScore : 0, abbreviation: data.away.abbreviation }}
+            home={{ id: data.home.id, name: data.home.name, logo: data.homeLogo, score: data.homeScore ? data.awayScore : 0, abbreviation: data.home.abbreviation }} />
         }
       </div >
     </div>

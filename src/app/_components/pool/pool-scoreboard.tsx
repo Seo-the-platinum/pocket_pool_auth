@@ -45,6 +45,7 @@ const PoolScoreboard = ({ session, userId, poolId, away, home, displayTime, disp
   const formattedDate = formatDate(date)
   const poolOpen = openDate && Date.now() > Date.parse(openDate.toLocaleDateString())
   const openDisplayDate = openDate && formatDate(openDate)
+
   return (
     <div className="flex flex-col items-center gap-4 p-4 rounded-md bg-slate-300 ring-2 dark:bg-slate-950 shadow-xl shadow-slate-700 dark:ring-sky-700 relative">
       {

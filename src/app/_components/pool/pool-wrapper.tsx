@@ -78,18 +78,11 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   // FOR NFL, SEARCH THROUGH DRIVES, CURRENT AND FILTER THE PLAYS TO FIND THE LAST PLAY OF THE QUARTER AND UPDATE.
   // NEED TO FIX SOON, MAYBE TURN INTO ANOTHER COMPONENT FOR NFL
 
-  const nflPlays: Plays = []
-  data?.nflPlays?.forEach((play) => {
-    if (play.type.text === "End of Half" || play.type.text === "End Period" || play.type.text === "End of Game") {
-      nflPlays.push(play)
-    }
-  }
-  )
+  const nflPlays = data.nflPlays?.filter(play => {
+    return play.type.text === "End of Half" || play.type.text === "End Period" || play.type.text === "End of Game"
+  })
 
-  const uniquePeriods = new Set(nflPlays.map((play) => play.period.number))
-  const filteredNflPlays = nflPlays.filter((play) => uniquePeriods.has(play.period.number))
-
-  const nflQuarters = filteredNflPlays.map((play) => {
+  const nflQuarters = nflPlays?.map((play) => {
     return {
       awayScore: play.awayScore % 10,
       homeScore: play.homeScore % 10,
@@ -100,6 +93,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
       homeName: data.home.abbreviation
     }
   })
+
   const quarters = data?.plays ? data.plays.filter((play) => {
     return play.type.text === "End Period"
   }).map((play) => {
@@ -141,7 +135,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
           }}
           pricePerSquare={pool.pricePerSquare}
           payouts={pool.payouts}
-          quarters={pool.league === 'nfl' ? nflQuarters : quarters}
+          quarters={pool.league === 'nfl' && nflQuarters ? nflQuarters : quarters}
           displayPeriod={pool.league === 'nfl' ? `Q${nflDisplayPeriod}` : displayPeriod}
           openDate={pool.openDate}
         />

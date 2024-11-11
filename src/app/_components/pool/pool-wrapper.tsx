@@ -16,7 +16,10 @@ type Plays = {
   period: {
     number: number;
   };
-}[]
+  clock: {
+    displayValue: string;
+  };
+}[] | undefined
 // TODO: COME BACK TO THIS AND SEE IF WE CAN CLEAN UP THE CODE
 const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefined }) => {
   const [dynamicInterval, setDynamicInterval] = useState(1000 * 60 * 5)
@@ -81,8 +84,19 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   const nflPlays = data.nflPlays?.filter(play => {
     return play.type.text === "End of Half" || play.type.text === "End Period" || play.type.text === "End of Game"
   })
+  const uniquePeriods = (arr: Plays) => {
+    const uniquePeriodSet = new Set();
+    const uniqueObjects: Plays = []
+    arr?.forEach((play) => {
+      if (!uniquePeriodSet.has(play.period.number)) {
+        uniquePeriodSet.add(play.period.number)
+        uniqueObjects.push(play)
+      }
+    })
+    return uniqueObjects
+  }
 
-  const nflQuarters = nflPlays?.map((play) => {
+  const nflQuarters = uniquePeriods(nflPlays)?.map((play) => {
     return {
       awayScore: play.awayScore % 10,
       homeScore: play.homeScore % 10,

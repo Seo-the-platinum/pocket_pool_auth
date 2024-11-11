@@ -146,6 +146,7 @@ const PoolContainer = ({ id, userId, session, away, home, x, y, quarters, top, l
       left: vals[1]!,
     })
   }
+
   const currentWinner = {
     x: leftState === 'away' ? away.score && away.score % 10 : home.score && home.score % 10,
     y: topState === 'away' ? away.score && away.score % 10 : home.score && home.score % 10

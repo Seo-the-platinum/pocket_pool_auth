@@ -148,7 +148,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
             session={session}
             poolOpen={poolOpen}
             away={{ id: data.away.id, name: data.away.name, logo: data.away.logo, score: data.awayScore ? data.awayScore : 0, abbreviation: data.away.abbreviation }}
-            home={{ id: data.home.id, name: data.home.name, logo: data.homeLogo, score: data.homeScore ? data.awayScore : 0, abbreviation: data.home.abbreviation }} />
+            home={{ id: data.home.id, name: data.home.name, logo: data.homeLogo, score: data.homeScore ? data.homeScore : 0, abbreviation: data.home.abbreviation }} />
         }
       </div >
     </div>

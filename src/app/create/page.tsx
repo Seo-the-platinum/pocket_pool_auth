@@ -20,11 +20,12 @@ const CreatePool = async ({ searchParams }: { searchParams: { league: string, pa
   const league = searchParams.league ?? ''
   const page = searchParams.page ?? '1'
   const sport = league === 'nfl' ? 'football' : 'basketball'
-  const data = await fetch(`https://sports.core.api.espn.com/v2/sports/${sport}/leagues/${league}/events?dates=${date}-20241230&page=${page}`)
+  const data = await fetch(`https://sports.core.api.espn.com/v2/sports/${sport}/leagues/${league}/events?dates=${date}-20251230&page=${page}`)
   const games = await data.json() as EventTypes
   const { pageCount } = games
   const prevPage = page === '1' ? false : true
   const nextPage = Number(page) === pageCount ? false : true
+
   return (
     <div className='page gap-16 justify-between items-center'>
       <CreateSelect league={league} />

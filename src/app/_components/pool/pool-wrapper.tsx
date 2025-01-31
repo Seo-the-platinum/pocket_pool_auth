@@ -128,7 +128,8 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
   const displayPeriod = data?.plays ? data.plays[data.plays.length - 1]?.period.displayValue : null
   const nflDisplayTime = data?.nflPlays ? data.nflPlays[data.nflPlays.length - 1]?.clock.displayValue : null
   const nflDisplayPeriod = data?.nflPlays ? data.nflPlays[data.nflPlays.length - 1]?.period.number : null
-  const poolOpen = pool?.openDate && Date.now() > Date.parse(pool.openDate.toLocaleDateString())
+  const timestamp = pool?.openDate && new Date(pool?.openDate)
+  const poolOpen = timestamp && Date.now() > timestamp.getTime()
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -152,6 +153,7 @@ const PoolWrapper = ({ pool, session }: { pool: Pool, session: string | undefine
           quarters={pool.league === 'nfl' && nflQuarters ? nflQuarters : quarters}
           displayPeriod={pool.league === 'nfl' ? `Q${nflDisplayPeriod}` : displayPeriod}
           openDate={pool.openDate}
+          poolOpen={poolOpen}
         />
         {
           pool

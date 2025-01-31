@@ -23,6 +23,7 @@ type Props = {
     score: number | null | undefined
     abbreviation: string
   }
+  poolOpen: boolean | null
   displayTime: string | null | undefined
   displayPeriod: string | null | undefined
   date: Date
@@ -41,11 +42,11 @@ type Props = {
 
 }
 
-const PoolScoreboard = ({ session, userId, poolId, away, home, displayTime, displayPeriod, date, openDate, pricePerSquare, payouts, quarters }: Props) => {
+const PoolScoreboard = ({ session, userId, poolId, away, home, displayTime, displayPeriod, date, openDate, pricePerSquare, payouts, quarters, poolOpen }: Props) => {
   const formattedDate = formatDate(date)
-  const poolOpen = openDate && Date.now() > Date.parse(openDate.toLocaleDateString())
+  // const poolOpen = openDate && Date.now() > Date.parse(openDate.toLocaleDateString())
   const openDisplayDate = openDate && formatDate(openDate)
-
+  const isPoolOpen = !openDate || poolOpen
   return (
     <div className="flex flex-col items-center gap-4 p-4 rounded-md bg-slate-300 ring-2 dark:bg-slate-950 shadow-xl shadow-slate-700 dark:ring-sky-700 relative">
       {
@@ -58,7 +59,7 @@ const PoolScoreboard = ({ session, userId, poolId, away, home, displayTime, disp
       }
       <div className="flex flex-col items-center gap-4">
         {
-          !poolOpen && poolOpen !== null &&
+          !isPoolOpen &&
           <div className='text-center text-2xl'>
             <p>Pool Opens</p>
             <p>{openDisplayDate}</p>
